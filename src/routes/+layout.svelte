@@ -3,5 +3,7 @@
 	import '../app.css';
 </script>
 
-<Header />
+<div class="absolute w-full top-0">
+	<Header />
+</div>
 <slot />
