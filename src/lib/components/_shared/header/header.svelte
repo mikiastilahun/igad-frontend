@@ -26,7 +26,7 @@
 					<CaretDownIcon />
 					<!-- sub menu-items -->
 
-					<MenuItemDropdown class="invisible group-focus/dropdown:visible">
+					<MenuItemDropdown>
 						<MenuDropdownItems>
 							<span slot="icon">
 								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
@@ -63,12 +63,12 @@
 					<span> What we do </span>
 					<CaretDownIcon />
 					<!-- sub menu-items -->
-					<MenuItemDropdown class="invisible group-focus/dropdown:visible">
+					<MenuItemDropdown>
 						<MenuDropdownItems>
 							<span slot="icon">
 								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
-							<span slot="title">Policies and Frameworks</span>
+							<span slot="title">Our Priority Areas</span>
 							<span slot="description"
 								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
 								vestibulum.</span
@@ -78,39 +78,131 @@
 							<span slot="icon">
 								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
-							<span slot="title">Governance Structure</span>
+							<span slot="title">Projects</span>
 							<span slot="description"
 								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
 								vestibulum.</span
 							>
 						</MenuDropdownItems>
-						<MenuDropdownItem>
+					</MenuItemDropdown>
+				</a>
+				<a href="/#" class="flex gap-2 items-center relative group/dropdown">
+					<span> Platforms</span>
+					<CaretDownIcon />
+					<!-- sub menu-items -->
+					<MenuItemDropdown>
+						<MenuDropdownItems>
 							<span slot="icon">
-								<MailIcon class="w-6 h-6 fill-current group-hover:text-white" />
+								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
-							<span slot="title">Contact Us</span>
+							<span slot="title">RCP</span>
 							<span slot="description"
 								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
 								vestibulum.</span
 							>
-						</MenuDropdownItem>
+						</MenuDropdownItems>
+						<MenuDropdownItems>
+							<span slot="icon">
+								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
+							</span>
+							<span slot="title">IGAD Support Platform</span>
+							<span slot="description"
+								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
+								vestibulum.</span
+							>
+						</MenuDropdownItems>
 					</MenuItemDropdown>
 				</a>
-				<a href="/#" class="flex gap-2 items-center">
-					<span> Platforms</span>
-					<CaretDownIcon />
-				</a>
-				<a href="/#" class="flex gap-2 items-center">
+				<a href="/#" class="flex gap-2 items-center relative group/dropdown">
 					<span> Data and Statistics </span>
 					<CaretDownIcon />
+					<!-- sub menu-items -->
+					<MenuItemDropdown>
+						<MenuDropdownItems>
+							<span slot="icon">
+								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
+							</span>
+							<span slot="title">Migration Statistics</span>
+							<span slot="description"
+								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
+								vestibulum.</span
+							>
+						</MenuDropdownItems>
+						<MenuDropdownItems>
+							<span slot="icon">
+								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
+							</span>
+							<span slot="title">Forced Displacement Statistics</span>
+							<span slot="description"
+								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
+								vestibulum.</span
+							>
+						</MenuDropdownItems>
+					</MenuItemDropdown>
 				</a>
-				<a href="/#" class="flex gap-2 items-center">
+				<a href="/#" class="flex gap-2 items-center relative group/dropdown">
 					<span> Knowledge Base </span>
 					<CaretDownIcon />
+					<!-- sub menu-items -->
+					<MenuItemDropdown class=" ">
+						<MenuDropdownItems>
+							<span slot="icon">
+								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
+							</span>
+							<span slot="title">Polices</span>
+							<span slot="description"
+								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
+								vestibulum.</span
+							>
+						</MenuDropdownItems>
+						<MenuDropdownItems>
+							<span slot="icon">
+								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
+							</span>
+							<span slot="title">Report and Publications</span>
+							<span slot="description"
+								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
+								vestibulum.</span
+							>
+						</MenuDropdownItems>
+						<MenuDropdownItems>
+							<span slot="icon">
+								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
+							</span>
+							<span slot="title">Research and Learning</span>
+							<span slot="description"
+								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
+								vestibulum.</span
+							>
+						</MenuDropdownItems>
+					</MenuItemDropdown>
 				</a>
-				<a href="/#" class="flex gap-2 items-center">
+				<a href="/#" class="flex gap-2 items-center relative group/dropdown">
 					<span> News and Media </span>
 					<CaretDownIcon />
+					<!-- sub menu-items -->
+					<MenuItemDropdown class=" right-0">
+						<MenuDropdownItems>
+							<span slot="icon">
+								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
+							</span>
+							<span slot="title">News</span>
+							<span slot="description"
+								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
+								vestibulum.</span
+							>
+						</MenuDropdownItems>
+						<MenuDropdownItems>
+							<span slot="icon">
+								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
+							</span>
+							<span slot="title">Events</span>
+							<span slot="description"
+								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
+								vestibulum.</span
+							>
+						</MenuDropdownItems>
+					</MenuItemDropdown>
 				</a>
 			</nav>
 		</div>
