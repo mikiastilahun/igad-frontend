@@ -8,7 +8,9 @@
 	import GroupIcon from '$lib/assets/icons/group.svg.svelte';
 	import NonDevelopmentIcon from '$lib/assets/icons/non-development.svg.svelte';
 	import ShieldIcon from '$lib/assets/icons/shield.svg.svelte';
-	import Gender from '$lib/assets/icons/gender.svg.svelte';
+
+	import NewsImg2 from '$lib/assets/temp/news-2.png?enhanced';
+	import FeaturedNewsCard from '$lib/components/_shared/featured-news-card/featured-news-card.svelte';
 </script>
 
 <div class="">
@@ -64,7 +66,7 @@
 					<span class="text-center text-sm">Migration and Development</span>
 				</div>
 				<div class="flex flex-col gap-1 items-center w-36">
-					<Gender />
+					<GenderIcon />
 					<span class="text-center text-sm">Gender and Other Cross-cutting issues</span>
 				</div>
 				<div class="flex flex-col gap-1 items-center w-36">
@@ -97,6 +99,35 @@
 			<div class="flex flex-col items-center gap-1 text-white">
 				<h2 class="text-3xl font-bold">280M+</h2>
 				<p class="font-semibold text-lg">Population in Region</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- news section -->
+	<div class="w-full py-10">
+		<div class="max-w-7xl w-full mx-auto flex items-start gap-16 justify-center">
+			<!-- news -->
+			<div class="flex flex-col gap-5 justify-center items-start">
+				<h2 class="text-2xl font-bold">News and Updates</h2>
+				<!-- news card -->
+				<div class="flex flex-col gap-5">
+					<FeaturedNewsCard />
+					<FeaturedNewsCard />
+					<FeaturedNewsCard />
+				</div>
+			</div>
+			<!-- featured -->
+			<div class="relative">
+				<div class="absolute top-0 left-0 h-full w-full bg-black opacity-60 rounded-md"></div>
+				<enhanced:img
+					class="object-cover w-[570px] h-[609px] rounded-md"
+					src={NewsImg2}
+					alt="LumPad 2.0 tablet"
+				/>
+				<div class="absolute bottom-0 px-8 pb-8 text-white">
+					<span class="text-base leading-normal">Debits - 03 June, 2023</span>
+					<h3 class="text-3xl font-bold leading-normal">LOREM IMPUSM DOLOR SIA EMET IPSUM LOREM</h3>
+				</div>
 			</div>
 		</div>
 	</div>
