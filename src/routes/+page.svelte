@@ -10,7 +10,9 @@
 	import ShieldIcon from '$lib/assets/icons/shield.svg.svelte';
 
 	import NewsImg2 from '$lib/assets/temp/news-2.png?enhanced';
+	import ChartsImg from '$lib/assets/temp/charts.png?enhanced';
 	import FeaturedNewsCard from '$lib/components/_shared/featured-news-card/featured-news-card.svelte';
+	import Card from '$lib/components/_shared/card/card.svelte';
 </script>
 
 <div class="">
@@ -24,11 +26,11 @@
 			<enhanced:img
 				class="absolute -z-20 top-0 left-0 object-cover w-full h-full max-h-[890px]"
 				src={HeroImg}
-				alt="LumPad 2.0 tablet"
+				alt="alt text"
 			/>
 		</div>
 		<!-- hero text -->
-		<div class="max-w-7xl mx-auto w-full">
+		<div class="max-w-[1136px] mx-auto w-full">
 			<div class="text-white max-w-2xl">
 				<h1 class="text-3xl font-bold mb-2">Migration and Forced Displacement Platform</h1>
 				<p class=" text-base font-normal leading-normal">
@@ -40,7 +42,9 @@
 		</div>
 
 		<div class=" absolute bottom-0 w-full">
-			<div class="max-w-7xl mx-auto text-white pb-10 flex justify-between items-start rounded-lg">
+			<div
+				class="max-w-[1136px] mx-auto text-white pb-10 flex justify-between items-start rounded-lg"
+			>
 				<div class="flex flex-col gap-1 items-center w-36 justify-center">
 					<ResettlementIcon />
 					<span class="text-center text-sm">Migration Governance</span>
@@ -79,7 +83,7 @@
 
 	<!-- stats -->
 	<div class=" bg-primary">
-		<div class="px-36 py-8 max-w-7xl mx-auto flex justify-between items-center">
+		<div class="px-36 py-8 max-w-[1136px] mx-auto flex justify-between items-center">
 			<div class="flex flex-col items-center gap-1 text-white">
 				<h2 class=" text-3xl font-bold">12600</h2>
 				<p class="font-semibold text-lg flex flex-col items-center leading-normal">
@@ -103,9 +107,55 @@
 		</div>
 	</div>
 
+	<!-- Regional Statistics -->
+	<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
+		<h2 class="text-2xl font-bold leading-normal">Regional Statistics</h2>
+		<p class="text-base leading-normal">
+			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
+			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
+			Sodales pulvinar facilisi donec facilisis lorem lectus. Nec feugiat pharetra diam faucibus
+			felis aliquam lectus nibh. Praesent mauris eget sollicitudin donec neque risus interdum
+			pellentesque aliquam. Vitae eu duis vel nunc ullamcorper. Vehicula eu mi nisl massa. Lectus
+			quam sit sit senectus vitae ante eget. Donec ut nunc velit in. Aliquam non proin vitae ac.
+		</p>
+		<enhanced:img class=" object-cover w-full h-full" src={ChartsImg} alt="alt text" />
+	</div>
+	<!-- IGAD support platform -->
+	<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
+		<h2 class="text-2xl font-bold leading-normal">IGAD Support Platform</h2>
+		<p class="text-base leading-normal">
+			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
+			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
+			Sodales pulvinar facilisi donec facilisis lorem lectus. Nec feugiat pharetra diam faucibus
+			felis aliquam lectus nibh. Praesent mauris eget sollicitudin donec neque risus interdum
+			pellentesque aliquam. Vitae eu duis vel nunc ullamcorper. Vehicula eu mi nisl massa. Lectus
+			quam sit sit senectus vitae ante eget. Donec ut nunc velit in. Aliquam non proin vitae ac.
+		</p>
+		<p class="text-base leading-normal">
+			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
+			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
+			Sodales pulvinar facilisi donec facilisis lorem lectus. Nec feugiat pharetra diam faucibus
+			felis aliquam lectus nibh. Praesent mauris eget sollicitudin donec neque risus interdum
+			pellentesque aliquam. Vitae eu duis vel nunc ullamcorper. Vehicula eu mi nisl massa. Lectus
+			quam sit sit senectus vitae ante eget. Donec ut nunc velit in. Aliquam non proin vitae ac.
+		</p>
+	</div>
+
+	<!-- Quick Learning Links -->
+	<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
+		<h2 class="text-2xl font-bold leading-normal">Quick Leatning Links</h2>
+		<div class="grid grid-cols-4 gap-4">
+			<!-- cards -->
+			<Card />
+			<Card />
+			<Card />
+			<Card />
+		</div>
+	</div>
+
 	<!-- news section -->
-	<div class="w-full py-10">
-		<div class="max-w-7xl w-full mx-auto flex items-start gap-16 justify-center">
+	<div class="max-w-[1136px] mx-auto py-10">
+		<div class=" flex items-start gap-16 w-full">
 			<!-- news -->
 			<div class="flex flex-col gap-5 justify-center items-start">
 				<h2 class="text-2xl font-bold">News and Updates</h2>
@@ -119,16 +169,28 @@
 			<!-- featured -->
 			<div class="relative">
 				<div class="absolute top-0 left-0 h-full w-full bg-black opacity-60 rounded-md"></div>
-				<enhanced:img
-					class="object-cover w-[570px] h-[609px] rounded-md"
-					src={NewsImg2}
-					alt="LumPad 2.0 tablet"
-				/>
+				<enhanced:img class="object-cover rounded-md" src={NewsImg2} alt="alt text" />
 				<div class="absolute bottom-0 px-8 pb-8 text-white">
 					<span class="text-base leading-normal">Debits - 03 June, 2023</span>
 					<h3 class="text-3xl font-bold leading-normal">LOREM IMPUSM DOLOR SIA EMET IPSUM LOREM</h3>
 				</div>
 			</div>
+		</div>
+	</div>
+
+	<!-- Partners -->
+	<div class="max-w-[1136px] mx-auto py-10 grid grid-cols-4 gap-4">
+		<div class="flex justify-center">
+			<img class="h-12" src="https://via.placeholder.com/150" alt="Logo 1" />
+		</div>
+		<div class="flex justify-center">
+			<img class="h-12" src="https://via.placeholder.com/150" alt="Logo 2" />
+		</div>
+		<div class="flex justify-center">
+			<img class="h-12" src="https://via.placeholder.com/150" alt="Logo 3" />
+		</div>
+		<div class="flex justify-center">
+			<img class="h-12" src="https://via.placeholder.com/150" alt="Logo 4" />
 		</div>
 	</div>
 </div>

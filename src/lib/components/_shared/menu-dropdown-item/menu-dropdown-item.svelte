@@ -1,9 +1,10 @@
 <script lang="ts">
 	// define href as a prop
-	export let href = '#';
+	let to = '';
+	export { to as href };
 </script>
 
-<a {href} class="group flex justify-start items-start gap-3 p-2 hover:bg-primary/80 rounded-lg">
+<a href={to} class="group flex justify-start items-start gap-3 p-2 hover:bg-primary/80 rounded-lg">
 	<span>
 		<slot name="icon" />
 	</span>

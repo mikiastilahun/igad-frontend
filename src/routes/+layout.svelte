@@ -1,4 +1,5 @@
 <script>
+	import Footer from '$lib/components/_shared/footer/footer.svelte';
 	import Header from '$lib/components/_shared/header/header.svelte';
 	import '../app.postcss';
 </script>
@@ -7,3 +8,4 @@
 	<Header />
 </div>
 <slot />
+<Footer />

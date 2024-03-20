@@ -21,13 +21,13 @@
 				<a href="/">
 					<span>Home</span>
 				</a>
-				<a href="/#" class="flex gap-2 items-center relative group/dropdown">
+				<a href="#" class=" flex gap-2 items-center relative group/dropdown">
 					<span> Who we are </span>
 					<CaretDownIcon />
 					<!-- sub menu-items -->
 
 					<MenuItemDropdown>
-						<MenuDropdownItems>
+						<MenuDropdownItems href="/policoies">
 							<span slot="icon">
 								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -37,7 +37,7 @@
 								vestibulum.</span
 							>
 						</MenuDropdownItems>
-						<MenuDropdownItems>
+						<MenuDropdownItems href="governance-structure">
 							<span slot="icon">
 								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -47,7 +47,7 @@
 								vestibulum.</span
 							>
 						</MenuDropdownItems>
-						<MenuDropdownItem>
+						<MenuDropdownItem href="/contact-us">
 							<span slot="icon">
 								<MailIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -59,12 +59,12 @@
 						</MenuDropdownItem>
 					</MenuItemDropdown>
 				</a>
-				<a href="/#" class="flex gap-2 items-center relative group/dropdown">
+				<a href="#" class="flex gap-2 items-center relative group/dropdown">
 					<span> What we do </span>
 					<CaretDownIcon />
 					<!-- sub menu-items -->
 					<MenuItemDropdown>
-						<MenuDropdownItems>
+						<MenuDropdownItems href="/our-priority">
 							<span slot="icon">
 								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -74,7 +74,7 @@
 								vestibulum.</span
 							>
 						</MenuDropdownItems>
-						<MenuDropdownItems>
+						<MenuDropdownItems href="projects">
 							<span slot="icon">
 								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -86,12 +86,12 @@
 						</MenuDropdownItems>
 					</MenuItemDropdown>
 				</a>
-				<a href="/#" class="flex gap-2 items-center relative group/dropdown">
+				<a href="#" class="flex gap-2 items-center relative group/dropdown">
 					<span> Platforms</span>
 					<CaretDownIcon />
 					<!-- sub menu-items -->
 					<MenuItemDropdown>
-						<MenuDropdownItems>
+						<MenuDropdownItems href="rcp">
 							<span slot="icon">
 								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -101,7 +101,7 @@
 								vestibulum.</span
 							>
 						</MenuDropdownItems>
-						<MenuDropdownItems>
+						<MenuDropdownItems href="/support-platforms">
 							<span slot="icon">
 								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -118,7 +118,7 @@
 					<CaretDownIcon />
 					<!-- sub menu-items -->
 					<MenuItemDropdown>
-						<MenuDropdownItems>
+						<MenuDropdownItems href="/migration-stats">
 							<span slot="icon">
 								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -128,7 +128,7 @@
 								vestibulum.</span
 							>
 						</MenuDropdownItems>
-						<MenuDropdownItems>
+						<MenuDropdownItems href="/forved-displacement-stats">
 							<span slot="icon">
 								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -140,12 +140,12 @@
 						</MenuDropdownItems>
 					</MenuItemDropdown>
 				</a>
-				<a href="/#" class="flex gap-2 items-center relative group/dropdown">
+				<a href="#" class="flex gap-2 items-center relative group/dropdown">
 					<span> Knowledge Base </span>
 					<CaretDownIcon />
 					<!-- sub menu-items -->
 					<MenuItemDropdown class=" ">
-						<MenuDropdownItems>
+						<MenuDropdownItems href="/policies">
 							<span slot="icon">
 								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -155,7 +155,7 @@
 								vestibulum.</span
 							>
 						</MenuDropdownItems>
-						<MenuDropdownItems>
+						<MenuDropdownItems href="report-and-publications">
 							<span slot="icon">
 								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -165,7 +165,7 @@
 								vestibulum.</span
 							>
 						</MenuDropdownItems>
-						<MenuDropdownItems>
+						<MenuDropdownItems href="/research-and-learning">
 							<span slot="icon">
 								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -177,12 +177,12 @@
 						</MenuDropdownItems>
 					</MenuItemDropdown>
 				</a>
-				<a href="/#" class="flex gap-2 items-center relative group/dropdown">
+				<a href="#" class="flex gap-2 items-center relative group/dropdown">
 					<span> News and Media </span>
 					<CaretDownIcon />
 					<!-- sub menu-items -->
 					<MenuItemDropdown class=" right-0">
-						<MenuDropdownItems>
+						<MenuDropdownItems href="/news">
 							<span slot="icon">
 								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
@@ -192,7 +192,7 @@
 								vestibulum.</span
 							>
 						</MenuDropdownItems>
-						<MenuDropdownItems>
+						<MenuDropdownItems href="/events">
 							<span slot="icon">
 								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
 							</span>
