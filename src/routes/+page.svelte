@@ -18,7 +18,7 @@
 
 <div class="">
 	<!-- hero section -->
-	<div class="relative h-screen max-h-[890px] flex items-center">
+	<section class="relative h-screen max-h-[890px] flex items-center">
 		<!-- hero-bg -->
 		<div class="absolute -z-10 top-0 left-0 bottom-0 w-full">
 			<div
@@ -80,10 +80,10 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 
 	<!-- stats -->
-	<div class=" bg-primary">
+	<section class=" bg-primary">
 		<div class="px-36 py-8 max-w-[1136px] mx-auto flex justify-between items-center">
 			<div class="flex flex-col items-center gap-1 text-white">
 				<h2 class=" text-3xl font-bold">12600</h2>
@@ -106,10 +106,10 @@
 				<p class="font-semibold text-lg">Population in Region</p>
 			</div>
 		</div>
-	</div>
+	</section>
 
 	<!-- Regional Statistics -->
-	<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
+	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
 		<h2 class="text-2xl font-bold leading-normal">Regional Statistics</h2>
 		<p class="text-base leading-normal">
 			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
@@ -120,9 +120,9 @@
 			quam sit sit senectus vitae ante eget. Donec ut nunc velit in. Aliquam non proin vitae ac.
 		</p>
 		<enhanced:img class=" object-cover w-full h-full" src={ChartsImg} alt="alt text" />
-	</div>
+	</section>
 	<!-- IGAD support platform -->
-	<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
+	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
 		<h2 class="text-2xl font-bold leading-normal">IGAD Support Platform</h2>
 		<p class="text-base leading-normal">
 			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
@@ -140,10 +140,10 @@
 			pellentesque aliquam. Vitae eu duis vel nunc ullamcorper. Vehicula eu mi nisl massa. Lectus
 			quam sit sit senectus vitae ante eget. Donec ut nunc velit in. Aliquam non proin vitae ac.
 		</p>
-	</div>
+	</section>
 
 	<!-- Quick Learning Links -->
-	<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
+	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
 		<h2 class="text-2xl font-bold leading-normal">Quick Learning Links</h2>
 		<div class="grid grid-cols-4 gap-4">
 			<!-- cards -->
@@ -152,10 +152,10 @@
 			<Card />
 			<Card />
 		</div>
-	</div>
+	</section>
 
 	<!-- news section -->
-	<div class="max-w-[1136px] mx-auto py-10">
+	<section class="max-w-[1136px] mx-auto py-10">
 		<div class=" flex items-start gap-16 w-full">
 			<!-- news -->
 			<div class="flex flex-col gap-5 justify-center items-start">
@@ -177,10 +177,10 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 
 	<!-- Partners -->
-	<div class="mx-auto max-w-[1136px]">
+	<section class="mx-auto max-w-[1136px]">
 		<div class="w-full py-20 flex-col justify-start items-center gap-10 inline-flex">
 			<h5 class="text-neutral-400 text-base font-bold text-lg">Our Partners</h5>
 			<div class="w-full grid grid-cols-4 gap-4">
@@ -198,5 +198,5 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 </div>
