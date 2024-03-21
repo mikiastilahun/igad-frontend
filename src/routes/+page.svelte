@@ -13,6 +13,7 @@
 	import ChartsImg from '$lib/assets/temp/charts.png?enhanced';
 	import FeaturedNewsCard from '$lib/components/_shared/featured-news-card/featured-news-card.svelte';
 	import Card from '$lib/components/_shared/card/card.svelte';
+	import Logoipsum from '$lib/assets/temp/logoipsum.svg.svelte';
 </script>
 
 <div class="">
@@ -143,7 +144,7 @@
 
 	<!-- Quick Learning Links -->
 	<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
-		<h2 class="text-2xl font-bold leading-normal">Quick Leatning Links</h2>
+		<h2 class="text-2xl font-bold leading-normal">Quick Learning Links</h2>
 		<div class="grid grid-cols-4 gap-4">
 			<!-- cards -->
 			<Card />
@@ -179,18 +180,23 @@
 	</div>
 
 	<!-- Partners -->
-	<div class="max-w-[1136px] mx-auto py-10 grid grid-cols-4 gap-4">
-		<div class="flex justify-center">
-			<img class="h-12" src="https://via.placeholder.com/150" alt="Logo 1" />
-		</div>
-		<div class="flex justify-center">
-			<img class="h-12" src="https://via.placeholder.com/150" alt="Logo 2" />
-		</div>
-		<div class="flex justify-center">
-			<img class="h-12" src="https://via.placeholder.com/150" alt="Logo 3" />
-		</div>
-		<div class="flex justify-center">
-			<img class="h-12" src="https://via.placeholder.com/150" alt="Logo 4" />
+	<div class="mx-auto max-w-[1136px]">
+		<div class="w-full py-20 flex-col justify-start items-center gap-10 inline-flex">
+			<h5 class="text-neutral-400 text-base font-bold text-lg">Our Partners</h5>
+			<div class="w-full grid grid-cols-4 gap-4">
+				<div class="flex justify-center">
+					<Logoipsum />
+				</div>
+				<div class="flex justify-center">
+					<Logoipsum />
+				</div>
+				<div class="flex justify-center">
+					<Logoipsum />
+				</div>
+				<div class="flex justify-center">
+					<Logoipsum />
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
