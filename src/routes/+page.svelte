@@ -46,9 +46,19 @@
 			<div
 				class="max-w-[1136px] mx-auto text-white pb-10 flex justify-between items-start rounded-lg"
 			>
-				<div class="flex flex-col gap-1 items-center w-36 justify-center">
+				<div class="relative group flex flex-col gap-1 items-center w-36 justify-center">
 					<ResettlementIcon />
-					<span class="text-center text-sm">Migration Governance</span>
+					<span class="text-center text-sm">Migration Governance </span>
+
+					<div
+						class="group-hover:block hidden absolute -top-16 mt-2 w-56 p-2 bg-primary/80 text-white text-sm rounded shadow-md z-10"
+					>
+						<p>
+							IGAD priority area. <a class="underline" href="https://geonode.igad.int/"
+								>Read more here</a
+							>
+						</p>
+					</div>
 				</div>
 				<div class="flex flex-col gap-1 items-center w-36">
 					<TunnelIcon />
@@ -200,3 +210,20 @@
 		</div>
 	</section>
 </div>
+
+<style>
+	.tooltip::before {
+		content: '';
+		position: absolute;
+		top: -10px;
+		left: 50%;
+		transform: translateX(-50%);
+		border-width: 5px;
+		border-style: solid;
+		border-color: transparent transparent white transparent;
+	}
+
+	.tooltip:hover .tooltip-content {
+		opacity: 1;
+	}
+</style>
