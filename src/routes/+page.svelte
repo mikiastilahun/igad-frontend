@@ -84,7 +84,7 @@
 
 	<!-- stats -->
 	<section class=" bg-primary">
-		<div class="px-36 py-8 max-w-[1136px] mx-auto flex justify-between items-center">
+		<div class="px-4 lg:px-0 py-8 max-w-[1136px] mx-auto flex justify-between items-center">
 			<div class="flex flex-col items-center gap-1 text-white">
 				<h2 class=" text-3xl font-bold">12600</h2>
 				<p class="font-semibold text-lg flex flex-col items-center leading-normal">
