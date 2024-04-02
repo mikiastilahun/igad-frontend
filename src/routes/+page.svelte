@@ -14,12 +14,16 @@
 	import FeaturedNewsCard from '$lib/components/_shared/featured-news-card/featured-news-card.svelte';
 	import Card from '$lib/components/_shared/card/card.svelte';
 	import Logoipsum from '$lib/assets/temp/logoipsum.svg.svelte';
+	import { PUBLIC_STRAPI_URL } from '$env/static/public';
+	import { json } from '@sveltejs/kit';
 
 	export let data;
 
-	$: console.log({ page: data.data?.data });
-
 	const home = data.data?.data.attributes;
+
+	$: imageUrl = home?.homeHeroSection[0]?.BackgroundImage.data?.attributes?.url;
+
+	$: console.log({ page: data.data?.data, imageUrl, PUBLIC_STRAPI_URL });
 </script>
 
 <div class="">
@@ -32,18 +36,16 @@
 			></div>
 			<enhanced:img
 				class="absolute -z-20 top-0 left-0 object-cover w-full h-full max-h-[890px]"
-				src={HeroImg}
+				src={imageUrl ? `${PUBLIC_STRAPI_URL}${imageUrl}` : HeroImg}
 				alt="alt text"
 			/>
 		</div>
 		<!-- hero text -->
 		<div class="max-w-[1136px] mx-auto w-full">
 			<div class="text-white max-w-2xl">
-				<h1 class="text-3xl font-bold mb-2">Migration and Forced Displacement Platform</h1>
+				<h1 class="text-3xl font-bold mb-2">{home?.homeHeroSection[0]?.heroTitle}</h1>
 				<p class=" text-base font-normal leading-normal">
-					Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien
-					vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien
-					aliquam. Sodales pulvinar facilisi donec facilisis
+					{home?.homeHeroSection[0]?.heroDescription}
 				</p>
 			</div>
 		</div>
@@ -52,7 +54,28 @@
 			<div
 				class="max-w-[1136px] mx-auto text-white pb-10 flex justify-between items-start rounded-lg"
 			>
-				<div class="relative group flex flex-col gap-1 items-center w-36 justify-center">
+				{#if home?.priorityAreas.length !== 0}
+					{#each home?.priorityAreas ?? [] as area}
+						<div class="relative group flex flex-col gap-1 items-center w-36 justify-center">
+							<img
+								class=""
+								src={`${PUBLIC_STRAPI_URL}${area.icon.data[0].attributes.url}`}
+								alt="alt text"
+							/>
+							<span class="text-center text-sm">{area.title} </span>
+
+							<div
+								class="group-hover:block hidden absolute -top-16 mt-2 w-56 p-2 bg-primary/80 text-white text-sm rounded shadow-md z-10"
+							>
+								<p>
+									{area.title}
+									<a class="underline" href="https://geonode.igad.int/">Read more here</a>
+								</p>
+							</div>
+						</div>
+					{/each}
+				{/if}
+				<!-- <div class="relative group flex flex-col gap-1 items-center w-36 justify-center">
 					<ResettlementIcon />
 					<span class="text-center text-sm">Migration Governance </span>
 
@@ -93,7 +116,7 @@
 				<div class="flex flex-col gap-1 items-center w-36">
 					<GroupIcon />
 					<span class="text-center text-sm">Data and Statistics</span>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</section>
