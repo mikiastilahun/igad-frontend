@@ -14,6 +14,12 @@
 	import FeaturedNewsCard from '$lib/components/_shared/featured-news-card/featured-news-card.svelte';
 	import Card from '$lib/components/_shared/card/card.svelte';
 	import Logoipsum from '$lib/assets/temp/logoipsum.svg.svelte';
+
+	export let data;
+
+	$: console.log({ page: data.data?.data });
+
+	const home = data.data?.data.attributes;
 </script>
 
 <div class="">
@@ -95,26 +101,38 @@
 	<!-- stats -->
 	<section class=" bg-primary">
 		<div class="px-4 lg:px-0 py-8 max-w-[1136px] mx-auto flex justify-between items-center">
-			<div class="flex flex-col items-center gap-1 text-white">
-				<h2 class=" text-3xl font-bold">12600</h2>
-				<p class="font-semibold text-lg flex flex-col items-center leading-normal">
-					<span>Refugees and</span> <span>Asylum seekers</span>
-				</p>
-			</div>
-			<div class="flex flex-col items-center gap-1 text-white">
-				<h2 class="text-3xl font-bold">550,000</h2>
-				<p class="font-semibold text-lg flex flex-col items-center leading-normal">
-					<span>Internally displaced</span> <span>population (IDP)</span>
-				</p>
-			</div>
-			<div class="flex flex-col items-center gap-1 text-white">
-				<h2 class="text-3xl font-bold">50,000</h2>
-				<p class="font-semibold text-lg">Total Migrants</p>
-			</div>
-			<div class="flex flex-col items-center gap-1 text-white">
-				<h2 class="text-3xl font-bold">280M+</h2>
-				<p class="font-semibold text-lg">Population in Region</p>
-			</div>
+			{#if home?.firstStat}
+				<div class="flex flex-col items-center gap-1 text-white">
+					<h2 class=" text-3xl font-bold">{home.firstStat.value}</h2>
+					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+						<span>{home.firstStat.label}</span>
+					</p>
+				</div>
+			{/if}
+			{#if home?.secondStat}
+				<div class="flex flex-col items-center gap-1 text-white">
+					<h2 class=" text-3xl font-bold">{home.secondStat.value}</h2>
+					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+						<span>{home.secondStat.label}</span>
+					</p>
+				</div>
+			{/if}
+			{#if home?.thirdStat}
+				<div class="flex flex-col items-center gap-1 text-white">
+					<h2 class=" text-3xl font-bold">{home.thirdStat[0].value}</h2>
+					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+						<span>{home.thirdStat[0].label}</span>
+					</p>
+				</div>
+			{/if}
+			{#if home?.forthStat}
+				<div class="flex flex-col items-center gap-1 text-white">
+					<h2 class=" text-3xl font-bold">{home.forthStat[0].value}</h2>
+					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+						<span>{home.forthStat[0].label}</span>
+					</p>
+				</div>
+			{/if}
 		</div>
 	</section>
 
