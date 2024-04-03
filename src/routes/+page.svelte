@@ -14,107 +14,146 @@
 	import FeaturedNewsCard from '$lib/components/_shared/featured-news-card/featured-news-card.svelte';
 	import Card from '$lib/components/_shared/card/card.svelte';
 	import Logoipsum from '$lib/assets/temp/logoipsum.svg.svelte';
+	import { PUBLIC_STRAPI_URL } from '$env/static/public';
+
+	import { fly } from 'svelte/transition';
+	import { onMount } from 'svelte';
+
+	export let data;
+
+	const home = data.data?.data.attributes;
+
+	let scrollContainer: HTMLElement;
+	let direction = 1;
+
+	onMount(() => {
+		if (scrollContainer && scrollContainer.firstChild) {
+			const imageWidth = (scrollContainer.firstChild as HTMLElement).offsetWidth;
+			setInterval(() => {
+				if (
+					scrollContainer.scrollLeft + scrollContainer.offsetWidth >=
+					scrollContainer.scrollWidth
+				) {
+					direction = -1;
+				} else if (scrollContainer.scrollLeft === 0) {
+					direction = 1;
+				}
+
+				scrollContainer.scrollBy({ left: imageWidth * direction, behavior: 'smooth' });
+			}, 3000);
+		}
+	});
 </script>
 
 <div class="">
 	<!-- hero section -->
 	<section class="relative h-screen max-h-[890px] flex items-center">
-		<!-- hero-bg -->
-		<div class="absolute -z-10 top-0 left-0 bottom-0 w-full">
-			<div
-				class="absolute -z-10 top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-transparent"
-			></div>
-			<enhanced:img
-				class="absolute -z-20 top-0 left-0 object-cover w-full h-full max-h-[890px]"
-				src={HeroImg}
-				alt="alt text"
-			/>
-		</div>
-		<!-- hero text -->
-		<div class="max-w-[1136px] mx-auto w-full">
-			<div class="text-white max-w-2xl">
-				<h1 class="text-3xl font-bold mb-2">Migration and Forced Displacement Platform</h1>
-				<p class=" text-base font-normal leading-normal">
-					Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien
-					vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien
-					aliquam. Sodales pulvinar facilisi donec facilisis
-				</p>
-			</div>
+		<div
+			bind:this={scrollContainer}
+			class="absolute top-0 left-0 bottom-0 hide-scroll flex h-full w-full transform-gpu snap-x snap-mandatory overflow-x-scroll scroll-smooth"
+		>
+			{#if home?.homeHeroSection.length !== 0}
+				{#each home?.homeHeroSection ?? [] as hero}
+					{@const imageUrl = hero?.BackgroundImage.data?.attributes?.url}
+					<div class="snap-center min-w-full relative">
+						<img
+							class="object-cover w-full h-full max-h-[890px]"
+							alt={`${hero?.heroTitle}`}
+							src={imageUrl ? `${PUBLIC_STRAPI_URL}${imageUrl}` : HeroImg}
+						/>
+						<div
+							class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-transparent"
+						></div>
+						{#key hero.id}
+							<div
+								class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1136px] mx-auto w-full"
+							>
+								<div
+									transition:fly={{
+										x: 0,
+										y: 50,
+										delay: 0,
+										duration: 500
+									}}
+									class="text-white max-w-2xl"
+								>
+									<h1 class="text-3xl font-bold mb-2">{hero?.heroTitle}</h1>
+									<p class=" text-base font-normal leading-normal">
+										{hero?.heroDescription}
+									</p>
+								</div>
+							</div>
+						{/key}
+					</div>
+				{/each}
+			{/if}
 		</div>
 
 		<div class=" absolute bottom-0 w-full">
 			<div
 				class="max-w-[1136px] mx-auto text-white pb-10 flex justify-between items-start rounded-lg"
 			>
-				<div class="relative group flex flex-col gap-1 items-center w-36 justify-center">
-					<ResettlementIcon />
-					<span class="text-center text-sm">Migration Governance </span>
+				{#if home?.priorityAreas.length !== 0}
+					{#each home?.priorityAreas ?? [] as area}
+						<div class="relative group flex flex-col gap-1 items-center w-36 justify-center">
+							<img
+								class=""
+								src={`${PUBLIC_STRAPI_URL}${area.icon.data[0].attributes.url}`}
+								alt="alt text"
+							/>
+							<span class="text-center text-sm">{area.title} </span>
 
-					<div
-						class="group-hover:block hidden absolute -top-16 mt-2 w-56 p-2 bg-primary/80 text-white text-sm rounded shadow-md z-10"
-					>
-						<p>
-							IGAD priority area. <a class="underline" href="https://geonode.igad.int/"
-								>Read more here</a
+							<div
+								class="group-hover:block hidden absolute -top-16 mt-2 w-56 p-2 bg-primary/80 text-white text-sm rounded shadow-md z-10"
 							>
-						</p>
-					</div>
-				</div>
-				<div class="flex flex-col gap-1 items-center w-36">
-					<TunnelIcon />
-					<span class="text-center text-sm">Free Movement and Labor Mobility</span>
-				</div>
-				<div class="flex flex-col gap-1 items-center w-36">
-					<SchoolIcon />
-					<span class="text-center text-sm">Durable Solutions</span>
-				</div>
-				<div class="flex flex-col gap-1 items-center w-36">
-					<ClimateChangeIcon />
-					<span class="text-center text-sm">Humanity and Mobility Climate Change</span>
-				</div>
-				<div class="flex flex-col gap-1 items-center w-36">
-					<ShieldIcon />
-					<span class="text-center text-sm">Protection</span>
-				</div>
-				<div class="flex flex-col gap-1 items-center w-36">
-					<NonDevelopmentIcon />
-					<span class="text-center text-sm">Migration and Development</span>
-				</div>
-				<div class="flex flex-col gap-1 items-center w-36">
-					<GenderIcon />
-					<span class="text-center text-sm">Gender and Other Cross-cutting issues</span>
-				</div>
-				<div class="flex flex-col gap-1 items-center w-36">
-					<GroupIcon />
-					<span class="text-center text-sm">Data and Statistics</span>
-				</div>
+								<p>
+									{area.title}
+									<a class="underline" href="https://geonode.igad.int/">Read more here</a>
+								</p>
+							</div>
+						</div>
+					{/each}
+				{/if}
 			</div>
 		</div>
 	</section>
+	<!--  -->
 
 	<!-- stats -->
 	<section class=" bg-primary">
 		<div class="px-4 lg:px-0 py-8 max-w-[1136px] mx-auto flex justify-between items-center">
-			<div class="flex flex-col items-center gap-1 text-white">
-				<h2 class=" text-3xl font-bold">12600</h2>
-				<p class="font-semibold text-lg flex flex-col items-center leading-normal">
-					<span>Refugees and</span> <span>Asylum seekers</span>
-				</p>
-			</div>
-			<div class="flex flex-col items-center gap-1 text-white">
-				<h2 class="text-3xl font-bold">550,000</h2>
-				<p class="font-semibold text-lg flex flex-col items-center leading-normal">
-					<span>Internally displaced</span> <span>population (IDP)</span>
-				</p>
-			</div>
-			<div class="flex flex-col items-center gap-1 text-white">
-				<h2 class="text-3xl font-bold">50,000</h2>
-				<p class="font-semibold text-lg">Total Migrants</p>
-			</div>
-			<div class="flex flex-col items-center gap-1 text-white">
-				<h2 class="text-3xl font-bold">280M+</h2>
-				<p class="font-semibold text-lg">Population in Region</p>
-			</div>
+			{#if home?.firstStat}
+				<div class="flex flex-col items-center gap-1 text-white">
+					<h2 class=" text-3xl font-bold">{home.firstStat.value}</h2>
+					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+						<span>{home.firstStat.label}</span>
+					</p>
+				</div>
+			{/if}
+			{#if home?.secondStat}
+				<div class="flex flex-col items-center gap-1 text-white">
+					<h2 class=" text-3xl font-bold">{home.secondStat.value}</h2>
+					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+						<span>{home.secondStat.label}</span>
+					</p>
+				</div>
+			{/if}
+			{#if home?.thirdStat}
+				<div class="flex flex-col items-center gap-1 text-white">
+					<h2 class=" text-3xl font-bold">{home.thirdStat[0].value}</h2>
+					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+						<span>{home.thirdStat[0].label}</span>
+					</p>
+				</div>
+			{/if}
+			{#if home?.forthStat}
+				<div class="flex flex-col items-center gap-1 text-white">
+					<h2 class=" text-3xl font-bold">{home.forthStat[0].value}</h2>
+					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+						<span>{home.forthStat[0].label}</span>
+					</p>
+				</div>
+			{/if}
 		</div>
 	</section>
 
@@ -225,5 +264,10 @@
 
 	.tooltip:hover .tooltip-content {
 		opacity: 1;
+	}
+
+	.hide-scroll {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
 	}
 </style>
