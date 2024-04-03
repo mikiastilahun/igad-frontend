@@ -109,7 +109,7 @@
 	];
 </script>
 
-<header class="bg-white shadow-2xl rounded-full mt-5 max-w-6xl mx-auto flex">
+<header class="bg-white shadow-2xl rounded-full mt-8 max-w-6xl mx-auto flex">
 	<a href="/">
 		<img src={IGAD_LOGO} alt="Logo" class="h-20 w-20 m-1" />
 	</a>

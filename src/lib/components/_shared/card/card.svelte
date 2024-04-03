@@ -8,9 +8,9 @@
 >
 	<img class="w-full h-48 object-contain bg-primary" src={IGADLogo} alt="Card " />
 
-	<div class="p-6">
+	<div class="p-4">
 		<div class="flex justify-between">
-			<span class="text-sm text-gray-600">03 June 2023</span>
+			<span class="text-sm text-zinc-500">03 June 2023</span>
 			<div
 				class="w-[37px] h-3.5 px-2 bg-amber-300 rounded-[100px] justify-start items-center gap-2.5 inline-flex"
 			>
@@ -22,7 +22,7 @@
 			This is a long title that will be truncated after two lines...
 		</h2>
 
-		<p class="mt-2 text-gray-600">
+		<p class="mt-2 text-zinc-500 text-sm">
 			This is the description of the card. It can be as long as you want.
 		</p>
 	</div>
