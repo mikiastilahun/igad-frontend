@@ -8,7 +8,9 @@ export default {
 				sans: ['Open Sans', ...defaultTheme.fontFamily.sans]
 			},
 			colors: {
-				primary: '#00833F'
+				primary: {
+					DEFAULT: '#00833F'
+				}
 			}
 		}
 	},

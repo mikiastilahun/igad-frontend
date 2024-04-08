@@ -8,288 +8,155 @@
 	import MenuDropdownItems from '../menu-dropdown-item/menu-dropdown-item.svelte';
 	import MenuItemDropdown from '../menu-items-dropdown/menu-items-dropdown.svelte';
 	import MenuDropdownItem from '../menu-dropdown-item/menu-dropdown-item.svelte';
+	import type { ComponentType } from 'svelte';
+	import Team from '$lib/assets/nav/team.svg.svelte';
+	import Partner from '$lib/assets/nav/partner.svg.svelte';
+	import Mail from '$lib/assets/icons/mail.svg.svelte';
+	import BookIcon from '$lib/assets/nav/book-search.svg.svelte';
+	import EventIcon from '$lib/assets/nav/event.svg.svelte';
+	import NewsIcon from '$lib/assets/nav/news.svg.svelte';
+	import Badge from '$lib/assets/icons/badge.svg.svelte';
 
 	type NavType = {
 		title: string;
-		href: string;
+		href?: string;
+		icon?: ComponentType;
 		description?: string;
 	};
-	type NavItemsType = NavType & {
-		subMenu?: (NavType & { description?: string })[];
-	};
 
-	export let navItems: NavItemsType[] = [
+	export let navItems: (NavType & { subMenu?: NavType[] })[] = [
 		{
 			title: 'Home',
 			href: '/'
 		},
 		{
 			title: 'About Us',
-			href: '/about',
 			subMenu: [
 				{
 					title: 'The Team',
-					href: '/team'
+					href: '/team',
+					icon: Team,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
 				},
 				{
 					title: 'Policies and Frameworks',
-					href: ''
+					href: '/team',
+					icon: Badge,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
 				},
 				{
 					title: 'Partners',
-					href: ''
+					href: '/partners',
+					icon: Partner,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
 				},
 				{
 					title: 'Contact Us',
-					href: ''
+					href: '/contact-us',
+					icon: Mail,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
 				}
 			]
 		},
 		{
 			title: 'Projects',
-			href: '',
-			subMenu: [
-				{
-					title: 'Our Priority Areas',
-					href: '/',
-					description: 'Lorem ipsum dolor sit amet consectetur.'
-				},
-				{
-					title: 'Projects',
-					href: '/projects',
-					description: 'Lorem ipsum dolor sit amet consectetur.'
-				}
-			]
+			href: '/projects'
 		},
 		{
 			title: 'Support Platforms',
-			href: '/support-platforms'
+			href: '/support-platform'
 		},
 		{
 			title: 'Data and Statistics',
-			href: '/data'
+			href: '/data-stats'
 		},
 		{
 			title: 'Resources',
-			href: '',
 			subMenu: [
 				{
-					title: 'Policies',
-					href: '',
-					description: 'Lorem ipsum dolor sit amet consectetur.'
+					title: 'Policies and Frameworks',
+					href: '/policies',
+					icon: BadgeIcon,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
 				},
 				{
 					title: 'Report and Publications',
 					href: '/publications',
-					description: 'Lorem ipsum dolor sit amet consectetur.'
+					icon: TreeStructureIcon,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
 				},
 				{
 					title: 'Research and Learning',
-					href: '/research-learning',
-					description: 'Lorem ipsum dolor sit amet consectetur.'
+					href: '/learning',
+					icon: BookIcon,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
 				}
 			]
 		},
 		{
 			title: 'News and Events',
-			href: '',
 			subMenu: [
 				{
 					title: 'News',
 					href: '/news',
-					description: 'Lorem ipsum dolor sit amet consectetur.'
+					icon: NewsIcon,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
 				},
 				{
 					title: 'Events',
 					href: '/events',
-					description: 'Lorem ipsum dolor sit amet consectetur.'
+					icon: EventIcon,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
 				}
 			]
 		}
 	];
 </script>
 
-<header class="bg-white shadow-2xl rounded-full mt-5 max-w-6xl mx-auto flex">
+<header class="bg-white shadow-2xl rounded-full mt-8 w-fit max-w-6xl mx-auto flex gap-8">
 	<a href="/">
 		<img src={IGAD_LOGO} alt="Logo" class="h-20 w-20 m-1" />
 	</a>
-	<div class=" px-12 py-4 flex flex-row justify-between gap-8">
+	<div class="  py-4 flex flex-row justify-between gap-4 xl:gap-8">
 		<!-- logo and links -->
-		<div class="  flex gap-8">
-			<nav class="flex gap-8 items-center text-primary text-sm font-bold">
-				<!-- {#each navItems as nav}
-					<a href={`${nav.href}`} class=" flex gap-2 items-center relative group/dropdown">
+		<div class="  flex items-center gap-8">
+			<nav class="flex gap-5 xl:gap-8 items-center text-primary text-sm font-bold">
+				{#each navItems as nav}
+					<a href={`${nav.href || '#'}`} class=" flex gap-2 items-center relative group/dropdown">
 						{nav.title}
-						{#if nav.subMenu?.length !== 0}
+						{#if nav.subMenu}
 							<CaretDownIcon />
 							<MenuItemDropdown>
-								{#each nav?.subMenu as item}
+								{#each nav?.subMenu || [] as item}
 									<MenuDropdownItems href={item.href}>
 										<span slot="icon">
-											<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
+											<svelte:component
+												this={item.icon}
+												class="w-6 h-6 fill-current group-hover:text-white"
+											/>
 										</span>
-										<span slot="title">Our Priority Areas</span>
-										<span slot="description"
-											>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique
-											risus vestibulum.</span
-										>
+										<span slot="title">{item.title}</span>
+										<span slot="description">{item.description}</span>
 									</MenuDropdownItems>
 								{/each}
 							</MenuItemDropdown>
 						{/if}
 					</a>
-				{/each} -->
-				<a href="/">
-					<span>Home</span>
-				</a>
-				<a href="#" class=" flex gap-2 items-center relative group/dropdown">
-					<span> About Us </span>
-					<CaretDownIcon />
-					<!-- sub menu-items -->
-
-					<MenuItemDropdown>
-						<MenuDropdownItems href="/policoies">
-							<span slot="icon">
-								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
-							</span>
-							<span slot="title">Policies and Frameworks</span>
-							<span slot="description"
-								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
-								vestibulum.</span
-							>
-						</MenuDropdownItems>
-						<MenuDropdownItems href="governance-structure">
-							<span slot="icon">
-								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
-							</span>
-							<span slot="title">Governance Structure</span>
-							<span slot="description"
-								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
-								vestibulum.</span
-							>
-						</MenuDropdownItems>
-						<MenuDropdownItem href="/contact-us">
-							<span slot="icon">
-								<MailIcon class="w-6 h-6 fill-current group-hover:text-white" />
-							</span>
-							<span slot="title">Contact Us</span>
-							<span slot="description"
-								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
-								vestibulum.</span
-							>
-						</MenuDropdownItem>
-					</MenuItemDropdown>
-				</a>
-				<a href="#" class="flex gap-2 items-center relative group/dropdown">
-					<span> Projects </span>
-					<CaretDownIcon />
-					<!-- sub menu-items -->
-					<MenuItemDropdown>
-						<MenuDropdownItems href="/our-priority">
-							<span slot="icon">
-								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
-							</span>
-							<span slot="title">Our Priority Areas</span>
-							<span slot="description"
-								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
-								vestibulum.</span
-							>
-						</MenuDropdownItems>
-						<MenuDropdownItems href="projects">
-							<span slot="icon">
-								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
-							</span>
-							<span slot="title">Projects</span>
-							<span slot="description"
-								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
-								vestibulum.</span
-							>
-						</MenuDropdownItems>
-					</MenuItemDropdown>
-				</a>
-				<a
-					href="https://igad.int/"
-					target="_blank"
-					class="flex gap-2 items-center relative group/dropdown"
-				>
-					<span> Support Platforms</span>
-				</a>
-				<a
-					href="https://igad.int/"
-					target="_blank"
-					class="flex gap-2 items-center relative group/dropdown"
-				>
-					<span> Data and Statistics </span>
-				</a>
-				<a href="#" class="flex gap-2 items-center relative group/dropdown">
-					<span>Resources </span>
-					<CaretDownIcon />
-					<!-- sub menu-items -->
-					<MenuItemDropdown class=" ">
-						<MenuDropdownItems href="/policies">
-							<span slot="icon">
-								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
-							</span>
-							<span slot="title">Polices</span>
-							<span slot="description"
-								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
-								vestibulum.</span
-							>
-						</MenuDropdownItems>
-						<MenuDropdownItems href="report-and-publications">
-							<span slot="icon">
-								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
-							</span>
-							<span slot="title">Report and Publications</span>
-							<span slot="description"
-								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
-								vestibulum.</span
-							>
-						</MenuDropdownItems>
-						<MenuDropdownItems href="/research-and-learning">
-							<span slot="icon">
-								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
-							</span>
-							<span slot="title">Research and Learning</span>
-							<span slot="description"
-								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
-								vestibulum.</span
-							>
-						</MenuDropdownItems>
-					</MenuItemDropdown>
-				</a>
-				<a href="#" class="flex gap-2 items-center relative group/dropdown">
-					<span> News and Media </span>
-					<CaretDownIcon />
-					<!-- sub menu-items -->
-					<MenuItemDropdown class=" right-0">
-						<MenuDropdownItems href="/news">
-							<span slot="icon">
-								<BadgeIcon class="w-6 h-6 fill-current group-hover:text-white" />
-							</span>
-							<span slot="title">News</span>
-							<span slot="description"
-								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
-								vestibulum.</span
-							>
-						</MenuDropdownItems>
-						<MenuDropdownItems href="/events">
-							<span slot="icon">
-								<TreeStructureIcon class="w-6 h-6 fill-current group-hover:text-white" />
-							</span>
-							<span slot="title">Events</span>
-							<span slot="description"
-								>Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus
-								vestibulum.</span
-							>
-						</MenuDropdownItems>
-					</MenuItemDropdown>
-				</a>
+				{/each}
 			</nav>
 		</div>
 
 		<!-- search -->
-		<div class="flex-shrink-0 relative flex items-center gap-4">
+		<div class="mr-10 xl:mr-20 flex-shrink-0 relative flex items-center gap-4">
 			<button class="">
 				<SearchIcon />
 			</button>
