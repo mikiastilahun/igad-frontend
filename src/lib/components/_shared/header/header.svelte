@@ -120,18 +120,16 @@
 			]
 		}
 	];
-
-	navItems;
 </script>
 
 <header class="bg-white shadow-2xl rounded-full mt-8 w-fit max-w-6xl mx-auto flex gap-8">
 	<a href="/">
 		<img src={IGAD_LOGO} alt="Logo" class="h-20 w-20 m-1" />
 	</a>
-	<div class="  py-4 flex flex-row justify-between gap-8">
+	<div class="  py-4 flex flex-row justify-between gap-4 xl:gap-8">
 		<!-- logo and links -->
-		<div class="  flex gap-8">
-			<nav class="flex gap-8 items-center text-primary text-sm font-bold">
+		<div class="  flex items-center gap-8">
+			<nav class="flex gap-5 xl:gap-8 items-center text-primary text-sm font-bold">
 				{#each navItems as nav}
 					<a href={`${nav.href || '#'}`} class=" flex gap-2 items-center relative group/dropdown">
 						{nav.title}
@@ -158,7 +156,7 @@
 		</div>
 
 		<!-- search -->
-		<div class="mr-20 flex-shrink-0 relative flex items-center gap-4">
+		<div class="mr-10 xl:mr-20 flex-shrink-0 relative flex items-center gap-4">
 			<button class="">
 				<SearchIcon />
 			</button>
