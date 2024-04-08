@@ -1,9 +1,13 @@
-<script>
+<script lang="ts">
 	import Hero from '$lib/assets/publications/hero.jpg';
 	import Card from '$lib/components/_shared/card/card.svelte';
 	import Search from '$lib/assets/icons/search.svg.svelte';
+	import Select from 'svelte-select';
 
 	import IGADLogo from '$lib/assets/igad-logo.png';
+
+	let years = [2017, 2018, 2019, 2020, 2021, 2022, 2023];
+	let yearValue: string | null = '2019';
 </script>
 
 <div class="p-4">
@@ -96,15 +100,13 @@
 			<div class="flex flex-col gap-3">
 				<h3 class="text-base font-bold">Publication Year</h3>
 				<!-- Year dropdown -->
-				<select
-					class="w-full px-4 py-2 text-lg font-normal text-gray-800 bg-gray-300/30 border rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
-				>
-					<option value="2021">2021</option>
-					<option value="2020">2020</option>
-					<option value="2019">2019</option>
-					<option value="2018">2018</option>
-					<option value="2017">2017</option>
-				</select>
+				<Select
+					--item-hover-bg="#e6f3ec"
+					--item-is-active-bg="#00833F"
+					showChevron={true}
+					items={years}
+					bind:value={yearValue}
+				/>
 			</div>
 		</div>
 		<!-- list of cards with pagination -->

@@ -95,7 +95,9 @@
 			>
 				{#if home?.priorityAreas.length !== 0}
 					{#each home?.priorityAreas ?? [] as area}
-						<div class="relative group flex flex-col gap-1 items-center w-36 justify-center">
+						<div
+							class=" relative group flex flex-col gap-1 items-center w-36 justify-center text-center"
+						>
 							<img
 								class=""
 								src={`${PUBLIC_STRAPI_URL}${area.icon.data[0].attributes.url}`}
@@ -104,12 +106,18 @@
 							<span class="text-center text-sm">{area.title} </span>
 
 							<div
-								class="group-hover:block hidden absolute -top-16 mt-2 w-56 p-2 bg-primary/80 text-white text-sm rounded shadow-md z-10"
+								class="opacity-0 w-full bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full mb-2 px-2 pointer-events-none"
 							>
-								<p>
-									{area.title}
-									<a class="underline" href="https://geonode.igad.int/">Read more here</a>
-								</p>
+								{area.title}
+								<!-- <a class="underline" href="https://geonode.igad.int/">Read more here</a> -->
+								<svg
+									class="absolute text-black h-2 w-full left-0 top-full"
+									x="0px"
+									y="0px"
+									viewBox="0 0 255 255"
+									xml:space="preserve"
+									><polygon class="fill-current" points="0,0 127.5,127.5 255,0" /></svg
+								>
 							</div>
 						</div>
 					{/each}
@@ -252,14 +260,7 @@
 
 <style>
 	.tooltip::before {
-		content: '';
-		position: absolute;
-		top: -10px;
-		left: 50%;
-		transform: translateX(-50%);
-		border-width: 5px;
-		border-style: solid;
-		border-color: transparent transparent white transparent;
+		@apply content-[''] absolute top-[-10px] left-1/2 transform -translate-x-1/2 border-t-2 border-transparent border-b-2 border-white;
 	}
 
 	.tooltip:hover .tooltip-content {
