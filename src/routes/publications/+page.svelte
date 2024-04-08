@@ -3,6 +3,7 @@
 	import Card from '$lib/components/_shared/card/card.svelte';
 	import Search from '$lib/assets/icons/search.svg.svelte';
 	import Select from 'svelte-select';
+	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
 
 	import IGADLogo from '$lib/assets/igad-logo.png';
 
@@ -146,6 +147,27 @@
 					</div>
 				</div>
 			{/each}
+
+			<div class="justify-center items-center gap-4 inline-flex pt-10">
+				<!-- pagination 20+12-->
+				<button
+					class=" px-4 py-2 bg-white rounded-lg border border-neutral-900 border-opacity-10 justify-center items-center gap-1 inline-flex"
+				>
+					<ChevronDown class=" " />
+				</button>
+				{#each Array(5) as _, index}
+					<button
+						class="w-10 h-10 px-4 py-2 bg-white rounded-lg border border-neutral-900 border-opacity-10 justify-center items-center gap-1 inline-flex"
+					>
+						<span class="text-stone-500">{index + 1}</span>
+					</button>
+				{/each}
+				<button
+					class=" px-4 py-2 bg-white rounded-lg border border-neutral-900 border-opacity-10 justify-center items-center gap-1 inline-flex"
+				>
+					<ChevronDown class="rotate-180" />
+				</button>
+			</div>
 		</div>
 	</div>
 </section>
