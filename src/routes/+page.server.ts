@@ -1,5 +1,6 @@
 import type { Load } from '@sveltejs/kit';
 import { PUBLIC_STRAPI_URL } from '$env/static/public';
+import fetch from 'node-fetch';
 
 type Stat = {
 	id: number;
@@ -78,8 +79,11 @@ type ApiResponse = {
 	meta: any;
 };
 
-export const load: Load = async ({ fetch }) => {
+export const load: Load = async () => {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+	console.log('in the load function');
+
 	try {
 		const response = await fetch(
 			`${PUBLIC_STRAPI_URL}/api/home?populate=homeHeroSection.BackgroundImage,firstStat,secondStat,thirdStat,forthStat,priorityAreas.icon`
@@ -93,6 +97,7 @@ export const load: Load = async ({ fetch }) => {
 		const data: ApiResponse = await response.json();
 		return { data };
 	} catch (e: unknown) {
+		console.log({ e });
 		return { error: (e as Error).message };
 	}
 };
