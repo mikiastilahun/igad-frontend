@@ -14,7 +14,7 @@
 	import FeaturedNewsCard from '$lib/components/_shared/featured-news-card/featured-news-card.svelte';
 	import Card from '$lib/components/_shared/card/card.svelte';
 	import Logoipsum from '$lib/assets/temp/logoipsum.svg.svelte';
-	import { PUBLIC_STRAPI_URL } from '$env/static/public';
+	import { PUBLIC_STATIC_URL } from '$env/static/public';
 
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
@@ -59,7 +59,7 @@
 						<img
 							class="object-cover w-full h-full max-h-[890px]"
 							alt={`${hero?.heroTitle}`}
-							src={imageUrl ? `${PUBLIC_STRAPI_URL}${imageUrl}` : HeroImg}
+							src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
 						/>
 						<div
 							class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-transparent"
@@ -100,7 +100,7 @@
 						>
 							<img
 								class=""
-								src={`${PUBLIC_STRAPI_URL}${area.icon.data[0].attributes.url}`}
+								src={`${PUBLIC_STATIC_URL}${area.icon.data[0].attributes.url}`}
 								alt="alt text"
 							/>
 							<span class="text-center text-sm">{area.title} </span>
