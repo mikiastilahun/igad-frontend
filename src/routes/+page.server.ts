@@ -1,6 +1,5 @@
 import type { Load } from '@sveltejs/kit';
 import { PUBLIC_STRAPI_URL } from '$env/static/public';
-import fetch from 'node-fetch';
 
 type Stat = {
 	id: number;
@@ -79,7 +78,7 @@ type ApiResponse = {
 	meta: any;
 };
 
-export const load: Load = async () => {
+export const load: Load = async ({ fetch }) => {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 	console.log('in the load function');
