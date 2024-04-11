@@ -16,7 +16,8 @@
 	import Logoipsum from '$lib/assets/temp/logoipsum.svg.svelte';
 	import { PUBLIC_STRAPI_URL } from '$env/static/public';
 
-	import { fly } from 'svelte/transition';
+	import { fly, crossfade, slide } from 'svelte/transition';
+	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
 
 	export let data;
@@ -40,7 +41,7 @@
 				}
 
 				scrollContainer.scrollBy({ left: imageWidth * direction, behavior: 'smooth' });
-			}, 3000);
+			}, 5000);
 		}
 	});
 </script>
@@ -69,11 +70,10 @@
 								class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1136px] mx-auto w-full"
 							>
 								<div
-									transition:fly={{
-										x: 0,
-										y: 50,
-										delay: 0,
-										duration: 500
+									transition:slide={{
+										axis: 'x',
+										duration: 500,
+										easing: sineIn
 									}}
 									class="text-white max-w-2xl"
 								>
