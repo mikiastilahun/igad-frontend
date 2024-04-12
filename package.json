@@ -40,6 +40,7 @@
 	"type": "module",
 	"dependencies": {
 		"@sveltejs/enhanced-img": "^0.1.8",
-		"svelte-select": "^5.8.3"
+		"svelte-select": "^5.8.3",
+		"sveltekit-tweet": "^0.0.17"
 	}
 }
