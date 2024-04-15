@@ -1,12 +1,29 @@
-<script>
+<script lang="ts">
 	import IGADLogo from '$lib/assets/igad-logo.png';
+
+	export let title: string;
+	export let description: string;
+	export let link: string;
+	export let imageUrl: string = '';
 </script>
 
 <!-- cards -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="flex flex-col bg-white rounded-lg hover:shadow-md shadow transition-all overflow-hidden w-full max-w-xs mx-auto"
+	class="flex flex-col bg-white rounded-lg hover:shadow-md shadow transition-all overflow-hidden w-full max-w-xs mx-auto hover:cursor-pointer"
+	on:click={() => {
+		if (link) {
+			window.open(link, '_blank');
+			return;
+		}
+	}}
 >
-	<img class="w-full h-48 object-contain bg-primary" src={IGADLogo} alt="Card " />
+	<img
+		class="w-full h-48 object-contain bg-primary"
+		src={imageUrl ? imageUrl : IGADLogo}
+		alt="Card "
+	/>
 
 	<div class="p-4">
 		<div class="flex justify-between">
@@ -19,11 +36,11 @@
 		</div>
 
 		<h2 class="mt-2 text-lg font-semibold text-gray-900 line-clamp-2">
-			This is a long title that will be truncated after two lines...
+			{title}.
 		</h2>
 
 		<p class="mt-2 text-zinc-500 text-sm">
-			This is the description of the card. It can be as long as you want.
+			{description}
 		</p>
 	</div>
 </div>

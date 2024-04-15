@@ -23,7 +23,8 @@
 
 	export let data;
 
-	const home = data.data?.data.attributes;
+	const home = data.data?.homeData.data.attributes;
+	const learningLinks = data.data?.learningData.data;
 
 	let scrollContainer: HTMLElement;
 	let direction = 1;
@@ -187,10 +188,16 @@
 		<h2 class="text-2xl font-bold leading-normal">Quick Learning Links</h2>
 		<div class="grid grid-cols-4 gap-4">
 			<!-- cards -->
-			<Card />
-			<Card />
-			<Card />
-			<Card />
+			{#if learningLinks?.length !== 0}
+				{#each learningLinks ?? [] as link}
+					<Card
+						title={link.attributes.title}
+						description={link.attributes.description}
+						imageUrl={`${PUBLIC_STATIC_URL}${link.attributes.thumbnail.data.attributes.url}`}
+						link={link.attributes.URL}
+					/>
+				{/each}
+			{/if}
 		</div>
 	</section>
 

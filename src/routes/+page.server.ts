@@ -90,13 +90,41 @@ type Attributes = {
 };
 
 type Data = {
-	id: number;
-	attributes: Attributes;
+	data: {
+		id: number;
+		attributes: Attributes;
+	};
+	meta: any;
+};
+
+type LearningData = {
+	data: {
+		id: number;
+		attributes: {
+			title: string;
+			description: string;
+			URL: string;
+			createdAt: string;
+			updatedAt: string;
+			thumbnail: {
+				data: {
+					id: number;
+					attributes: {
+						name: string;
+						width: number;
+						height: number;
+						url: string;
+					};
+				};
+			};
+		};
+	}[];
+	meta: any;
 };
 
 type ApiResponse = {
-	data: Data;
-	meta: any;
+	homeData: Data;
+	learningData: LearningData;
 };
 
 export const load: Load = async ({ fetch }) => {
@@ -116,7 +144,19 @@ export const load: Load = async ({ fetch }) => {
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
 
-		const data: ApiResponse = await response.json();
+		const learningResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/learning-links?populate=*`);
+
+		console.log({ learningResponse });
+		if (!learningResponse.ok) {
+			throw new Error(`HTTP error! status: ${learningResponse.status}`);
+		}
+		const homeData = await response.json();
+		const learningData = await learningResponse.json();
+
+		const data: ApiResponse = {
+			homeData: homeData,
+			learningData: learningData
+		};
 		return { data };
 	} catch (e: unknown) {
 		console.log({ e });
