@@ -57,6 +57,21 @@ type PriorityArea = {
 	icon: Icon;
 };
 
+type Partner = {
+	Logo: {
+		data: {
+			id: number;
+			attributes: {
+				name: string;
+				width: number;
+				height: number;
+				url: string;
+			};
+		};
+	};
+	URL: string;
+};
+
 type Attributes = {
 	createdAt: string;
 	updatedAt: string;
@@ -66,6 +81,12 @@ type Attributes = {
 	thirdStat: Stat[];
 	forthStat: Stat[];
 	priorityAreas: PriorityArea[];
+	regionalStatisticsTitle: string;
+	regionalStatisticsDescription: string;
+	SupportplatformTitle: string;
+	supportPlatformContent: string;
+	partnersTitle: string;
+	partner: Partner[];
 };
 
 type Data = {
@@ -86,7 +107,8 @@ export const load: Load = async ({ fetch }) => {
 
 	try {
 		const response = await fetch(
-			`${PUBLIC_STRAPI_URL}/api/home?populate=homeHeroSection.BackgroundImage,firstStat,secondStat,thirdStat,forthStat,priorityAreas.icon`
+			`${PUBLIC_STRAPI_URL}/api/home?populate=homeHeroSection.BackgroundImage,firstStat,secondStat,thirdStat,forthStat,priorityAreas.icon,regionalStatisticsTitle,regionalStatisticsDescription,SupportplatformTitle,supportPlatformContent,partnersTitle,partner.URL,partner.Logo  
+`
 		);
 
 		console.log({ response });

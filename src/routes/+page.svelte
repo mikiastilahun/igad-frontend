@@ -8,6 +8,7 @@
 	import GroupIcon from '$lib/assets/icons/group.svg.svelte';
 	import NonDevelopmentIcon from '$lib/assets/icons/non-development.svg.svelte';
 	import ShieldIcon from '$lib/assets/icons/shield.svg.svelte';
+	import SvelteMarkdown from 'svelte-markdown';
 
 	import NewsImg2 from '$lib/assets/temp/news-2.png?enhanced';
 	import ChartsImg from '$lib/assets/temp/charts.png?enhanced';
@@ -148,17 +149,17 @@
 			{/if}
 			{#if home?.thirdStat}
 				<div class="flex flex-col items-center gap-1 text-white">
-					<h2 class=" text-3xl font-bold">{home.thirdStat[0].value}</h2>
+					<h2 class=" text-3xl font-bold">{home.thirdStat.value}</h2>
 					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
-						<span>{home.thirdStat[0].label}</span>
+						<span>{home.thirdStat.label}</span>
 					</p>
 				</div>
 			{/if}
 			{#if home?.forthStat}
 				<div class="flex flex-col items-center gap-1 text-white">
-					<h2 class=" text-3xl font-bold">{home.forthStat[0].value}</h2>
+					<h2 class=" text-3xl font-bold">{home.forthStat.value}</h2>
 					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
-						<span>{home.forthStat[0].label}</span>
+						<span>{home.forthStat.label}</span>
 					</p>
 				</div>
 			{/if}
@@ -167,35 +168,17 @@
 
 	<!-- Regional Statistics -->
 	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
-		<h2 class="text-2xl font-bold leading-normal">Regional Statistics</h2>
+		<h2 class="text-2xl font-bold leading-normal">{home?.regionalStatisticsTitle}</h2>
 		<p class="text-base leading-normal">
-			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
-			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
-			Sodales pulvinar facilisi donec facilisis lorem lectus. Nec feugiat pharetra diam faucibus
-			felis aliquam lectus nibh. Praesent mauris eget sollicitudin donec neque risus interdum
-			pellentesque aliquam. Vitae eu duis vel nunc ullamcorper. Vehicula eu mi nisl massa. Lectus
-			quam sit sit senectus vitae ante eget. Donec ut nunc velit in. Aliquam non proin vitae ac.
+			{home?.regionalStatisticsDescription}
 		</p>
 		<enhanced:img class=" object-cover w-full h-full" src={ChartsImg} alt="alt text" />
 	</section>
 	<!-- IGAD support platform -->
 	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
-		<h2 class="text-2xl font-bold leading-normal">IGAD Support Platform</h2>
+		<h2 class="text-2xl font-bold leading-normal">{home?.SupportplatformTitle}</h2>
 		<p class="text-base leading-normal">
-			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
-			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
-			Sodales pulvinar facilisi donec facilisis lorem lectus. Nec feugiat pharetra diam faucibus
-			felis aliquam lectus nibh. Praesent mauris eget sollicitudin donec neque risus interdum
-			pellentesque aliquam. Vitae eu duis vel nunc ullamcorper. Vehicula eu mi nisl massa. Lectus
-			quam sit sit senectus vitae ante eget. Donec ut nunc velit in. Aliquam non proin vitae ac.
-		</p>
-		<p class="text-base leading-normal">
-			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
-			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
-			Sodales pulvinar facilisi donec facilisis lorem lectus. Nec feugiat pharetra diam faucibus
-			felis aliquam lectus nibh. Praesent mauris eget sollicitudin donec neque risus interdum
-			pellentesque aliquam. Vitae eu duis vel nunc ullamcorper. Vehicula eu mi nisl massa. Lectus
-			quam sit sit senectus vitae ante eget. Donec ut nunc velit in. Aliquam non proin vitae ac.
+			<SvelteMarkdown source={home?.supportPlatformContent} />
 		</p>
 	</section>
 
@@ -239,9 +222,25 @@
 	<!-- Partners -->
 	<section class="mx-auto max-w-[1136px]">
 		<div class="w-full py-20 flex-col justify-start items-center gap-10 inline-flex">
-			<h5 class="text-neutral-400 text-base font-bold text-lg">Our Partners</h5>
+			<h5 class="text-neutral-400 font-bold text-lg">{home?.partnersTitle}</h5>
 			<div class="w-full grid grid-cols-4 gap-4">
-				<div class="flex justify-center">
+				{#if home?.partner.length !== 0}
+					{#each home?.partner ?? [] as partner}
+						<div class="flex justify-center">
+							{#if partner.Logo.data?.attributes?.url}
+								<a href={partner.URL}>
+									<img
+										class=""
+										src={`${PUBLIC_STATIC_URL}${partner.Logo.data?.attributes?.url}`}
+										alt="alt text"
+									/>
+								</a>
+							{/if}
+						</div>
+					{/each}
+				{/if}
+
+				<!-- <div class="flex justify-center">
 					<Logoipsum />
 				</div>
 				<div class="flex justify-center">
@@ -252,7 +251,7 @@
 				</div>
 				<div class="flex justify-center">
 					<Logoipsum />
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</section>
