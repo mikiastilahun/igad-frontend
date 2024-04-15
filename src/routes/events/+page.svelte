@@ -53,6 +53,15 @@
 			location: 'Addis Ababa',
 			id: '3',
 			title: 'This is the title'
+		},
+		{
+			date: '2022-03-15',
+			description:
+				'Launching of the Regional Food Systems Resilience Program for Eastern & Southern Africa (FSRP)',
+			time: '21:30 EST',
+			location: 'Addis Ababa',
+			id: '3',
+			title: 'This is the title'
 		}
 	];
 
@@ -119,26 +128,34 @@
 
 	<!-- Events grouped by month -->
 	<div class="flex flex-col">
-		{#each Object.keys(groupedEvents) as month}
+		{#each Object.keys(groupedEvents) as month, i}
 			<div class="flex gap-4">
 				<span class="w-20 text-gray-500">{month}</span>
 				<div class="flex flex-col">
-					{#each groupedEvents[month] as event}
-						<div class="flex gap-4">
+					{#each groupedEvents[month] as event, index}
+						<div class="flex gap-4 hover:cursor-pointer group/evt">
 							<!-- indicator -->
 							<div class="h-full flex flex-col relative">
 								<div
-									class="hover:cursor-pointer peer hover:shadow-[0_0_0_3px_white,0_0_0_6px_green] hover:border-0 hover:text-white hover:bg-primary text-gray-500 border border-gray-500 w-8 h-8 shrink-0 rounded-full flex justify-center items-center transition-all duration-200"
+									class=" group-hover/evt:shadow-[0_0_0_3px_white,0_0_0_6px_green] group-hover/evt:border-0 group-hover/evt:text-white group-hover/evt:bg-primary text-gray-500 border border-gray-500 w-8 h-8 shrink-0 rounded-full flex justify-center items-center transition-all duration-200"
 								>
 									{event.date.split('-')[2]}
 								</div>
-								<div
-									class=" w-[2px] h-full bg-gray-400 self-center peer-hover:bg-primary transition-all duration-200"
-								></div>
+
+								{#if i === Object.keys(groupedEvents).length - 1 && index + 1 === groupedEvents[month].length}
+									<span class="sr-only">Placeholder</span>{:else}
+									<div
+										class=" w-[2px] h-full bg-gray-400 self-center group-hover/evt:bg-primary transition-all duration-200"
+									></div>
+								{/if}
 							</div>
 							<!-- content -->
 							<div class="flex flex-col pb-8 gap-1">
-								<p class="font-semibold leading-5">{event.description}</p>
+								<p
+									class="font-semibold leading-5 group-hover/evt:text-primary transition-colors duration-150"
+								>
+									{event.description}
+								</p>
 								<div class="flex gap-2 items-center">
 									<img class="w-4 h-4" src={Time} alt="time" />
 									<span class="text-primary">{event.time}</span>
