@@ -20,6 +20,8 @@
 	import { fly, crossfade, slide } from 'svelte/transition';
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
+	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
+	import CaretDown from '$lib/assets/icons/caret-down.svg.svelte';
 
 	export let data;
 
@@ -30,22 +32,37 @@
 	let direction = 1;
 
 	onMount(() => {
-		if (scrollContainer && scrollContainer.firstChild) {
-			const imageWidth = (scrollContainer.firstChild as HTMLElement).offsetWidth;
-			setInterval(() => {
-				if (
-					scrollContainer.scrollLeft + scrollContainer.offsetWidth >=
-					scrollContainer.scrollWidth
-				) {
-					direction = -1;
-				} else if (scrollContainer.scrollLeft === 0) {
-					direction = 1;
-				}
-
-				scrollContainer.scrollBy({ left: imageWidth * direction, behavior: 'smooth' });
-			}, 5000);
-		}
+		// if (scrollContainer && scrollContainer.firstChild) {
+		// 	const imageWidth = (scrollContainer.firstChild as HTMLElement).offsetWidth;
+		// 	setInterval(() => {
+		// 		if (
+		// 			scrollContainer.scrollLeft + scrollContainer.offsetWidth >=
+		// 			scrollContainer.scrollWidth
+		// 		) {
+		// 			direction = -1;
+		// 		} else if (scrollContainer.scrollLeft === 0) {
+		// 			direction = 1;
+		// 		}
+		// 		scrollContainer.scrollBy({ left: imageWidth * direction, behavior: 'smooth' });
+		// 	}, 5000);
+		// }
 	});
+	const scrollAmount = 500;
+	function scrollLeft() {
+		if (scrollContainer.scrollLeft === 0) {
+			scrollContainer.scrollLeft = scrollContainer.scrollWidth;
+		} else {
+			scrollContainer.scrollLeft -= scrollContainer.clientWidth;
+		}
+	}
+
+	function scrollRight() {
+		if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth) {
+			scrollContainer.scrollLeft = 0;
+		} else {
+			scrollContainer.scrollLeft += scrollContainer.clientWidth;
+		}
+	}
 </script>
 
 <div class="">
@@ -53,7 +70,7 @@
 	<section class="relative h-screen max-h-[890px] flex items-center">
 		<div
 			bind:this={scrollContainer}
-			class="absolute top-0 left-0 bottom-0 hide-scroll flex h-full w-full transform-gpu snap-x snap-mandatory overflow-x-scroll scroll-smooth"
+			class=" absolute top-0 left-0 bottom-0 hide-scroll flex h-full w-full transform-gpu snap-x snap-mandatory overflow-x-scroll scroll-smooth"
 		>
 			{#if home?.homeHeroSection.length !== 0}
 				{#each home?.homeHeroSection ?? [] as hero}
@@ -67,6 +84,24 @@
 						<div
 							class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-transparent"
 						></div>
+						<button
+							on:click={scrollLeft}
+							class="group p-2 absolute left-8 top-1/2 transform -translate-y-1/2"
+						>
+							<span
+								class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
+							></span>
+							<CaretDown class="w-6 h-6 scale-150 rotate-90 fill-white" />
+						</button>
+						<button
+							on:click={scrollRight}
+							class=" group p-2 absolute right-8 top-1/2 transform -translate-y-1/2"
+						>
+							<span
+								class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
+							></span>
+							<CaretDown class="w-6 h-6 scale-150 -rotate-90 fill-white " /></button
+						>
 						{#key hero.id}
 							<div
 								class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1136px] mx-auto w-full"
@@ -152,7 +187,7 @@
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.thirdStat.value}</h2>
 					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
-						<span>{home.thirdStat.label}</span>
+						<span>{home.thirdStat?.label}</span>
 					</p>
 				</div>
 			{/if}

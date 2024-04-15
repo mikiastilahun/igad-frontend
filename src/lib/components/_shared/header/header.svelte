@@ -147,7 +147,7 @@
 									}}
 								>
 									{nav.title}
-									<CaretDownIcon />
+									<CaretDownIcon class="fill-primary" />
 									<div
 										class=" {activeIndex === index ? 'inline-flex' : 'hidden'} {index >=
 										navItems.length - 2
