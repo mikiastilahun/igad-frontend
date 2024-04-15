@@ -122,7 +122,7 @@
 
 	let activeIndex: number | null = null;
 	let mobileActiveIndex: number | null = null;
-	let isMobileOpen = true;
+	let isMobileOpen = false;
 </script>
 
 <div class="">
@@ -149,9 +149,10 @@
 									{nav.title}
 									<CaretDownIcon />
 									<div
-										class=" {activeIndex === index
-											? 'inline-flex'
-											: 'hidden'}  animate-slide transform-gpu absolute w-[400px] top-16 shadow-md border-gray-200 border bg-white p-4 rounded-lg flex-col items-center gap-3"
+										class=" {activeIndex === index ? 'inline-flex' : 'hidden'} {index >=
+										navItems.length - 2
+											? 'right-0'
+											: ''}  animate-slide transform-gpu absolute w-[400px] top-16 shadow-md border-gray-200 border bg-white p-4 rounded-lg flex-col items-center gap-3"
 									>
 										{#each nav?.subMenu || [] as item}
 											<MenuDropdownItem href={item.href}>
