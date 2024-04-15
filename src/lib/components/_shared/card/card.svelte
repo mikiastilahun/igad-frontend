@@ -19,11 +19,7 @@
 		}
 	}}
 >
-	<img
-		class="w-full h-48 object-contain bg-primary"
-		src={imageUrl ? imageUrl : IGADLogo}
-		alt="Card "
-	/>
+	<img class="w-full h-48 object-cover" src={imageUrl ? imageUrl : IGADLogo} alt="Card " />
 
 	<div class="p-4">
 		<div class="flex justify-between">
