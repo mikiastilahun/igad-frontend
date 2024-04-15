@@ -22,6 +22,7 @@
 	import { onMount } from 'svelte';
 	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
 	import CaretDown from '$lib/assets/icons/caret-down.svg.svelte';
+	import Registration from '$lib/components/registration/registration.svelte';
 
 	export let data;
 
@@ -63,6 +64,8 @@
 			scrollContainer.scrollLeft += scrollContainer.clientWidth;
 		}
 	}
+
+	let showRegister = false;
 </script>
 
 <div class="">
@@ -233,8 +236,31 @@
 					/>
 				{/each}
 			{/if}
+
+			<!-- register here button with an image behind on a blurry overlay with a rectangle button on top -->
+			<div class="relative h-full rounded-lg">
+				<div
+					class="rounded-lg absolute top-0 left-0 w-full h-full flex justify-center items-center"
+				>
+					<div
+						class="rounded-lg bg-black/80 p-8 h-full gap-2 flex justify-center items-center flex-col"
+					>
+						<h3 class="text-3xl font-bold text-white">Register Here</h3>
+						<p class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+						<button
+							on:click={() => (showRegister = true)}
+							class="mt-4 bg-primary text-white px-4 py-2 rounded-md">Register Here</button
+						>
+					</div>
+				</div>
+				<enhanced:img class="object-cover w-full h-full rounded-lg" src={HeroImg} alt="alt text" />
+			</div>
 		</div>
 	</section>
+
+	{#if showRegister}
+		<Registration bind:show={showRegister} />
+	{/if}
 
 	<!-- news section -->
 	<section class="max-w-[1136px] mx-auto py-10">
