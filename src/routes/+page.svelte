@@ -71,62 +71,65 @@
 <div class="">
 	<!-- hero section -->
 	<section class="relative h-screen max-h-[890px] flex items-center">
-		<div
-			bind:this={scrollContainer}
-			class=" absolute top-0 left-0 bottom-0 hide-scroll flex h-full w-full transform-gpu snap-x snap-mandatory overflow-x-scroll scroll-smooth"
-		>
-			{#if home?.homeHeroSection.length !== 0}
-				{#each home?.homeHeroSection ?? [] as hero}
-					{@const imageUrl = hero?.BackgroundImage.data?.attributes?.url}
-					<div class="snap-center min-w-full relative">
-						<img
-							class="object-cover w-full h-full max-h-[890px]"
-							alt={`${hero?.heroTitle}`}
-							src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
-						/>
-						<div
-							class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-transparent"
-						></div>
-						<button
-							on:click={scrollLeft}
-							class="group p-2 absolute left-8 top-1/2 transform -translate-y-1/2"
-						>
-							<span
-								class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
-							></span>
-							<CaretDown class="w-6 h-6 scale-150 rotate-90 fill-white" />
-						</button>
-						<button
-							on:click={scrollRight}
-							class=" group p-2 absolute right-8 top-1/2 transform -translate-y-1/2"
-						>
-							<span
-								class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
-							></span>
-							<CaretDown class="w-6 h-6 scale-150 -rotate-90 fill-white " /></button
-						>
-						{#key hero.id}
+		<div class=" absolute top-0 left-0 bottom-0">
+			<div
+				bind:this={scrollContainer}
+				class="hide-scroll flex h-full w-full transform-gpu snap-x snap-mandatory overflow-x-scroll scroll-smooth"
+			>
+				{#if home?.homeHeroSection.length !== 0}
+					{#each home?.homeHeroSection ?? [] as hero}
+						{@const imageUrl = hero?.BackgroundImage.data?.attributes?.url}
+						<div class="snap-center min-w-full relative">
+							<img
+								class="object-cover w-full h-full max-h-[890px]"
+								alt={`${hero?.heroTitle}`}
+								src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
+							/>
 							<div
-								class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1136px] mx-auto w-full"
-							>
+								class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-transparent"
+							></div>
+
+							{#key hero.id}
 								<div
-									transition:slide={{
-										axis: 'x',
-										duration: 500,
-										easing: sineIn
-									}}
-									class="text-white max-w-2xl"
+									class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1136px] mx-auto w-full"
 								>
-									<h1 class="text-3xl font-bold mb-2">{hero?.heroTitle}</h1>
-									<p class=" text-base font-normal leading-normal">
-										{hero?.heroDescription}
-									</p>
+									<div
+										transition:slide={{
+											axis: 'x',
+											duration: 500,
+											easing: sineIn
+										}}
+										class="text-white max-w-2xl"
+									>
+										<h1 class="text-3xl font-bold mb-2">{hero?.heroTitle}</h1>
+										<p class=" text-base font-normal leading-normal">
+											{hero?.heroDescription}
+										</p>
+									</div>
 								</div>
-							</div>
-						{/key}
-					</div>
-				{/each}
-			{/if}
+							{/key}
+						</div>
+					{/each}
+				{/if}
+			</div>
+			<button
+				on:click={scrollLeft}
+				class="group p-2 absolute left-8 top-1/2 transform -translate-y-1/2"
+			>
+				<span
+					class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
+				></span>
+				<CaretDown class="w-6 h-6 scale-150 rotate-90 fill-white" />
+			</button>
+			<button
+				on:click={scrollRight}
+				class=" group p-2 absolute right-8 top-1/2 transform -translate-y-1/2"
+			>
+				<span
+					class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
+				></span>
+				<CaretDown class="w-6 h-6 scale-150 -rotate-90 fill-white " /></button
+			>
 		</div>
 
 		<div class=" absolute bottom-0 w-full">

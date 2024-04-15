@@ -1,5 +1,6 @@
 <script>
 	import IGAD_LOGO from '$lib/assets/igad-logo.png';
+	import { fade } from 'svelte/transition';
 	let name = '';
 	let email = '';
 	let showCongrats = false;
@@ -12,7 +13,13 @@
 	export let show = false;
 </script>
 
-<div class="fixed top-0 z-50 left-0 w-full h-full flex items-center justify-center">
+<div
+	transition:fade={{
+		delay: 0,
+		duration: 300
+	}}
+	class="fixed top-0 z-50 left-0 w-full h-full flex items-center justify-center"
+>
 	<div class="bg-primary/80 backdrop-blur-sm -z-10 absolute inset-0"></div>
 
 	<button
@@ -60,7 +67,7 @@
 	{:else}
 		<div class="bg-white p-8 rounded-md shadow-lg">
 			<h2 class="mb-4 text-primary font-bold text-2xl">Congratulations!</h2>
-			<p class="text-secondary">You have successfully registered.</p>
+			<p class="text-zinc-600">You have successfully registered.</p>
 		</div>
 	{/if}
 </div>
