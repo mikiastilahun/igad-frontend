@@ -19,6 +19,7 @@
 	import { fly, crossfade, slide } from 'svelte/transition';
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
+	import IGADMapD3 from '$lib/components/igad-map-d3/igad-map-d3.svelte';
 
 	export let data;
 
@@ -27,7 +28,7 @@
 	let scrollContainer: HTMLElement;
 	let direction = 1;
 
-	onMount(() => {
+	onMount(async () => {
 		if (scrollContainer && scrollContainer.firstChild) {
 			const imageWidth = (scrollContainer.firstChild as HTMLElement).offsetWidth;
 			setInterval(() => {
@@ -176,6 +177,7 @@
 			pellentesque aliquam. Vitae eu duis vel nunc ullamcorper. Vehicula eu mi nisl massa. Lectus
 			quam sit sit senectus vitae ante eget. Donec ut nunc velit in. Aliquam non proin vitae ac.
 		</p>
+		<IGADMapD3 />
 		<enhanced:img class=" object-cover w-full h-full" src={ChartsImg} alt="alt text" />
 	</section>
 	<!-- IGAD support platform -->

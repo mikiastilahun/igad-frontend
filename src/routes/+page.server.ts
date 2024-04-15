@@ -1,6 +1,6 @@
 import type { Load } from '@sveltejs/kit';
 import { PUBLIC_STRAPI_URL } from '$env/static/public';
-
+import * as geoJson from 'world-geojson'
 type Stat = {
 	id: number;
 	label: string;
@@ -94,8 +94,29 @@ export const load: Load = async ({ fetch }) => {
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
 
+
+		// East Africa GeoJson
+		// const eastAfricanCountries = geoJson.default.combineGeoJson([
+		// 	{ countryName: 'Egypt' },
+		// 	{ countryName: 'Sudan' },
+		// 	{ countryName: 'South Sudan' },
+		// 	{ countryName: 'Eritrea' },
+		// 	{ countryName: 'Djibouti' },
+		// 	{ countryName: 'Ethiopia' },
+		// 	{ countryName: 'Somalia' },
+		// 	{ countryName: 'Kenya' },
+		// 	{ countryName: 'Uganda' },
+		// 	{ countryName: 'Rwanda' },
+		// 	{ countryName: 'Burundi' },
+		// 	{ countryName: 'Tanzania' },
+		// 	{ countryName: 'Chad' }
+		// ]);
+
+		const geoData = await fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/counties-albers-10m.json')
+		const eastAfricanCountries = await geoData.json();
+
 		const data: ApiResponse = await response.json();
-		return { data };
+		return { data, eastAfricanCountries };
 	} catch (e: unknown) {
 		console.log({ e });
 		return { error: (e as Error).message };
