@@ -270,7 +270,7 @@
 
 	<!-- news section -->
 	<section class="max-w-[1136px] mx-auto py-10">
-		<div class=" flex items-start gap-16 w-full">
+		<div class=" flex gap-16 w-full items-stretch">
 			<!-- news -->
 			<div class="flex flex-col gap-5 justify-center items-start">
 				<h2 class="text-2xl font-bold">News and Updates</h2>
@@ -292,10 +292,10 @@
 				<a href="/news" class="mt-4 bg-primary text-white px-4 py-2 rounded-md">Read More</a>
 			</div>
 			<!-- featured -->
-			<div class="relative flex-1 hover:cursor-pointer">
+			<div class="flex-1 relative hover:cursor-pointer">
 				<div class="absolute top-0 left-0 h-full w-full bg-black opacity-60 rounded-md"></div>
 				<enhanced:img
-					class="object-cover rounded-md"
+					class="object-cover rounded-md h-full"
 					src={news?.[0].attributes.thumbnail.data.attributes.url
 						? `${PUBLIC_STATIC_URL}${news?.[0].attributes.thumbnail.data.attributes.url}`
 						: NewsImg2}

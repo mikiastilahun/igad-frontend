@@ -1,6 +1,7 @@
 <script>
 	import IGAD_LOGO from '$lib/assets/igad-logo.png';
 	import { fade } from 'svelte/transition';
+	import { linear } from 'svelte/easing';
 	let name = '';
 	let email = '';
 	let showCongrats = false;
@@ -16,7 +17,8 @@
 <div
 	transition:fade={{
 		delay: 0,
-		duration: 300
+		duration: 150,
+		easing: linear
 	}}
 	class="fixed top-0 z-50 left-0 w-full h-full flex items-center justify-center"
 >
