@@ -67,7 +67,7 @@
 		},
 		{
 			title: 'Support Platforms',
-			href: '/support-platform'
+			href: 'https://igadsupportplatform.org/'
 		},
 		{
 			title: 'Data and Statistics',
