@@ -145,7 +145,7 @@
 	<div class="flex flex-col">
 		{#each Object.keys(groupedEvents) as month, i}
 			<div class="flex gap-4">
-				<span class="w-20 text-gray-500">{month}</span>
+				<span class="min-w-20 text-gray-500">{month}</span>
 				<div class="flex flex-col">
 					{#each groupedEvents[month] as event, index}
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
