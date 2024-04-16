@@ -8,6 +8,10 @@
 	import Web from '$lib/assets/icons/web.svg.svelte';
 	import Google from '$lib/assets/icons/google.svg.svelte';
 	import Outlook from '$lib/assets/icons/microsoft.svg.svelte';
+
+	export let data;
+
+	const event = data.data?.eventData.data.attributes;
 </script>
 
 <div class="p-4">
@@ -15,17 +19,16 @@
 		<div class="relative max-w-[1136px] mx-auto w-full">
 			<div class="text-white max-w-2xl">
 				<h1 class="text-xl font-bold mb-2">
-					Launching of the Regional Food Systems Resilience Program for Eastern & Southern Africa
-					(FSRP)
+					{event?.title}
 				</h1>
 
 				<div class="flex gap-2 items-center">
 					<img class="w-4 h-4" src={Location} alt="location" />
-					<span class="text-secondary">Addis Ababa</span>
+					<span class="text-secondary">{event?.location}</span>
 				</div>
 				<div class="flex gap-2 items-center">
 					<img class="w-4 h-4" src={Time} alt="time" />
-					<span class="text-secondary">21:30 EST </span>
+					<span class="text-secondary">{new Date(event?.date || '')} </span>
 				</div>
 			</div>
 		</div>
@@ -79,12 +82,7 @@
 
 			<!-- MARKDOWN -->
 			<p>
-				Lorem ipsum dolor sit amet consectetur. Redirect to another link pretium sit nibh sapien vel
-				phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
-				Sodales pulvinar facilisi donec facilisis lorem lectus. Nec feugiat pharetra diam faucibus
-				felis aliquam lectus nibh. Praesent mauris eget sollicitudin donec neque risus interdum
-				pellentesque aliquam. Vitae eu duis vel nunc ullamcorper. Vehicula eu mi nisl massa. Lectus
-				quam sit sit senectus vitae ante eget. Donec ut nunc velit in. Aliquam non proin vitae ac.
+				{event?.description}
 			</p>
 		</div>
 		<!-- box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.25);

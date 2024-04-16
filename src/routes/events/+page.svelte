@@ -5,65 +5,80 @@
 	import Search from '$lib/assets/icons/search.svg.svelte';
 	import IGADLogo from '$lib/assets/igad-logo.png';
 	import { InlineCalendar } from 'svelte-calendar';
+	import { goto } from '$app/navigation';
+
+	export let data;
 
 	type eventType = {
 		date: string;
 		title: string;
 		time: string;
 		location: string;
-		id: string;
+		id: number;
 		description: string;
 	};
 
 	// Mock data for events array date format: yyyy-mm-dd and use multiple months for testing
-	let events: eventType[] = [
-		{
-			date: '2022-01-15',
-			description:
-				'Launching of the Regional Food Systems Resilience Program for Eastern & Southern Africa (FSRP)',
-			time: '21:30 EST',
-			location: 'Addis Ababa',
-			id: '1',
-			title: 'This is the title'
-		},
+	// let events: eventType[] = [
+	// 	{
+	// 		date: '2022-01-15',
+	// 		description:
+	// 			'Launching of the Regional Food Systems Resilience Program for Eastern & Southern Africa (FSRP)',
+	// 		time: '21:30 EST',
+	// 		location: 'Addis Ababa',
+	// 		id: '1',
+	// 		title: 'This is the title'
+	// 	},
 
-		{
-			date: '2022-02-15',
-			description:
-				'Launching of the Regional Food Systems Resilience Program for Eastern & Southern Africa (FSRP)',
-			time: '21:30 EST',
-			location: 'Addis Ababa',
-			id: '2',
-			title: 'This is the title'
-		},
-		{
-			date: '2022-01-15',
-			description:
-				'Launching of the Regional Food Systems Resilience Program for Eastern & Southern Africa (FSRP)',
-			time: '21:30 EST',
-			location: 'Addis Ababa',
-			id: '99',
-			title: 'This is the title'
-		},
-		{
-			date: '2022-03-15',
-			description:
-				'Launching of the Regional Food Systems Resilience Program for Eastern & Southern Africa (FSRP)',
-			time: '21:30 EST',
-			location: 'Addis Ababa',
-			id: '3',
-			title: 'This is the title'
-		},
-		{
-			date: '2022-03-15',
-			description:
-				'Launching of the Regional Food Systems Resilience Program for Eastern & Southern Africa (FSRP)',
-			time: '21:30 EST',
-			location: 'Addis Ababa',
-			id: '3',
-			title: 'This is the title'
-		}
-	];
+	// 	{
+	// 		date: '2022-02-15',
+	// 		description:
+	// 			'Launching of the Regional Food Systems Resilience Program for Eastern & Southern Africa (FSRP)',
+	// 		time: '21:30 EST',
+	// 		location: 'Addis Ababa',
+	// 		id: '2',
+	// 		title: 'This is the title'
+	// 	},
+	// 	{
+	// 		date: '2022-01-15',
+	// 		description:
+	// 			'Launching of the Regional Food Systems Resilience Program for Eastern & Southern Africa (FSRP)',
+	// 		time: '21:30 EST',
+	// 		location: 'Addis Ababa',
+	// 		id: '99',
+	// 		title: 'This is the title'
+	// 	},
+	// 	{
+	// 		date: '2022-03-15',
+	// 		description:
+	// 			'Launching of the Regional Food Systems Resilience Program for Eastern & Southern Africa (FSRP)',
+	// 		time: '21:30 EST',
+	// 		location: 'Addis Ababa',
+	// 		id: '3',
+	// 		title: 'This is the title'
+	// 	},
+	// 	{
+	// 		date: '2022-03-15',
+	// 		description:
+	// 			'Launching of the Regional Food Systems Resilience Program for Eastern & Southern Africa (FSRP)',
+	// 		time: '21:30 EST',
+	// 		location: 'Addis Ababa',
+	// 		id: '3',
+	// 		title: 'This is the title'
+	// 	}
+	// ];
+
+	let events: eventType[] =
+		data.data?.eventData.data.map((event) => {
+			return {
+				date: event.attributes.date,
+				description: event.attributes.description,
+				time: new Date(event.attributes.date).toISOString().split('T')[1].slice(0, 5).toString(),
+				location: event.attributes.location,
+				id: event.id,
+				title: event.attributes.title
+			};
+		}) ?? [];
 
 	// Group events by month
 	let groupedEvents = events.reduce(
@@ -133,13 +148,20 @@
 				<span class="w-20 text-gray-500">{month}</span>
 				<div class="flex flex-col">
 					{#each groupedEvents[month] as event, index}
-						<div class="flex gap-4 hover:cursor-pointer group/evt">
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
+						<!-- svelte-ignore a11y-no-static-element-interactions -->
+						<div
+							class="flex gap-4 hover:cursor-pointer group/evt"
+							on:click={() => {
+								goto(`events/${event.id}`);
+							}}
+						>
 							<!-- indicator -->
 							<div class="h-full flex flex-col relative">
 								<div
 									class=" group-hover/evt:shadow-[0_0_0_3px_white,0_0_0_6px_green] group-hover/evt:border-0 group-hover/evt:text-white group-hover/evt:bg-primary text-gray-500 border border-gray-500 w-8 h-8 shrink-0 rounded-full flex justify-center items-center transition-all duration-200"
 								>
-									{event.date.split('-')[2]}
+									{new Date(event.date).getDate()}
 								</div>
 
 								{#if i === Object.keys(groupedEvents).length - 1 && index + 1 === groupedEvents[month].length}
@@ -152,7 +174,7 @@
 							<!-- content -->
 							<div class="flex flex-col pb-8 gap-1">
 								<p
-									class="font-semibold leading-5 group-hover/evt:text-primary transition-colors duration-150"
+									class="font-semibold leading-5 group-hover/evt:text-primary transition-colors duration-150 line-clamp-2"
 								>
 									{event.description}
 								</p>
@@ -188,7 +210,7 @@
 						<input
 							type="text"
 							class="w-full px-4 py-2 text-lg font-normal text-gray-800 bg-gray-300/30 border rounded-md focus:outline-none focus:ring-1 focus:ring-primary pr-10"
-							placeholder="Search for publications"
+							placeholder="Search for events"
 						/>
 						<button class="absolute right-0 px-4 py-2 text-white rounded-r-md">
 							<Search class="w-6 h-6" />
