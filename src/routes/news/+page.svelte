@@ -3,6 +3,11 @@
 	import FeaturedNewsCard from '$lib/components/_shared/featured-news-card/featured-news-card.svelte';
 	import NewsImg2 from '$lib/assets/temp/news-2.png?enhanced';
 	import Card from '$lib/components/_shared/card/card.svelte';
+	import { PUBLIC_STATIC_URL } from '$env/static/public';
+
+	export let data;
+
+	const news = data.data?.newsData.data;
 </script>
 
 <div class="p-4">
@@ -35,18 +40,32 @@
 			<h2 class="text-2xl font-bold">Latest News</h2>
 			<!-- news card -->
 			<div class="flex flex-col gap-5">
-				<FeaturedNewsCard />
-				<FeaturedNewsCard />
-				<FeaturedNewsCard />
+				{#if news?.length !== 0}
+					{#each news?.slice(1, 4) ?? [] as newsItem}
+						<FeaturedNewsCard
+							title={newsItem.attributes.title}
+							content={newsItem.attributes.content}
+							date={newsItem.attributes.date}
+							imgSrc={`${PUBLIC_STATIC_URL}${newsItem.attributes.thumbnail.data.attributes.url}`}
+							id={newsItem.id}
+						/>
+					{/each}
+				{/if}
 			</div>
 		</div>
 		<!-- featured -->
-		<div class="relative">
+		<div class="relative flex-1 hover:cursor-pointer">
 			<div class="absolute top-0 left-0 h-full w-full bg-black opacity-60 rounded-md"></div>
-			<enhanced:img class="object-cover rounded-md" src={NewsImg2} alt="alt text" />
+			<enhanced:img
+				class="object-cover rounded-md"
+				src={news?.[0].attributes.thumbnail.data.attributes.url
+					? `${PUBLIC_STATIC_URL}${news?.[0].attributes.thumbnail.data.attributes.url}`
+					: NewsImg2}
+				alt="alt text"
+			/>
 			<div class="absolute bottom-0 px-8 pb-8 text-white">
 				<span class="text-base leading-normal">Debits - 03 June, 2023</span>
-				<h3 class="text-3xl font-bold leading-normal">LOREM IMPUSM DOLOR SIA EMET IPSUM LOREM</h3>
+				<h3 class="text-3xl font-bold leading-normal">{news?.[0].attributes.title}</h3>
 			</div>
 		</div>
 	</div>

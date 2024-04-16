@@ -121,10 +121,35 @@ type LearningData = {
 	}[];
 	meta: any;
 };
+type NewsData = {
+	data: {
+		id: number;
+		attributes: {
+			title: string;
+			content: string;
+			date: string;
+			createdAt: string;
+			updatedAt: string;
+			thumbnail: {
+				data: {
+					id: number;
+					attributes: {
+						name: string;
+						width: number;
+						height: number;
+						url: string;
+					};
+				};
+			};
+		};
+	}[];
+	meta: any;
+};
 
 type ApiResponse = {
 	homeData: Data;
 	learningData: LearningData;
+	newsData: NewsData;
 };
 
 export const load: Load = async ({ fetch }) => {
@@ -150,12 +175,22 @@ export const load: Load = async ({ fetch }) => {
 		if (!learningResponse.ok) {
 			throw new Error(`HTTP error! status: ${learningResponse.status}`);
 		}
+
+		const newsResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/articles?populate=*`);
+
+		console.log({ newsResponse });
+		if (!newsResponse.ok) {
+			throw new Error(`HTTP error! status: ${newsResponse.status}`);
+		}
+
 		const homeData = await response.json();
 		const learningData = await learningResponse.json();
+		const newsData = await newsResponse.json();
 
 		const data: ApiResponse = {
 			homeData: homeData,
-			learningData: learningData
+			learningData: learningData,
+			newsData: newsData
 		};
 		return { data };
 	} catch (e: unknown) {
