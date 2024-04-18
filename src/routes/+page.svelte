@@ -73,7 +73,7 @@
 
 <div class="">
 	<!-- hero section -->
-	<section class="relative h-[1000px] md:h-screen md:max-h-[890px] flex items-center">
+	<section class="w-full relative h-[1000px] md:h-screen md:max-h-[890px] flex items-center">
 		<div class=" absolute top-0 left-0 bottom-0">
 			<div
 				bind:this={scrollContainer}
@@ -273,13 +273,13 @@
 	{/if}
 
 	<!-- news section -->
-	<section class="max-w-[1136px] mx-auto py-10">
-		<div class=" flex gap-16 w-full items-stretch">
+	<section class="max-w-[1136px] mx-auto py-10 px-8 md:px-4">
+		<div class=" flex flex-col-reverse lg:flex-row flex-wrap gap-16 w-full items-stretch">
 			<!-- news -->
 			<div class="flex flex-col gap-5 justify-center items-start">
-				<h2 class="text-2xl font-bold">News and Updates</h2>
+				<h2 class="text-2xl hidden lg:inline-block font-bold">News and Updates</h2>
 				<!-- news card -->
-				<div class="flex flex-col gap-5">
+				<div class="flex flex-col gap-5 w-full">
 					{#if news?.length !== 0}
 						{#each news?.slice(1, 4) ?? [] as newsItem}
 							<FeaturedNewsCard
@@ -306,18 +306,21 @@
 					alt="alt text"
 				/>
 				<div class="absolute bottom-0 px-8 pb-8 text-white">
-					<span class="text-base leading-normal">Debits - 03 June, 2023</span>
-					<h3 class="text-3xl font-bold leading-normal">{news?.[0].attributes.title}</h3>
+					<span class="text-sm md:text-base leading-normal">Debits - 03 June, 2023</span>
+					<h3 class="text-lg sm:text-xl md:text-3xl font-semibold md:font-bold md:leading-normal">
+						{news?.[0].attributes.title}
+					</h3>
 				</div>
 			</div>
+			<h2 class="text-2xl lg:hidden inline-block font-bold">News and Updates</h2>
 		</div>
 	</section>
 
 	<!-- Partners -->
-	<section class="mx-auto max-w-[1136px]">
+	<section class="mx-auto max-w-[1136px] px-8 md:px-4">
 		<div class="w-full py-20 flex-col justify-start items-center gap-10 inline-flex">
 			<h5 class="text-neutral-400 font-bold text-lg">{home?.partnersTitle}</h5>
-			<div class="w-full grid grid-cols-4 gap-4">
+			<div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4">
 				{#if home?.partner.length !== 0}
 					{#each home?.partner ?? [] as partner}
 						<div class="flex justify-center">
@@ -333,19 +336,6 @@
 						</div>
 					{/each}
 				{/if}
-
-				<!-- <div class="flex justify-center">
-					<Logoipsum />
-				</div>
-				<div class="flex justify-center">
-					<Logoipsum />
-				</div>
-				<div class="flex justify-center">
-					<Logoipsum />
-				</div>
-				<div class="flex justify-center">
-					<Logoipsum />
-				</div> -->
 			</div>
 		</div>
 	</section>
