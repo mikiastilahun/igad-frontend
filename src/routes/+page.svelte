@@ -177,11 +177,13 @@
 
 	<!-- stats -->
 	<section class=" bg-primary">
-		<div class="px-4 lg:px-0 py-8 max-w-[1136px] mx-auto flex justify-between items-center">
+		<div
+			class="px-4 lg:px-0 py-8 max-w-[1136px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 justify-items-center items-center text-center"
+		>
 			{#if home?.firstStat}
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.firstStat.value}</h2>
-					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+					<p class="font-semibold text-base md:text-lg flex flex-col items-center leading-normal">
 						<span>{home.firstStat.label}</span>
 					</p>
 				</div>
@@ -189,7 +191,7 @@
 			{#if home?.secondStat}
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.secondStat.value}</h2>
-					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+					<p class="font-semibold text-base md:text-lg flex flex-col items-center leading-normal">
 						<span>{home.secondStat.label}</span>
 					</p>
 				</div>
@@ -197,7 +199,7 @@
 			{#if home?.thirdStat}
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.thirdStat.value}</h2>
-					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+					<p class="font-semibold text-base md:text-lg flex flex-col items-center leading-normal">
 						<span>{home.thirdStat?.label}</span>
 					</p>
 				</div>
@@ -205,7 +207,7 @@
 			{#if home?.forthStat}
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.forthStat.value}</h2>
-					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+					<p class="font-semibold text-base md:text-lg flex flex-col items-center leading-normal">
 						<span>{home.forthStat.label}</span>
 					</p>
 				</div>
@@ -214,7 +216,7 @@
 	</section>
 
 	<!-- Regional Statistics -->
-	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
+	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
 		<h2 class="text-2xl font-bold leading-normal">{home?.regionalStatisticsTitle}</h2>
 		<p class="text-base leading-normal">
 			{home?.regionalStatisticsDescription}
@@ -222,7 +224,7 @@
 		<enhanced:img class=" object-cover w-full h-full" src={ChartsImg} alt="alt text" />
 	</section>
 	<!-- IGAD support platform -->
-	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
+	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
 		<h2 class="text-2xl font-bold leading-normal">{home?.SupportplatformTitle}</h2>
 		<p class="text-base leading-normal">
 			<SvelteMarkdown source={home?.supportPlatformContent} />
@@ -230,9 +232,9 @@
 	</section>
 
 	<!-- Quick Learning Links -->
-	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
+	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
 		<h2 class="text-2xl font-bold leading-normal">Quick Learning Links</h2>
-		<div class="grid grid-cols-4 gap-4">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-4">
 			<!-- cards -->
 			{#if learningLinks?.length !== 0}
 				{#each learningLinks ?? [] as link}
@@ -251,7 +253,7 @@
 					class="rounded-lg absolute top-0 left-0 w-full h-full flex justify-center items-center"
 				>
 					<div
-						class="rounded-lg bg-black/80 p-8 h-full gap-2 flex justify-center items-center flex-col"
+						class="w-full rounded-lg bg-black/80 p-8 h-full gap-2 flex justify-center items-center flex-col"
 					>
 						<h3 class="text-3xl font-bold text-white">Register Here</h3>
 						<p class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
