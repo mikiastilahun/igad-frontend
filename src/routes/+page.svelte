@@ -73,7 +73,7 @@
 
 <div class="">
 	<!-- hero section -->
-	<section class="relative h-screen max-h-[890px] flex items-center">
+	<section class="relative h-[1000px] md:h-screen md:max-h-[890px] flex items-center">
 		<div class=" absolute top-0 left-0 bottom-0">
 			<div
 				bind:this={scrollContainer}
@@ -84,17 +84,17 @@
 						{@const imageUrl = hero?.BackgroundImage.data?.attributes?.url}
 						<div class="snap-center min-w-full relative">
 							<img
-								class="object-cover w-full h-full max-h-[890px]"
+								class="object-cover w-full h-full md:max-h-[890px]"
 								alt={`${hero?.heroTitle}`}
 								src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
 							/>
 							<div
-								class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-transparent"
+								class=" absolute top-0 left-0 w-full h-full md:bg-gradient-to-r bg-gradient-to-t from-black/80 from-55% md:from-50% to-transparent"
 							></div>
 
 							{#key hero.id}
 								<div
-									class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1136px] mx-auto w-full"
+									class=" absolute top-[40%] sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1136px] mx-auto w-full px-8 md:px-4 flex justify-center md:justify-start items-center gap-4"
 								>
 									<div
 										transition:slide={{
@@ -104,8 +104,10 @@
 										}}
 										class="text-white max-w-2xl"
 									>
-										<h1 class="text-3xl font-bold mb-2">{hero?.heroTitle}</h1>
-										<p class=" text-base font-normal leading-normal">
+										<h1 class="text-2xl md:text-3xl font-bold mb-2">
+											{hero?.heroTitle}
+										</h1>
+										<p class=" text-base md:text-base font-normal leading-normal">
 											{hero?.heroDescription}
 										</p>
 									</div>
@@ -115,9 +117,9 @@
 					{/each}
 				{/if}
 			</div>
-			<button
+			<!-- <button
 				on:click={scrollLeft}
-				class="group p-2 absolute left-8 top-1/2 transform -translate-y-1/2"
+				class="group p-2 absolute left-0 md:left-8 top-[30%] sm:top-1/2 transform -translate-y-1/2"
 			>
 				<span
 					class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
@@ -126,30 +128,30 @@
 			</button>
 			<button
 				on:click={scrollRight}
-				class=" group p-2 absolute right-8 top-1/2 transform -translate-y-1/2"
+				class=" group p-2 absolute right-0 md:right-8 top-[30%] sm:top-1/2 transform -translate-y-1/2"
 			>
 				<span
 					class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
 				></span>
 				<CaretDown class="w-6 h-6 scale-150 -rotate-90 fill-white " /></button
-			>
+			> -->
 		</div>
 
 		<div class=" absolute bottom-0 w-full">
 			<div
-				class="max-w-[1136px] mx-auto text-white pb-10 flex justify-between items-start rounded-lg"
+				class="max-w-[1136px] mx-auto text-white pb-8 sm:pb-16 md:pb-10 grid grid-cols-2 sm:grid-cols-3 gap-8 justify-items-center md:flex justify-between items-start rounded-lg px-8 md:px-4"
 			>
 				{#if home?.priorityAreas.length !== 0}
 					{#each home?.priorityAreas ?? [] as area}
 						<div
-							class=" relative group flex flex-col gap-1 items-center w-36 justify-center text-center"
+							class="  relative group flex flex-col gap-1 items-center w-36 justify-center text-center"
 						>
 							<img
 								class=""
 								src={`${PUBLIC_STATIC_URL}${area.icon.data[0].attributes.url}`}
 								alt="alt text"
 							/>
-							<span class="text-center text-sm">{area.title} </span>
+							<span class="text-center text-xs md:text-sm">{area.title} </span>
 
 							<div
 								class="opacity-0 w-full bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full mb-2 px-2 pointer-events-none"
