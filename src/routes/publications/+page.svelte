@@ -11,7 +11,7 @@
 	let yearValue: string | null = '2019';
 </script>
 
-<div class="p-4">
+<div class="md:p-4">
 	<section class="relative min-h-[674px] flex items-center rounded-lg">
 		<img
 			class="absolute inset-0 object-cover w-full h-full rounded-lg"
@@ -21,7 +21,7 @@
 		<div
 			class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-transparent rounded-lg"
 		></div>
-		<div class="relative max-w-[1136px] mx-auto w-full">
+		<div class="relative max-w-[1136px] mx-auto w-full px-4 md:px-2">
 			<div class="text-white max-w-2xl">
 				<h1 class="text-3xl font-bold mb-2">Reports and Publications</h1>
 				<p class=" text-base font-normal leading-normal">
@@ -35,9 +35,9 @@
 </div>
 
 <!-- Featured -->
-<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-8">
+<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-8 px-4 sm:px-8 md:px-2">
 	<h2 class="text-2xl font-bold leading-normal">Featured</h2>
-	<div class="grid grid-cols-4 gap-4">
+	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
 		<!-- cards -->
 		<Card />
 		<Card />
@@ -63,11 +63,11 @@
 </section>
 
 <!-- All Publications -->
-<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-8">
+<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-8 px-4 md:px-2">
 	<h2 class="text-2xl font-bold leading-normal">All Publications</h2>
-	<div class="flex gap-8 p-4">
+	<div class="flex gap-8 p-4 flex-col md:flex-row">
 		<!-- filter -->
-		<div class="max-w-[250px] w-full border border-black/5 p-6 grid gap-4 h-full">
+		<div class=" w-full border border-black/5 p-6 grid gap-4 h-full">
 			<h2 class="text-2xl font-bold">Filters</h2>
 
 			<div class="flex flex-col gap-3">
@@ -114,12 +114,11 @@
 		<div class="grid gap-5">
 			{#each Array(4) as _}
 				<!-- cards -->
-				<div class="flex flex-row gap-5 rounded-lg">
-					<div class="w-[245px] h-[150px] flex-none rounded-lg">
+				<div class="flex flex-col lg:flex-row gap-4 md:gap-5 rounded-lg">
+					<div class="w-full lg:w-[245px] h-[200px] lg:h-auto flex-none rounded-lg">
 						<img
-							width="245px"
 							height="150px"
-							class=" flex-1 h-full object-contain bg-primary rounded-lg"
+							class="w-full flex-1 h-full object-contain bg-primary rounded-b-none rounded-lg md:rounded-b-lg"
 							src={IGADLogo}
 							alt="Card "
 						/>
