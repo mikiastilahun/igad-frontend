@@ -190,7 +190,7 @@
 		</div>
 	</header>
 
-	<div class="lg:hidden flex justify-end pr-5 pt-5 relative z-50">
+	<div class="lg:hidden flex justify-end pr-8 pt-8 relative z-50">
 		<div
 			class="lg:hidden flex justify-center items-center w-11 h-11 bg-white rounded-full text-right"
 		>
@@ -200,7 +200,7 @@
 					isMobileOpen ? (isMobileOpen = false) : (isMobileOpen = true);
 				}}
 				on:keypress
-				class="text-gugut-text"
+				class=""
 			>
 				<div>
 					<button class=" relative group">
