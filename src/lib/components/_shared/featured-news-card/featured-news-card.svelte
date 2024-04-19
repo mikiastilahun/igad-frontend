@@ -26,7 +26,9 @@
 
 	<div class="flex flex-col gap-1 w-full lg:max-w-60 flex-1">
 		<span class="text-xs leading-normal text-black/60">{date}</span>
-		<h4 class="text-xl font-bold leading-normal line-clamp-2 ...">{title}</h4>
+		<h4 class="text-lg md:text-xl font-bold leading-tight md:leading-normal line-clamp-2 ...">
+			{title}
+		</h4>
 		<p class="text-sm text-gray-500 line-clamp-3 ...">
 			{content}
 		</p>
