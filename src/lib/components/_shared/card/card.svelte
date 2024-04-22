@@ -11,7 +11,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="flex flex-col bg-white rounded-lg hover:shadow-md shadow transition-all overflow-hidden w-full max-w-xs mx-auto hover:cursor-pointer"
+	class="flex flex-col bg-white rounded-lg hover:shadow-md shadow transition-all overflow-hidden w-full mx-auto hover:cursor-pointer"
 	on:click={() => {
 		if (link) {
 			window.open(link, '_blank');

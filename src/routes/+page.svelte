@@ -73,7 +73,7 @@
 
 <div class="">
 	<!-- hero section -->
-	<section class="relative h-screen max-h-[890px] flex items-center">
+	<section class="w-full relative h-[1000px] md:h-screen md:max-h-[890px] flex items-center">
 		<div class=" absolute top-0 left-0 bottom-0">
 			<div
 				bind:this={scrollContainer}
@@ -84,17 +84,17 @@
 						{@const imageUrl = hero?.BackgroundImage.data?.attributes?.url}
 						<div class="snap-center min-w-full relative">
 							<img
-								class="object-cover w-full h-full max-h-[890px]"
+								class="object-cover w-full h-full md:max-h-[890px]"
 								alt={`${hero?.heroTitle}`}
 								src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
 							/>
 							<div
-								class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-transparent"
+								class=" absolute top-0 left-0 w-full h-full md:bg-gradient-to-r bg-gradient-to-t from-black/80 from-55% md:from-50% to-transparent"
 							></div>
 
 							{#key hero.id}
 								<div
-									class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1136px] mx-auto w-full"
+									class=" absolute top-[40%] sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1136px] mx-auto w-full px-8 md:px-4 flex justify-center md:justify-start items-center gap-4"
 								>
 									<div
 										transition:slide={{
@@ -104,8 +104,10 @@
 										}}
 										class="text-white max-w-2xl"
 									>
-										<h1 class="text-3xl font-bold mb-2">{hero?.heroTitle}</h1>
-										<p class=" text-base font-normal leading-normal">
+										<h1 class="text-2xl md:text-3xl font-bold mb-2">
+											{hero?.heroTitle}
+										</h1>
+										<p class=" text-base md:text-base font-normal leading-normal">
 											{hero?.heroDescription}
 										</p>
 									</div>
@@ -115,9 +117,9 @@
 					{/each}
 				{/if}
 			</div>
-			<button
+			<!-- <button
 				on:click={scrollLeft}
-				class="group p-2 absolute left-8 top-1/2 transform -translate-y-1/2"
+				class="group p-2 absolute left-0 md:left-8 top-[30%] sm:top-1/2 transform -translate-y-1/2"
 			>
 				<span
 					class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
@@ -126,30 +128,30 @@
 			</button>
 			<button
 				on:click={scrollRight}
-				class=" group p-2 absolute right-8 top-1/2 transform -translate-y-1/2"
+				class=" group p-2 absolute right-0 md:right-8 top-[30%] sm:top-1/2 transform -translate-y-1/2"
 			>
 				<span
 					class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
 				></span>
 				<CaretDown class="w-6 h-6 scale-150 -rotate-90 fill-white " /></button
-			>
+			> -->
 		</div>
 
 		<div class=" absolute bottom-0 w-full">
 			<div
-				class="max-w-[1136px] mx-auto text-white pb-10 flex justify-between items-start rounded-lg"
+				class="max-w-[1136px] mx-auto text-white pb-8 sm:pb-16 md:pb-10 grid grid-cols-2 sm:grid-cols-3 gap-8 justify-items-center md:flex justify-between items-start rounded-lg px-8 md:px-4"
 			>
 				{#if home?.priorityAreas.length !== 0}
 					{#each home?.priorityAreas ?? [] as area}
 						<div
-							class=" relative group flex flex-col gap-1 items-center w-36 justify-center text-center"
+							class="  relative group flex flex-col gap-1 items-center w-36 justify-center text-center"
 						>
 							<img
 								class=""
 								src={`${PUBLIC_STATIC_URL}${area.icon.data[0].attributes.url}`}
 								alt="alt text"
 							/>
-							<span class="text-center text-sm">{area.title} </span>
+							<span class="text-center text-xs md:text-sm">{area.title} </span>
 
 							<div
 								class="opacity-0 w-full bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full mb-2 px-2 pointer-events-none"
@@ -175,11 +177,13 @@
 
 	<!-- stats -->
 	<section class=" bg-primary">
-		<div class="px-4 lg:px-0 py-8 max-w-[1136px] mx-auto flex justify-between items-center">
+		<div
+			class="px-4 lg:px-0 py-8 max-w-[1136px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 justify-items-center items-center text-center"
+		>
 			{#if home?.firstStat}
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.firstStat.value}</h2>
-					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+					<p class="font-semibold text-base md:text-lg flex flex-col items-center leading-normal">
 						<span>{home.firstStat.label}</span>
 					</p>
 				</div>
@@ -187,7 +191,7 @@
 			{#if home?.secondStat}
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.secondStat.value}</h2>
-					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+					<p class="font-semibold text-base md:text-lg flex flex-col items-center leading-normal">
 						<span>{home.secondStat.label}</span>
 					</p>
 				</div>
@@ -195,7 +199,7 @@
 			{#if home?.thirdStat}
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.thirdStat.value}</h2>
-					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+					<p class="font-semibold text-base md:text-lg flex flex-col items-center leading-normal">
 						<span>{home.thirdStat?.label}</span>
 					</p>
 				</div>
@@ -203,7 +207,7 @@
 			{#if home?.forthStat}
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.forthStat.value}</h2>
-					<p class="font-semibold text-lg flex flex-col items-center leading-normal">
+					<p class="font-semibold text-base md:text-lg flex flex-col items-center leading-normal">
 						<span>{home.forthStat.label}</span>
 					</p>
 				</div>
@@ -212,7 +216,7 @@
 	</section>
 
 	<!-- Regional Statistics -->
-	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
+	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
 		<h2 class="text-2xl font-bold leading-normal">{home?.regionalStatisticsTitle}</h2>
 		<p class="text-base leading-normal">
 			{home?.regionalStatisticsDescription}
@@ -220,7 +224,7 @@
 		<enhanced:img class=" object-cover w-full h-full" src={ChartsImg} alt="alt text" />
 	</section>
 	<!-- IGAD support platform -->
-	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
+	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
 		<h2 class="text-2xl font-bold leading-normal">{home?.SupportplatformTitle}</h2>
 		<p class="text-base leading-normal">
 			<SvelteMarkdown source={home?.supportPlatformContent} />
@@ -228,9 +232,9 @@
 	</section>
 
 	<!-- Quick Learning Links -->
-	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3">
+	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
 		<h2 class="text-2xl font-bold leading-normal">Quick Learning Links</h2>
-		<div class="grid grid-cols-4 gap-4">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-4">
 			<!-- cards -->
 			{#if learningLinks?.length !== 0}
 				{#each learningLinks ?? [] as link}
@@ -249,7 +253,7 @@
 					class="rounded-lg absolute top-0 left-0 w-full h-full flex justify-center items-center"
 				>
 					<div
-						class="rounded-lg bg-black/80 p-8 h-full gap-2 flex justify-center items-center flex-col"
+						class="w-full rounded-lg bg-black/80 p-8 h-full gap-2 flex justify-center items-center flex-col"
 					>
 						<h3 class="text-3xl font-bold text-white">Register Here</h3>
 						<p class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -269,13 +273,13 @@
 	{/if}
 
 	<!-- news section -->
-	<section class="max-w-[1136px] mx-auto py-10">
-		<div class=" flex gap-16 w-full items-stretch">
+	<section class="max-w-[1136px] mx-auto py-10 px-8 md:px-4">
+		<div class=" flex flex-col-reverse lg:flex-row flex-wrap gap-16 w-full items-stretch">
 			<!-- news -->
 			<div class="flex flex-col gap-5 justify-center items-start">
-				<h2 class="text-2xl font-bold">News and Updates</h2>
+				<h2 class="text-2xl hidden lg:inline-block font-bold">News and Updates</h2>
 				<!-- news card -->
-				<div class="flex flex-col gap-5">
+				<div class="flex flex-col gap-5 w-full">
 					{#if news?.length !== 0}
 						{#each news?.slice(1, 4) ?? [] as newsItem}
 							<FeaturedNewsCard
@@ -302,18 +306,21 @@
 					alt="alt text"
 				/>
 				<div class="absolute bottom-0 px-8 pb-8 text-white">
-					<span class="text-base leading-normal">Debits - 03 June, 2023</span>
-					<h3 class="text-3xl font-bold leading-normal">{news?.[0].attributes.title}</h3>
+					<span class="text-sm md:text-base leading-normal">Debits - 03 June, 2023</span>
+					<h3 class="text-lg sm:text-xl md:text-3xl font-semibold md:font-bold md:leading-normal">
+						{news?.[0].attributes.title}
+					</h3>
 				</div>
 			</div>
+			<h2 class="text-2xl lg:hidden inline-block font-bold">News and Updates</h2>
 		</div>
 	</section>
 
 	<!-- Partners -->
-	<section class="mx-auto max-w-[1136px]">
+	<section class="mx-auto max-w-[1136px] px-8 md:px-4">
 		<div class="w-full py-20 flex-col justify-start items-center gap-10 inline-flex">
 			<h5 class="text-neutral-400 font-bold text-lg">{home?.partnersTitle}</h5>
-			<div class="w-full grid grid-cols-4 gap-4">
+			<div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4">
 				{#if home?.partner.length !== 0}
 					{#each home?.partner ?? [] as partner}
 						<div class="flex justify-center">
@@ -329,19 +336,6 @@
 						</div>
 					{/each}
 				{/if}
-
-				<!-- <div class="flex justify-center">
-					<Logoipsum />
-				</div>
-				<div class="flex justify-center">
-					<Logoipsum />
-				</div>
-				<div class="flex justify-center">
-					<Logoipsum />
-				</div>
-				<div class="flex justify-center">
-					<Logoipsum />
-				</div> -->
 			</div>
 		</div>
 	</section>

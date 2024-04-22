@@ -115,7 +115,7 @@
 	$: console.log({ currentDate });
 </script>
 
-<div class="p-4">
+<div class="md:p-4">
 	<section class="relative min-h-[674px] flex items-center rounded-lg">
 		<img
 			class="absolute inset-0 object-cover w-full h-full rounded-lg"
@@ -125,7 +125,7 @@
 		<div
 			class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-transparent rounded-lg"
 		></div>
-		<div class="relative max-w-[1136px] mx-auto w-full">
+		<div class="relative max-w-[1136px] mx-auto w-full px-4 md:px-8">
 			<div class="text-white max-w-2xl">
 				<h1 class="text-3xl font-bold mb-2">Events Calendar</h1>
 				<p class=" text-base font-normal leading-normal">
@@ -138,7 +138,7 @@
 	</section>
 </div>
 
-<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-10">
+<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-10 px-4 sm:px-8 md:px-4">
 	<h2 class="text-2xl font-bold leading-normal">Recent Events</h2>
 
 	<!-- Events grouped by month -->
@@ -195,11 +195,11 @@
 	</div>
 </div>
 
-<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-10">
+<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-10 px-4 sm:px-8 md:px-4">
 	<h2 class="text-2xl font-bold leading-normal">All Events Calendar</h2>
-	<div class="flex gap-5 p-5">
+	<div class="flex flex-col lg:flex-row gap-5 p-5">
 		<!-- calendar component -->
-		<div class="w-[427px]">
+		<div class="lg:w-[427px]">
 			<InlineCalendar bind:selected={currentDate} {theme} />
 		</div>
 		<div class="flex-1 flex flex-col gap-5">
@@ -222,13 +222,13 @@
 			<div class="flex flex-col gap-5">
 				{#each events as event}
 					<a href="events/{event.id}" class="flex gap-5 rounded-lg py-3 px-6 shadow-md">
-						<div class="w-[80px] h-[70px] pt-2">
-							<img class=" object-cover" src={IGADLogo} alt="Card " />
+						<div class=" pt-2">
+							<img class="w-[80px] h-[70px] object-cover" src={IGADLogo} alt="Card " />
 						</div>
 
-						<div class="p-2 flex flex-col gap-2">
-							<p class="font-semibold">{event.title}</p>
-							<p class="text-sm">{event.description}</p>
+						<div class="p-2 w-full flex flex-col gap-2">
+							<p class="font-semibold line-clamp-1">{event.title}</p>
+							<p class="text-sm line-clamp-2">{event.description}</p>
 							<div class="flex gap-2 items-center">
 								<img class="w-4 h-4" src={Time} alt="time" />
 								<span class="text-primary">{event.time}</span>
