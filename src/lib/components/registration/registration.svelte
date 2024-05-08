@@ -47,7 +47,9 @@
 		</span>
 	</button>
 	{#if !showCongrats}
-		<div class="p-8 rounded-md bg-transparent w-2/5 flex justify-center flex-col items-center">
+		<div
+			class="p-8 rounded-md bg-transparent w-full md:w-1/2 flex justify-center flex-col items-center"
+		>
 			<img src={IGAD_LOGO} class="w-16 h-w-16 m-4" alt="IGAD Logo" />
 			<h2 class="mb-4 text-white font-bold text-2xl">Register for Quick Links!</h2>
 			<input

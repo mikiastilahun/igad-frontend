@@ -256,7 +256,9 @@
 						class="w-full rounded-lg bg-black/80 p-8 h-full gap-2 flex justify-center items-center flex-col"
 					>
 						<h3 class="text-3xl font-bold text-white">Register Here</h3>
-						<p class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+						<p class="text-white text-center">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						</p>
 						<button
 							on:click={() => (showRegister = true)}
 							class="mt-4 bg-primary text-white px-4 py-2 rounded-md">Register Here</button
