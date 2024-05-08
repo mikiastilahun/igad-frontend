@@ -75,6 +75,11 @@
 				fillOpacity: 0.7
 			});
 			layer.bringToFront();
+
+			// Add this line to bind a popup to the layer
+			// layer.bindPopup(
+			// 	`<b>Country: </b>${layer.feature.properties.COUNTRY}<br/><b>Density: </b>${layer.feature.properties.density}`
+			// );
 			info.update(layer.feature.properties);
 		}
 
