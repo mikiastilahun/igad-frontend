@@ -18,3 +18,20 @@
 	/* 300ms ease-in animation runs only once with delay of 2sec */
 	animation: animate-slide 200ms ease-out;
 }
+
+/* custom css animate-slide */
+@keyframes animate-slide {
+	0% {
+		transform: translateY(-64px);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+.animate-slide {
+	/* 300ms ease-in animation runs only once with delay of 2sec */
+	animation: animate-slide 200ms ease-out;
+}
