@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { DonutChart } from '@carbon/charts-svelte';
+	import { PieChart } from '@carbon/charts-svelte';
 	import '@carbon/charts-svelte/styles.css';
 
 	export let data = [
@@ -17,8 +17,8 @@
 			alignment: 'center'
 		},
 		height: '400px',
-		theme: 'g10'
+		theme: 'g100'
 	};
 </script>
 
-<DonutChart {data} {options} />
+<PieChart {data} {options} />
