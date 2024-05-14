@@ -89,7 +89,8 @@
 		}
 
 		function zoomToFeature(e) {
-			map.fitBounds(e.target.getBounds());
+			// map.fitBounds(e.target.getBounds());
+			// TODO: Implement click event
 		}
 
 		let info = L.control();
@@ -132,7 +133,15 @@
 					: 'Hover over a country');
 		};
 
-		map = L.map('IGAD_map').setView([9.1181, 35], 5);
+		map = L.map('IGAD_map', {
+			zoomControl: false,
+			dragging: false,
+			touchZoom: false,
+			doubleClickZoom: false,
+			scrollWheelZoom: false,
+			boxZoom: false,
+			keyboard: false
+		}).setView([9.1181, 35], 5);
 		let eastAfricaBounds = L.latLngBounds([
 			[4.5, 29],
 			[15, 51]
