@@ -71,7 +71,7 @@
 		},
 		{
 			title: 'Data and Statistics',
-			href: '/data-stats'
+			href: '/statistics'
 		},
 		{
 			title: 'Resources',

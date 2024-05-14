@@ -42,7 +42,11 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@carbon/charts-svelte": "^1.15.8",
 		"@sveltejs/enhanced-img": "^0.2.0",
+		"d3": "^7.9.0",
+		"d3-cloud": "^1.2.7",
+		"d3-sankey": "^0.12.3",
 		"leaflet": "^1.9.4",
 		"node-fetch": "^3.3.2",
 		"svelte-select": "^5.8.3"
