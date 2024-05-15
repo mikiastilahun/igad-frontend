@@ -43,6 +43,9 @@ devDependencies:
   '@sveltejs/vite-plugin-svelte':
     specifier: ^3.1.0
     version: 3.1.0(svelte@4.2.16)(vite@5.2.11)
+  '@tailwindcss/typography':
+    specifier: ^0.5.13
+    version: 0.5.13(tailwindcss@3.4.3)
   '@types/eslint':
     specifier: 8.56.10
     version: 8.56.10
@@ -1126,6 +1129,18 @@ packages:
       vitefu: 0.2.5(vite@5.2.11)
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@tailwindcss/typography@0.5.13(tailwindcss@3.4.3):
+    resolution: {integrity: sha512-ADGcJ8dX21dVVHIwTRgzrcunY6YY9uSlAHHGVKvkA+vLc5qLwEszvKts40lx7z0qc4clpjclwLeK5rVCV2P/uw==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || insiders'
+    dependencies:
+      lodash.castarray: 4.4.0
+      lodash.isplainobject: 4.0.6
+      lodash.merge: 4.6.2
+      postcss-selector-parser: 6.0.10
+      tailwindcss: 3.4.3
     dev: true
 
   /@types/cookie@0.6.0:
@@ -2743,9 +2758,17 @@ packages:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
     dev: false
 
+  /lodash.castarray@4.4.0:
+    resolution: {integrity: sha512-aVx8ztPv7/2ULbArGJ2Y42bG1mEQ5mGjpdvrbJcJFU3TbYybe+QlLS4pst9zV52ymy2in1KpFPiZnAOATxD4+Q==}
+    dev: true
+
   /lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
     dev: false
+
+  /lodash.isplainobject@4.0.6:
+    resolution: {integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==}
+    dev: true
 
   /lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
@@ -3162,7 +3185,7 @@ packages:
       postcss: ^8.2.14
     dependencies:
       postcss: 8.4.38
-      postcss-selector-parser: 6.0.15
+      postcss-selector-parser: 6.0.16
     dev: true
 
   /postcss-safe-parser@6.0.0(postcss@8.4.38):
@@ -3181,6 +3204,14 @@ packages:
       postcss: ^8.4.29
     dependencies:
       postcss: 8.4.38
+    dev: true
+
+  /postcss-selector-parser@6.0.10:
+    resolution: {integrity: sha512-IQ7TZdoaqbT+LCpShg46jnZVlhWD2w6iQYAcYXfHARZ7X1t/UGhhceQDs5X0cGqKvYlHNOuv7Oa1xmb0oQuA3w==}
+    engines: {node: '>=4'}
+    dependencies:
+      cssesc: 3.0.0
+      util-deprecate: 1.0.2
     dev: true
 
   /postcss-selector-parser@6.0.15:
