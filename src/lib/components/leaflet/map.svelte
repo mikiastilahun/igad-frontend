@@ -13,7 +13,7 @@
 
 	import 'leaflet/dist/leaflet.css';
 
-	import type { Map } from 'leaflet';
+	import type { LatLngExpression, Map } from 'leaflet';
 	const eastAfricaGeoJSON = {
 		type: 'FeatureCollection',
 		features: [djibouti, eritrea, ethiopia, kenya, somalia, southSudan, sudan, uganda].map(
@@ -28,6 +28,7 @@
 
 	const loadLeaflet = async () => {
 		const L = await import('leaflet');
+		const screenWidth = window.innerWidth;
 
 		function getColor(d: number) {
 			// total number of density groups: 8
@@ -116,7 +117,7 @@
 				);
 			}
 
-			div.innerHTML = labels.join('<br>');
+			div.innerHTML = `<div class="gap-2 flex  flex-wrap scale-" ">${labels.join('<br/>')}</div>`;
 			return div;
 		};
 		info.onAdd = function (map) {
@@ -134,18 +135,24 @@
 		};
 
 		map = L.map('IGAD_map', {
-			zoomControl: false,
-			dragging: false,
-			touchZoom: false,
+			zoomControl: screenWidth <= 768 ? true : false,
+			dragging: screenWidth <= 768 ? true : false,
+			touchZoom: screenWidth <= 768 ? true : false,
 			doubleClickZoom: false,
 			scrollWheelZoom: false,
 			boxZoom: false,
 			keyboard: false
-		}).setView([9.1181, 35], 5);
-		let eastAfricaBounds = L.latLngBounds([
-			[4.5, 29],
-			[15, 51]
-		]);
+		}).setView([9.1181, 35], screenWidth <= 768 ? 4 : 5);
+		let eastAfricaBounds =
+			screenWidth <= 768
+				? L.latLngBounds([
+						[4.5, 23],
+						[10, 51]
+					])
+				: L.latLngBounds([
+						[4.5, 29],
+						[15, 51]
+					]);
 		map.setMaxBounds(eastAfricaBounds);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 19,
@@ -172,16 +179,13 @@
 </script>
 
 <div id="IGAD_map" class="relative bg-red overflow-hidden flex justify-center">
-	<div class="h-[700px] w-[800px] max-w-full bg-green-100 border-2"></div>
+	<div class="h-[400px] md:h-[700px] w-[800px] max-w-full bg-green-100 border-2"></div>
 </div>
 
 <style>
 	:global(.info) {
 		padding: 6px 8px;
-		font:
-			14px/16px Arial,
-			Helvetica,
-			sans-serif;
+		font-size: 12px;
 		background: white;
 		background: rgba(255, 255, 255, 0.8);
 		box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);

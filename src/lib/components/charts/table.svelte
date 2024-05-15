@@ -50,7 +50,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each tableData as row}
+		{#each Object.values(tableData) as row}
 			<tr class="h-[72px] border-b border-gray-200">
 				{#each Object.values(row) as cell}
 					<td class="text-stone-500 text-xs text-center font-normal">{cell}</td>

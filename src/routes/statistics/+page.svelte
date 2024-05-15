@@ -33,7 +33,7 @@
 	</section>
 </div>
 
-<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
+<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-4">
 	<h2 class="text-2xl font-bold leading-normal">Population</h2>
 	<p class="text-base leading-normal">
 		Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
@@ -55,7 +55,7 @@
 	<ChartCard title="Population" chartType="line" />
 </section>
 
-<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
+<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-4">
 	<h2 class="text-2xl font-bold leading-normal">Migrants</h2>
 	<p class="text-base leading-normal">
 		Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel

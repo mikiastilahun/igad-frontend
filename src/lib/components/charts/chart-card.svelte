@@ -5,6 +5,8 @@
 	import Table from './table.svelte';
 
 	export let title = '';
+	export let chartType: 'bar' | 'table' | 'pie' | 'line' = 'bar';
+	let chartTypes = ['bar', 'table', 'pie', 'line'];
 	export let isSwappable = false;
 	export let data = [
 		// Ethiopia data
@@ -41,7 +43,6 @@
 			},
 			left: { mapsTo: 'value', scaleType: ScaleTypes.LINEAR }
 		},
-		curve: 'curveNatural',
 		height: '400px',
 		width: '100%',
 		grid: {
@@ -64,17 +65,18 @@
 			enabled: false
 		}
 	};
-
-	export let chartType: 'bar' | 'table' | 'pie' | 'line' = 'bar';
-	let chartTypes = ['bar', 'table', 'pie', 'line'];
 </script>
 
-<div class="bg-white shadow grid gap-6 p-6 rounded">
-	<div class="flex items-center justify-between">
-		<div class="flex flex-col">
+<div class="bg-white shadow grid gap-6 p-2 md:p-6 rounded">
+	<!-- toolbar -->
+	<div
+		class=" flex lg:items-end justify-between gap-4 flex-col lg:flex-row
+			"
+	>
+		<div class="flex items-start flex-col">
 			<span class="text-zinc-400 text-base leading-tight">Statistics</span>
 			<div class="flex gap-6 justify-center items-baseline">
-				<h4 class="text-stone-900 text-xl font-bold leading-7">{title}</h4>
+				<h4 class="text-stone-900 text-lg font-bold leading-7">{title}</h4>
 				<div class="flex gap-3">
 					<div class="flex items-center">
 						<div class="h-2.5 w-2.5 rounded-full bg-blue-500 mr-2"></div>
@@ -92,14 +94,14 @@
 			</div>
 		</div>
 
-		<div class="flex gap-3">
+		<div class=" flex gap-3 flex-col md:flex-row">
 			{#if isSwappable}
 				<div
 					class=" h-10 px-3 py-1.5 bg-neutral-100 rounded-lg justify-center items-center gap-6 inline-flex"
 				>
 					{#each chartTypes as type (type)}
 						<label
-							class="px-[15px] py-2 {chartType === type
+							class="cursor-pointer px-[15px] py-2 {chartType === type
 								? 'bg-green-700'
 								: ''} rounded justify-end items-center gap-2.5 flex"
 						>
@@ -142,9 +144,17 @@
 		{#if chartType === 'line'}
 			<LineChart {data} {options} />
 		{:else if chartType === 'bar'}
-			<BarChartGrouped {data} {options} style="padding:2rem;" />
+			<BarChartGrouped {data} {options} />
 		{:else if chartType === 'pie'}
-			<PieChart {data} {options} />
+			<PieChart
+				{data}
+				options={{
+					...options,
+					legend: {
+						alignment: 'center'
+					}
+				}}
+			/>
 		{:else if chartType === 'table'}
 			<Table />
 		{/if}
