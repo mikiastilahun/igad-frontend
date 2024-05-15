@@ -23,6 +23,7 @@
 	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
 	import CaretDown from '$lib/assets/icons/caret-down.svg.svelte';
 	import Registration from '$lib/components/registration/registration.svelte';
+	import Map from '$lib/components/leaflet/map.svelte';
 
 	export let data;
 
@@ -79,7 +80,7 @@
 				bind:this={scrollContainer}
 				class="hide-scroll flex h-full w-full transform-gpu snap-x snap-mandatory overflow-x-scroll scroll-smooth"
 			>
-				{#if home?.homeHeroSection.length !== 0}
+				{#if home?.homeHeroSection?.length !== 0}
 					{#each home?.homeHeroSection ?? [] as hero}
 						{@const imageUrl = hero?.BackgroundImage.data?.attributes?.url}
 						<div class="snap-center min-w-full relative">
@@ -141,7 +142,7 @@
 			<div
 				class="max-w-[1136px] mx-auto text-white pb-8 sm:pb-16 md:pb-10 grid grid-cols-2 sm:grid-cols-3 gap-8 justify-items-center md:flex justify-between items-start rounded-lg px-8 md:px-4"
 			>
-				{#if home?.priorityAreas.length !== 0}
+				{#if home?.priorityAreas?.length !== 0}
 					{#each home?.priorityAreas ?? [] as area}
 						<div
 							class="  relative group flex flex-col gap-1 items-center w-36 justify-center text-center"
@@ -221,7 +222,10 @@
 		<p class="text-base leading-normal">
 			{home?.regionalStatisticsDescription}
 		</p>
-		<enhanced:img class=" object-cover w-full h-full" src={ChartsImg} alt="alt text" />
+		<!-- <enhanced:img class=" object-cover w-full h-full" src={ChartsImg} alt="alt text" /> -->
+		<div class="pt-8">
+			<Map />
+		</div>
 	</section>
 	<!-- IGAD support platform -->
 	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
