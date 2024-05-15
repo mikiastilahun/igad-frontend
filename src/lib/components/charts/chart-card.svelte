@@ -54,8 +54,9 @@
 		},
 		color: {
 			scale: {
-				'Dataset 1': '#00833F',
-				'Dataset 2': '#F4BE49'
+				Male: '#00833F',
+				Female: '#F4BE49',
+				Total: 'rgb(39, 39, 42)'
 			}
 		},
 		toolbar: {
@@ -67,7 +68,7 @@
 	};
 </script>
 
-<div class="bg-white shadow grid gap-6 p-2 md:p-6 rounded">
+<div class="bg-white shadow grid gap-6 p-2 md:p-6 rounded bg-zin">
 	<!-- toolbar -->
 	<div
 		class=" flex lg:items-end justify-between gap-4 flex-col lg:flex-row
