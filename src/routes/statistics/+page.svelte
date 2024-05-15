@@ -6,9 +6,8 @@
 	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
 
 	import IGADLogo from '$lib/assets/igad-logo.png';
-	import Pie from '$lib/components/charts/pie.svelte';
-	import Line from '$lib/components/charts/line.svelte';
-	import Bar from '$lib/components/charts/bar.svelte';
+
+	import ChartCard from '$lib/components/charts/chart-card.svelte';
 </script>
 
 <div class="md:p-4">
@@ -53,7 +52,7 @@
 		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
-	<Line title="Population" />
+	<ChartCard title="Population" chartType="line" />
 </section>
 
 <section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
@@ -65,7 +64,7 @@
 		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
-	<Line title="Migrants" />
+	<ChartCard title="Migrants" chartType="line" />
 	<p class="text-base leading-normal">
 		Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
 		phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
@@ -73,10 +72,5 @@
 		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
+	<ChartCard isSwappable={true} title="Migrants over 18" />
 </section>
-
-<!-- 
-		<Pie />
-	<Line />
-	<Bar />
- -->

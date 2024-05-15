@@ -1,8 +1,5 @@
 <script lang="ts">
-	import { BarChartGrouped, ScaleTypes } from '@carbon/charts-svelte';
-	import '@carbon/charts-svelte/styles.css';
-
-	export let data = [
+	export const data = [
 		// Ethiopia data
 		{ group: 'Total', key: 'Ethiopia', value: 114963588 },
 		{ group: 'Male', key: 'Ethiopia', value: 57370422 },
@@ -29,29 +26,36 @@
 		{ group: 'Female', key: 'Uganda', value: 22870504 }
 	];
 
-	export let options = {
-		title: 'Vertical grouped bar (time series)',
-		axes: {
-			left: {
-				mapsTo: 'value'
-			},
-			bottom: {
-				mapsTo: 'country',
-				scaleType: ScaleTypes.LABELS
-			}
-		},
-		height: '600px',
-		toolbar: {
-			enabled: false
-		},
-		color: {
-			scale: {
-				Total: '#1f77b4',
-				Male: '#ff7f0e',
-				Female: '#2ca02c'
-			}
+	let columns = Array.from(new Set(data.map((item) => item.group)));
+	columns.unshift('Country');
+	// TODO: find a better way to add the first column from the keys of the data
+
+	let tableData = data.reduce((acc: { [key: string]: any }, item) => {
+		if (!acc[item.key]) {
+			acc[item.key] = { Country: item.key };
 		}
-	};
+		acc[item.key][item.group] = item.value;
+		return acc;
+	}, {});
+
+	tableData = Object.values(tableData);
 </script>
 
-<BarChartGrouped {data} {options} style="padding:2rem;" />
+<table class="w-full bg-white">
+	<thead>
+		<tr class="h-11 bg-gray-50 border-b border-gray-200">
+			{#each columns as column}
+				<th class="text-neutral-400 text-sm font-normal">{column}</th>
+			{/each}
+		</tr>
+	</thead>
+	<tbody>
+		{#each tableData as row}
+			<tr class="h-[72px] border-b border-gray-200">
+				{#each Object.values(row) as cell}
+					<td class="text-stone-500 text-xs text-center font-normal">{cell}</td>
+				{/each}
+			</tr>
+		{/each}
+	</tbody>
+</table>
