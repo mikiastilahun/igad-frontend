@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import Select from '$lib/components/_shared/select/select.svelte';
 
 	import eritrea from '$lib/assets/json/eritrea.json';
 	import ethiopia from '$lib/assets/json/ethiopia.json';
@@ -8,7 +9,6 @@
 	import somalia from '$lib/assets/json/somalia.json';
 	import southSudan from '$lib/assets/json/south-sudan.json';
 	import sudan from '$lib/assets/json/sudan.json';
-	import tanzania from '$lib/assets/json/tanzania.json';
 	import uganda from '$lib/assets/json/uganda.json';
 
 	import 'leaflet/dist/leaflet.css';
@@ -109,15 +109,11 @@
 				to = grades[i + 1];
 
 				labels.push(
-					'<i style="background:' +
-						getColor(from + 1) +
-						'"></i> ' +
-						from +
-						(to ? '&ndash;' + to : '+')
+					`<span><i style="background:${getColor(from + 1)}"></i> ${from}${to ? '&ndash;' + to : '+'}</span>`
 				);
 			}
 
-			div.innerHTML = `<div class="gap-2 flex  flex-wrap scale-" ">${labels.join('<br/>')}</div>`;
+			div.innerHTML = `<div class="gap-2 flex flex-col  flex-wrap scale-" ">${labels.join('')}</div>`;
 			return div;
 		};
 		info.onAdd = function (map) {
@@ -178,8 +174,21 @@
 	});
 </script>
 
-<div id="IGAD_map" class="relative bg-red overflow-hidden flex justify-center">
-	<div class="h-[400px] md:h-[700px] w-[800px] max-w-full bg-green-100 border-2"></div>
+<div class="relative">
+	<div class="max-w-[180px] absolute z-[99999] top-2 left-2 shadow-lg rounded-lg">
+		<Select
+			placeholder="Select year"
+			options={[
+				{
+					value: '2015',
+					label: '2015'
+				}
+			]}
+		/>
+	</div>
+	<div id="IGAD_map" class="relative bg-red overflow-hidden flex justify-center">
+		<div class="h-[400px] md:h-[725px] w-[800px] max-w-full bg-green-100 border-2"></div>
+	</div>
 </div>
 
 <style>
@@ -207,6 +216,6 @@
 		height: 18px;
 		float: left;
 		margin-right: 8px;
-		opacity: 0.7;
+		opacity: 0.9;
 	}
 </style>
