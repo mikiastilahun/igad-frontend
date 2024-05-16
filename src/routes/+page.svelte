@@ -1,36 +1,31 @@
 <script lang="ts">
 	import HeroImg from '$lib/assets/hero-img.png?enhanced';
-	import ResettlementIcon from '$lib/assets/icons/resettlement.svg.svelte';
-	import TunnelIcon from '$lib/assets/icons/tunnel.svg.svelte';
-	import ClimateChangeIcon from '$lib/assets/icons/climate-change.svg.svelte';
-	import GenderIcon from '$lib/assets/icons/gender.svg.svelte';
-	import SchoolIcon from '$lib/assets/icons/school.svg.svelte';
-	import GroupIcon from '$lib/assets/icons/group.svg.svelte';
-	import NonDevelopmentIcon from '$lib/assets/icons/non-development.svg.svelte';
-	import ShieldIcon from '$lib/assets/icons/shield.svg.svelte';
 	import SvelteMarkdown from 'svelte-markdown';
 
 	import NewsImg2 from '$lib/assets/temp/news-2.png?enhanced';
 	import ChartsImg from '$lib/assets/temp/charts.png?enhanced';
 	import FeaturedNewsCard from '$lib/components/_shared/featured-news-card/featured-news-card.svelte';
 	import Card from '$lib/components/_shared/card/card.svelte';
-	import Logoipsum from '$lib/assets/temp/logoipsum.svg.svelte';
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
 
-	import { fly, crossfade, slide } from 'svelte/transition';
-	import { sineIn } from 'svelte/easing';
+	import { fly } from 'svelte/transition';
+	import { sineOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
-	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
 	import CaretDown from '$lib/assets/icons/caret-down.svg.svelte';
 	import Registration from '$lib/components/registration/registration.svelte';
+	import { goto } from '$app/navigation';
 
 	export let data;
 
 	const home = data.data?.homeData.data.attributes;
 	const learningLinks = data.data?.learningData.data;
 	const news = data.data?.newsData.data;
+	const priorityAreas = data.data?.priorityAreas.data || [];
 
-	console.log({ news });
+	let selectedPriorityArea = 0;
+	let lastSelectedPriorityArea = 0;
+
+	console.log({ news, learningLinks, home, priorityAreas });
 
 	let scrollContainer: HTMLElement;
 	let direction = 1;
@@ -53,18 +48,18 @@
 	});
 	const scrollAmount = 500;
 	function scrollLeft() {
-		if (scrollContainer.scrollLeft === 0) {
-			scrollContainer.scrollLeft = scrollContainer.scrollWidth;
+		if (priorityAreas && selectedPriorityArea === 0) {
+			selectedPriorityArea = priorityAreas.length - 1;
 		} else {
-			scrollContainer.scrollLeft -= scrollContainer.clientWidth;
+			selectedPriorityArea -= 1;
 		}
 	}
 
 	function scrollRight() {
-		if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth) {
-			scrollContainer.scrollLeft = 0;
+		if (priorityAreas && selectedPriorityArea === priorityAreas.length - 1) {
+			selectedPriorityArea = 0;
 		} else {
-			scrollContainer.scrollLeft += scrollContainer.clientWidth;
+			selectedPriorityArea += 1;
 		}
 	}
 
@@ -74,50 +69,57 @@
 <div class="">
 	<!-- hero section -->
 	<section class="w-full relative h-[1000px] md:h-screen md:max-h-[890px] flex items-center">
-		<div class=" absolute top-0 left-0 bottom-0">
+		<div class=" w-full absolute top-0 left-0 bottom-0">
 			<div
 				bind:this={scrollContainer}
 				class="hide-scroll flex h-full w-full transform-gpu snap-x snap-mandatory overflow-x-scroll scroll-smooth"
 			>
-				{#if home?.homeHeroSection.length !== 0}
-					{#each home?.homeHeroSection ?? [] as hero}
-						{@const imageUrl = hero?.BackgroundImage.data?.attributes?.url}
-						<div class="snap-center min-w-full relative">
-							<img
-								class="object-cover w-full h-full md:max-h-[890px]"
-								alt={`${hero?.heroTitle}`}
-								src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
-							/>
-							<div
-								class=" absolute top-0 left-0 w-full h-full md:bg-gradient-to-r bg-gradient-to-t from-black/80 from-55% md:from-50% to-transparent"
-							></div>
+				{#if home?.BackgroundImage}
+					{@const imageUrl = home.BackgroundImage.data?.attributes?.url}
+					<div class="snap-center min-w-full relative">
+						<img
+							class="object-cover w-full h-full"
+							alt={'this is the alt text'}
+							src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
+						/>
+						<div
+							class=" absolute top-0 left-0 w-full h-full md:bg-gradient-to-r bg-gradient-to-t from-black/80 from-55% md:from-50% to-transparent"
+						></div>
 
-							{#key hero.id}
-								<div
-									class=" absolute top-[40%] sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1136px] mx-auto w-full px-8 md:px-4 flex justify-center md:justify-start items-center gap-4"
-								>
+						<div
+							class=" absolute top-[40%] sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1136px] mx-auto w-full px-8 md:px-4 flex justify-center md:justify-start items-center gap-4"
+						>
+							{#each priorityAreas as area, i}
+								{#if i === selectedPriorityArea}
 									<div
-										transition:slide={{
-											axis: 'x',
-											duration: 500,
-											easing: sineIn
+										class="text-white max-w-2xl absolute"
+										transition:fly={{
+											duration: 300,
+											easing: sineOut,
+											x: lastSelectedPriorityArea < selectedPriorityArea ? -100 : 100
 										}}
-										class="text-white max-w-2xl"
 									>
 										<h1 class="text-2xl md:text-3xl font-bold mb-2">
-											{hero?.heroTitle}
+											{area.attributes.Title ?? ''}
 										</h1>
 										<p class=" text-base md:text-base font-normal leading-normal">
-											{hero?.heroDescription}
+											{area.attributes.ShortDescription ?? ''}
 										</p>
+
+										<button
+											on:click={() => {
+												goto(`/priority-area/${area.id}`);
+											}}
+											class="block p-2 mt-4 bg-secondary text-black rounded-md">Read More</button
+										>
 									</div>
-								</div>
-							{/key}
+								{/if}
+							{/each}
 						</div>
-					{/each}
+					</div>
 				{/if}
 			</div>
-			<!-- <button
+			<button
 				on:click={scrollLeft}
 				class="group p-2 absolute left-0 md:left-8 top-[30%] sm:top-1/2 transform -translate-y-1/2"
 			>
@@ -134,39 +136,35 @@
 					class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
 				></span>
 				<CaretDown class="w-6 h-6 scale-150 -rotate-90 fill-white " /></button
-			> -->
+			>
 		</div>
 
 		<div class=" absolute bottom-0 w-full">
 			<div
 				class="max-w-[1136px] mx-auto text-white pb-8 sm:pb-16 md:pb-10 grid grid-cols-2 sm:grid-cols-3 gap-8 justify-items-center md:flex justify-between items-start rounded-lg px-8 md:px-4"
 			>
-				{#if home?.priorityAreas.length !== 0}
-					{#each home?.priorityAreas ?? [] as area}
+				{#if priorityAreas?.length !== 0}
+					{#each priorityAreas ?? [] as area, i}
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
+						<!-- svelte-ignore a11y-no-static-element-interactions -->
 						<div
-							class="  relative group flex flex-col gap-1 items-center w-36 justify-center text-center"
+							class="relative group flex flex-col gap-1 items-center w-36 justify-center text-center hover:scale-125 hover:cursor-pointer transition-all {i ===
+							selectedPriorityArea
+								? 'text-primary scale-125'
+								: 'text-white'} "
+							on:click={() => {
+								lastSelectedPriorityArea = selectedPriorityArea;
+								selectedPriorityArea = i;
+							}}
 						>
 							<img
 								class=""
-								src={`${PUBLIC_STATIC_URL}${area.icon.data[0].attributes.url}`}
+								src={`${PUBLIC_STATIC_URL}${area.attributes.icon.data.attributes.url}`}
 								alt="alt text"
+								width="50"
+								height="50"
 							/>
-							<span class="text-center text-xs md:text-sm">{area.title} </span>
-
-							<div
-								class="opacity-0 w-full bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full mb-2 px-2 pointer-events-none"
-							>
-								{area.title}
-								<!-- <a class="underline" href="https://geonode.igad.int/">Read more here</a> -->
-								<svg
-									class="absolute text-black h-2 w-full left-0 top-full"
-									x="0px"
-									y="0px"
-									viewBox="0 0 255 255"
-									xml:space="preserve"
-									><polygon class="fill-current" points="0,0 127.5,127.5 255,0" /></svg
-								>
-							</div>
+							<span class="text-center text-xs md:text-sm">{area.attributes.Title} </span>
 						</div>
 					{/each}
 				{/if}

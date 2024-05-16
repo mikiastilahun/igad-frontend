@@ -7,54 +7,52 @@ type Stat = {
 	value: string;
 };
 
-type HomeHeroSection = {
-	id: number;
-	heroTitle: string;
-	heroDescription: string;
-	BackgroundImage: {
-		data: {
-			id: number;
-			attributes: {
-				name: string;
-				width: number;
-				height: number;
-				url: string;
+// type IconData = {
+// 	id: number;
+// 	attributes: {
+// 		name: string;
+// 		alternativeText: string | null;
+// 		caption: string | null;
+// 		width: number;
+// 		height: number;
+// 		formats: any | null;
+// 		hash: string;
+// 		ext: string;
+// 		mime: string;
+// 		size: number;
+// 		url: string;
+// 		previewUrl: string | null;
+// 		provider: string;
+// 		provider_metadata: any | null;
+// 		createdAt: string;
+// 		updatedAt: string;
+// 	};
+// };
+
+// type Icon = {
+// 	data: IconData[];
+// };
+
+type PriorityAreas = {
+	data: {
+		id: number;
+		attributes: {
+			Title: string;
+			ShortDescription: string;
+			icon: {
+				data: {
+					id: number;
+					attributes: {
+						name: string;
+						width: number;
+						height: number;
+						url: string;
+					};
+				};
 			};
 		};
-	};
-};
-
-type IconData = {
-	id: number;
-	attributes: {
-		name: string;
-		alternativeText: string | null;
-		caption: string | null;
-		width: number;
-		height: number;
-		formats: any | null;
-		hash: string;
-		ext: string;
-		mime: string;
-		size: number;
-		url: string;
-		previewUrl: string | null;
-		provider: string;
-		provider_metadata: any | null;
-		createdAt: string;
-		updatedAt: string;
-	};
-};
-
-type Icon = {
-	data: IconData[];
-};
-
-type PriorityArea = {
-	id: number;
-	title: string;
-	description: string;
-	icon: Icon;
+	}[];
+	meta: any;
 };
 
 type Partner = {
@@ -75,12 +73,21 @@ type Partner = {
 type Attributes = {
 	createdAt: string;
 	updatedAt: string;
-	homeHeroSection: HomeHeroSection[];
+	BackgroundImage: {
+		data: {
+			id: number;
+			attributes: {
+				name: string;
+				width: number;
+				height: number;
+				url: string;
+			};
+		};
+	};
 	firstStat: Stat;
 	secondStat: Stat;
 	thirdStat: Stat[];
 	forthStat: Stat[];
-	priorityAreas: PriorityArea[];
 	regionalStatisticsTitle: string;
 	regionalStatisticsDescription: string;
 	SupportplatformTitle: string;
@@ -150,6 +157,7 @@ type ApiResponse = {
 	homeData: Data;
 	learningData: LearningData;
 	newsData: NewsData;
+	priorityAreas: PriorityAreas;
 };
 
 export const load: Load = async ({ fetch }) => {
@@ -160,7 +168,7 @@ export const load: Load = async ({ fetch }) => {
 
 	try {
 		const response = await fetch(
-			`${PUBLIC_STRAPI_URL}/api/home?populate=homeHeroSection.BackgroundImage,firstStat,secondStat,thirdStat,forthStat,priorityAreas.icon,regionalStatisticsTitle,regionalStatisticsDescription,SupportplatformTitle,supportPlatformContent,partnersTitle,partner.URL,partner.Logo  
+			`${PUBLIC_STRAPI_URL}/api/home?populate=BackgroundImage,firstStat,secondStat,thirdStat,forthStat,priorityAreas.icon,regionalStatisticsTitle,regionalStatisticsDescription,SupportplatformTitle,supportPlatformContent,partnersTitle,partner.URL,partner.Logo  
 `
 		);
 
@@ -183,15 +191,28 @@ export const load: Load = async ({ fetch }) => {
 			throw new Error(`HTTP error! status: ${newsResponse.status}`);
 		}
 
+		const priorityAreasResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/priority-areas?populate=*`);
+
+		if (!newsResponse.ok) {
+			throw new Error(`HTTP error! status: ${newsResponse.status}`);
+		}
+
 		const homeData = await response.json();
 		const learningData = await learningResponse.json();
 		const newsData = await newsResponse.json();
+		const priorityAreas = await priorityAreasResponse.json();
+
+		console.log({
+			priorityAreas: JSON.stringify(priorityAreas)
+		});
 
 		const data: ApiResponse = {
 			homeData: homeData,
 			learningData: learningData,
-			newsData: newsData
+			newsData: newsData,
+			priorityAreas: priorityAreas
 		};
+
 		return { data };
 	} catch (e: unknown) {
 		console.log({ e });
