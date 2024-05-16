@@ -46,15 +46,8 @@
 						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
 				},
 				{
-					title: 'Partners',
-					href: '/partners',
-					icon: Partner,
-					description:
-						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
-				},
-				{
 					title: 'Contact Us',
-					href: '/contact-us',
+					href: 'https://igad.int/contracts/',
 					icon: Mail,
 					description:
 						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
@@ -71,18 +64,11 @@
 		},
 		{
 			title: 'Data and Statistics',
-			href: '/data-stats'
+			href: '/statistics'
 		},
 		{
 			title: 'Resources',
 			subMenu: [
-				{
-					title: 'Policies and Frameworks',
-					href: '/policies',
-					icon: BadgeIcon,
-					description:
-						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
-				},
 				{
 					title: 'Report and Publications',
 					href: '/publications',

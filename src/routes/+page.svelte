@@ -14,6 +14,7 @@
 	import CaretDown from '$lib/assets/icons/caret-down.svg.svelte';
 	import Registration from '$lib/components/registration/registration.svelte';
 	import { goto } from '$app/navigation';
+	import Map from '$lib/components/leaflet/map.svelte';
 
 	export let data;
 
@@ -219,7 +220,10 @@
 		<p class="text-base leading-normal">
 			{home?.regionalStatisticsDescription}
 		</p>
-		<enhanced:img class=" object-cover w-full h-full" src={ChartsImg} alt="alt text" />
+		<!-- <enhanced:img class=" object-cover w-full h-full" src={ChartsImg} alt="alt text" /> -->
+		<div class="pt-8">
+			<Map />
+		</div>
 	</section>
 	<!-- IGAD support platform -->
 	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
