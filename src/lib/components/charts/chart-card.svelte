@@ -1,14 +1,16 @@
 <script lang="ts">
-	import { LineChart, ScaleTypes, BarChartGrouped, PieChart } from '@carbon/charts-svelte';
-	import '@carbon/charts-svelte/styles.css';
-	import Select from '$lib/components/_shared/select/select.svelte';
-	import Table from './table.svelte';
+	import { onMount } from 'svelte';
+	import * as echarts from 'echarts';
+	import { browser } from '$app/environment';
 
 	export let title = '';
 	export let chartType: 'bar' | 'table' | 'pie' | 'line' = 'bar';
 	let chartTypes = ['bar', 'table', 'pie', 'line'];
 	export let isSwappable = false;
-	export let data = [
+
+	let chartInstance;
+
+	let data = [
 		// Ethiopia data
 		{ group: 'Total', key: 'Ethiopia', value: 114963588 },
 		{ group: 'Male', key: 'Ethiopia', value: 57370422 },
@@ -35,129 +37,67 @@
 		{ group: 'Female', key: 'Uganda', value: 22870504 }
 	];
 
-	export let options = {
-		axes: {
-			bottom: {
-				mapsTo: 'key',
-				scaleType: ScaleTypes.LABELS
-			},
-			left: { mapsTo: 'value', scaleType: ScaleTypes.LINEAR }
-		},
-		height: '400px',
-		width: '100%',
-		grid: {
-			x: { enabled: false },
-			y: { enabled: true }
-		},
-		points: {
-			radius: 4
-		},
-		color: {
-			scale: {
-				Male: '#00833F',
-				Female: '#F4BE49',
-				Total: 'rgb(39, 39, 42)'
-			}
-		},
-		toolbar: {
-			enabled: false
-		},
-		legend: {
-			enabled: false
+	onMount(() => {
+		if (!browser) return;
+		const chartDom = document.getElementById('main');
+		chartInstance = echarts.init(chartDom);
+		updateChart();
+	});
+
+	// $: updateChart();
+
+	function updateChart() {
+		let option;
+
+		if (chartType === 'line') {
+			option = {
+				xAxis: {
+					type: 'category',
+					data: data.map((item) => item.key)
+				},
+				yAxis: {
+					type: 'value'
+				},
+				series: [
+					{
+						data: data.map((item) => item.value),
+						type: 'line'
+					}
+				]
+			};
+		} else if (chartType === 'bar') {
+			option = {
+				xAxis: {
+					type: 'category',
+					data: data.map((item) => item.key)
+				},
+				yAxis: {
+					type: 'value'
+				},
+				series: [
+					{
+						data: data.map((item) => item.value),
+						type: 'bar'
+					}
+				]
+			};
+		} else if (chartType === 'pie') {
+			option = {
+				series: [
+					{
+						data: data.map((item) => ({ name: item.key, value: item.value })),
+						type: 'pie'
+					}
+				]
+			};
+		} else if (chartType === 'table') {
+			option = {
+				// Table options
+			};
 		}
-	};
+
+		chartInstance.setOption(option);
+	}
 </script>
 
-<div class="bg-white shadow grid gap-6 p-2 md:p-6 rounded bg-zin">
-	<!-- toolbar -->
-	<div
-		class=" flex lg:items-end justify-between gap-4 flex-col lg:flex-row
-			"
-	>
-		<div class="flex items-start flex-col">
-			<span class="text-zinc-400 text-base leading-tight">Statistics</span>
-			<div class="flex gap-6 justify-center items-baseline">
-				<h4 class="text-stone-900 text-lg font-bold leading-7">{title}</h4>
-				<div class="flex gap-3">
-					<div class="flex items-center">
-						<div class="h-2.5 w-2.5 rounded-full bg-blue-500 mr-2"></div>
-						<span class="text-neutral-400 text-xs font-normal leading-none">Total</span>
-					</div>
-					<div class="flex items-center">
-						<div class="h-2.5 w-2.5 rounded-full bg-orange-500 mr-2"></div>
-						<span class="text-neutral-400 text-xs font-normal leading-none">Female</span>
-					</div>
-					<div class="flex items-center">
-						<div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-						<span class="text-neutral-400 text-xs font-normal leading-none">Male</span>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class=" flex gap-3 flex-col md:flex-row">
-			{#if isSwappable}
-				<div
-					class=" h-10 px-3 py-1.5 bg-neutral-100 rounded-lg justify-center items-center gap-6 inline-flex"
-				>
-					{#each chartTypes as type (type)}
-						<label
-							class="cursor-pointer px-[15px] py-2 {chartType === type
-								? 'bg-green-700'
-								: ''} rounded justify-end items-center gap-2.5 flex"
-						>
-							<input type="radio" bind:group={chartType} value={type} class="hidden" />
-							<span
-								class="text-center {chartType === type
-									? 'text-white'
-									: 'text-neutral-400'} text-sm font-medium leading-none"
-							>
-								{type[0].toUpperCase() + type.slice(1)}
-							</span>
-						</label>
-					{/each}
-				</div>
-			{/if}
-			<!-- select age group -->
-			<Select
-				placeholder="Select age group"
-				options={[
-					{
-						value: '18-24',
-						label: '18-24'
-					}
-				]}
-			/>
-			<!-- select country -->
-			<Select
-				placeholder="Select country"
-				options={[
-					{
-						value: 'ALL',
-						label: 'All Countries'
-					}
-				]}
-			/>
-		</div>
-	</div>
-	<div class="w-full h-[0px] border border-stone-200"></div>
-	<div class="mt-4">
-		{#if chartType === 'line'}
-			<LineChart {data} {options} />
-		{:else if chartType === 'bar'}
-			<BarChartGrouped {data} {options} />
-		{:else if chartType === 'pie'}
-			<PieChart
-				{data}
-				options={{
-					...options,
-					legend: {
-						alignment: 'center'
-					}
-				}}
-			/>
-		{:else if chartType === 'table'}
-			<Table />
-		{/if}
-	</div>
-</div>
+<div id="main" style="width: 100%;height:400px;"></div>
