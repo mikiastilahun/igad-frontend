@@ -1,13 +1,12 @@
 <script lang="ts">
 	import Hero from '$lib/assets/statistics/hero.png';
 	import Map from '$lib/components/leaflet/map.svelte';
-	import Card from '$lib/components/_shared/card/card.svelte';
-	import Search from '$lib/assets/icons/search.svg.svelte';
-	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
-
-	import IGADLogo from '$lib/assets/igad-logo.png';
 
 	import ChartCard from '$lib/components/charts/chart-card.svelte';
+
+	export let data;
+
+	const populationStats = data.data?.attributes;
 </script>
 
 <div class="md:p-4">
@@ -43,7 +42,7 @@
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
 	<div class="pt-8">
-		<Map />
+		<Map data={populationStats} />
 	</div>
 	<p class="text-base leading-normal">
 		Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel

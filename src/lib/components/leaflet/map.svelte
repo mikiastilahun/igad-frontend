@@ -11,14 +11,42 @@
 	import sudan from '$lib/assets/json/sudan.json';
 	import uganda from '$lib/assets/json/uganda.json';
 
+	import type { PopulationStats } from '../../../routes/+page.server.js';
+
 	import 'leaflet/dist/leaflet.css';
 
 	import type { LatLngExpression, Map } from 'leaflet';
-	const eastAfricaGeoJSON = {
+
+	export let data: PopulationStats['data']['attributes'] | undefined;
+
+	let uniqueYears: any[] = [
+		...new Set(
+			Object.values(data)
+				.flat()
+				.filter((item) => item && item.year)
+				.map((item) => item.year)
+		)
+	];
+
+	let selectedYear: string = uniqueYears[0];
+
+	$: console.log(selectedYear, data);
+
+	// assign male
+
+	$: eastAfricaGeoJSON = {
 		type: 'FeatureCollection',
 		features: [djibouti, eritrea, ethiopia, kenya, somalia, southSudan, sudan, uganda].map(
 			(country) => {
-				country.features[0].properties.density = Math.random() * 1000;
+				let countryData = data[country.features[0].properties.COUNTRY];
+				let countryYearData = countryData.find((item) => item.year === selectedYear);
+
+				let male = Number(countryYearData?.male || 0);
+				let female = Number(countryYearData?.female || 0);
+
+				country.features[0].properties.FEMALE = female;
+				country.features[0].properties.MALE = male;
+				country.features[0].properties.TOTAL = male + female;
 				return country;
 			}
 		)
@@ -57,7 +85,7 @@
 			};
 		}) {
 			return {
-				fillColor: getColor(feature.properties.density),
+				fillColor: getColor(feature.properties.TOTAL),
 				weight: 2,
 				opacity: 1,
 				color: 'white',
@@ -77,10 +105,41 @@
 			});
 			layer.bringToFront();
 
-			// Add this line to bind a popup to the layer
-			// layer.bindPopup(
-			// 	`<b>Country: </b>${layer.feature.properties.COUNTRY}<br/><b>Density: </b>${layer.feature.properties.density}`
-			// );
+			layer.on('mouseover', function () {
+				layer
+					.bindPopup(
+						`
+						
+    <div class=" text-gray-400 rounded-lg flex-col justify-start items-start gap-2 inline-flex">
+        <div class="self-stretch text-center  text-[10px] font-semibold  uppercase leading-none tracking-tight">Population</div>
+        <div class="justify-start items-start gap-2 inline-flex">
+            <div class="flex-col justify-start items-start gap-2 inline-flex">
+                <div class="justify-start items-center gap-2 inline-flex">
+                    <div class="w-3 h-3 bg-stone-500 rounded-[50px] border border-white/opacity-60"></div>
+                    <div class=" text-xs font-normal  leading-[18px]">Total</div>
+                </div>
+                <div class="justify-start items-center gap-2 inline-flex">
+                    <div class="w-3 h-3 bg-green-700 rounded-[50px] border border-white/opacity-60"></div>
+                    <div class=" text-xs font-normal  leading-[18px]">Male</div>
+                </div>
+                <div class="justify-start items-center gap-2 inline-flex">
+                    <div class="w-3 h-3 bg-amber-300 rounded-[50px] border border-white/opacity-60"></div>
+                    <div class=" text-xs font-normal  leading-[18px]">Female</div>
+                </div>
+            </div>
+            <div class="flex-col justify-start items-start gap-2 inline-flex">
+                <div class=" text-xs font-semibold  leading-[18px]">${layer.feature.properties.TOTAL}</div>
+                <div class=" text-xs font-semibold  leading-[18px]"> ${layer.feature.properties.MALE}</div>
+                <div class=" text-xs font-semibold  leading-[18px]">${layer.feature.properties.FEMALE}</div>
+            </div>
+        </div>
+    </div>
+	
+						`
+					)
+
+					.openPopup();
+			});
 			info.update(layer.feature.properties);
 		}
 
@@ -124,9 +183,12 @@
 
 		info.update = function (props) {
 			this._div.innerHTML =
-				'<h4>IGAD Population Density</h4>' +
+				'<h4>IGAD Population</h4>' +
 				(props
-					? '<b>' + props.COUNTRY + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+					? `<b>Population</b><br/>
+            <b>Total: </b>${props.TOTAL}<br/>
+            <b>Male: </b>${props.MALE}<br/>
+            <b>Female: </b>${props.FEMALE}`
 					: 'Hover over a country');
 		};
 
@@ -178,11 +240,14 @@
 	<div class="max-w-[180px] absolute z-[99999] top-2 left-2 shadow-lg rounded-lg">
 		<Select
 			placeholder="Select year"
+			bind:selectedOption={selectedYear}
 			options={[
-				{
-					value: '2015',
-					label: '2015'
-				}
+				...uniqueYears.map((year) => {
+					return {
+						value: year,
+						label: year
+					};
+				})
 			]}
 		/>
 	</div>
@@ -217,5 +282,8 @@
 		float: left;
 		margin-right: 8px;
 		opacity: 0.9;
+	}
+	:global(.leaflet-popup-content) {
+		/* margin: 0 !important; */
 	}
 </style>

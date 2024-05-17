@@ -13,7 +13,9 @@
             "properties": {
                 "GID_0": "DJI",
                 "COUNTRY": "Djibouti",
-                "density": 900
+                "MALE": 0,
+                "FEMALE": 0,
+                "TOTAL": 0               
             },
             "geometry": {
                 "type": "MultiPolygon",
