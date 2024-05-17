@@ -6,6 +6,7 @@ type PriorityArea = {
 		id: number;
 		attributes: {
 			Title: string;
+			header: string;
 			ShortDescription: string;
 			Content: string;
 			IgadActions: {
@@ -16,7 +17,7 @@ type PriorityArea = {
 			memberStateActions: {
 				id: number;
 				ActionTitle: string;
-				item: string;
+				actionItemList: { item: string }[];
 			}[];
 			expectedOutcomes: {
 				id: number;
@@ -60,7 +61,7 @@ export const load: Load = async ({ fetch, params }) => {
 
 	try {
 		const priorityAreaResponse = await fetch(
-			`${PUBLIC_STRAPI_URL}/api/priority-areas/${params.id}?populate=*,IgadActions.actionItemList,icon,expectedOutcomes,,stackholders,partners`
+			`${PUBLIC_STRAPI_URL}/api/priority-areas/${params.id}?populate=*,IgadActions.actionItemList,icon,expectedOutcomes,,stackholders,partners,memberStateActions.actionItemList`
 		);
 
 		console.log({ priorityAreaResponse });
