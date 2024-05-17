@@ -6,9 +6,27 @@
 	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
 
 	import IGADLogo from '$lib/assets/igad-logo.png';
+	import { PUBLIC_STATIC_URL } from '$env/static/public';
 
 	let years = [2017, 2018, 2019, 2020, 2021, 2022, 2023];
 	let yearValue: string | null = '2019';
+
+	export let data;
+
+	const featuredPublications = data.data?.featuredPublications.data.map((item) => {
+		return {
+			id: item.id,
+			title: item.attributes.title,
+			content: item.attributes.content,
+			coverImage: item.attributes.coverImage
+		};
+	});
+
+	const publicationTypes = data.data?.publicationTypes;
+
+	$: {
+		console.log(data);
+	}
 </script>
 
 <div class="md:p-4">
@@ -39,10 +57,14 @@
 	<h2 class="text-2xl font-bold leading-normal">Featured</h2>
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
 		<!-- cards -->
-		<Card />
-		<Card />
-		<Card />
-		<Card />
+		{#each featuredPublications || [] as publication}
+			<Card
+				title={publication.title}
+				description={publication.content.slice(0, 100) + '...'}
+				imageUrl={`${PUBLIC_STATIC_URL}${publication.coverImage?.data.attributes.url}`}
+				link={`/publications/${publication.id}`}
+			/>
+		{/each}
 	</div>
 </section>
 
@@ -75,7 +97,14 @@
 				<!-- list of check boxes -->
 
 				<div class="flex flex-col gap-2">
-					<div class="flex items-center gap-2">
+					{#each publicationTypes || [] as type}
+						<div class="flex items-center gap-2">
+							<input type="checkbox" id={type} name={type} />
+							<label for={type} class="text-gray-500">{type}</label>
+						</div>
+					{/each}
+
+					<!-- <div class="flex items-center gap-2">
 						<input type="checkbox" id="report" name="report" class=" checked:bg-primary" />
 						<label for="report" class="text-gray-500">Report</label>
 					</div>
@@ -94,7 +123,7 @@
 					<div class="flex items-center gap-2">
 						<input type="checkbox" id="Lorem" name="Lorem " />
 						<label for="Lorem" class="text-gray-500">Lorem</label>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<!-- publication year check boxes -->

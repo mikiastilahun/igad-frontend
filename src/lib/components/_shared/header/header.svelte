@@ -47,7 +47,7 @@
 				},
 				{
 					title: 'Contact Us',
-					href: 'https://igad.int/contracts/',
+					href: 'https://igad.int/contact-us/',
 					icon: Mail,
 					description:
 						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
