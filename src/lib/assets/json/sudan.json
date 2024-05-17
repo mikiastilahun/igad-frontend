@@ -12,7 +12,10 @@
             "type": "Feature",
             "properties": {
                 "GID_0": "SDN",
-                "COUNTRY": "Sudan"
+                "COUNTRY": "Sudan",
+                "MALE": 0,
+                "FEMALE": 0,
+                "TOTAL": 0
             },
             "geometry": {
                 "type": "MultiPolygon",

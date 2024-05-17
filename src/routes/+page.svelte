@@ -22,11 +22,12 @@
 	const learningLinks = data.data?.learningData.data;
 	const news = data.data?.newsData.data;
 	const priorityAreas = data.data?.priorityAreas.data || [];
+	const populationStats = data.data?.populationStats.data;
 
 	let selectedPriorityArea = 0;
 	let lastSelectedPriorityArea = 0;
 
-	console.log({ news, learningLinks, home, priorityAreas });
+	console.log({ news, learningLinks, home, priorityAreas, populationStats });
 
 	let scrollContainer: HTMLElement;
 	let direction = 1;
@@ -222,7 +223,7 @@
 		</p>
 		<!-- <enhanced:img class=" object-cover w-full h-full" src={ChartsImg} alt="alt text" /> -->
 		<div class="pt-8">
-			<Map />
+			<Map data={populationStats?.attributes} />
 		</div>
 	</section>
 	<!-- IGAD support platform -->

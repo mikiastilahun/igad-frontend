@@ -153,11 +153,64 @@ type NewsData = {
 	meta: any;
 };
 
+export type PopulationStats = {
+	data: {
+		id: number;
+		attributes: {
+			Ethiopia: {
+				year: string;
+				male: number;
+				female: number;
+			}[],
+			Kenya: {
+				year: string;
+				male: number;
+				female: number;
+			}[],
+			SouthSudan: {
+				year: string;
+				male: number;
+				female: number;
+			}[],
+			Eritrea: {
+				year: string;
+				male: number;
+				female: number;
+			}[],
+			Somalia: {
+				year: string;
+				male: number;
+				female: number;
+			}[],
+			Uganda: {
+				year: string;
+				male: number;
+				female: number;
+			}[],
+			Sudan: {
+				year: string;
+				male: number;
+				female: number;
+			}[],
+			Djibouti: {
+				year: string;
+				male: number;
+				female: number;
+			}[],
+			createdAt: string;
+			updatedAt: string;
+			publishedAt: string;
+		};
+	};
+	meta: any;
+}
+
 type ApiResponse = {
 	homeData: Data;
 	learningData: LearningData;
 	newsData: NewsData;
 	priorityAreas: PriorityAreas;
+	populationStats: PopulationStats;
 };
 
 export const load: Load = async ({ fetch }) => {
@@ -193,24 +246,29 @@ export const load: Load = async ({ fetch }) => {
 
 		const priorityAreasResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/priority-areas?populate=*`);
 
-		if (!newsResponse.ok) {
-			throw new Error(`HTTP error! status: ${newsResponse.status}`);
+		if (!priorityAreasResponse.ok) {
+			throw new Error(`HTTP error! status: ${priorityAreasResponse.status}`);
+		}
+
+		const populationStatsResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/population?populate=*`);
+
+		if (!populationStatsResponse.ok) {
+			throw new Error(`HTTP error! status: ${populationStatsResponse.status}`);
 		}
 
 		const homeData = await response.json();
 		const learningData = await learningResponse.json();
 		const newsData = await newsResponse.json();
 		const priorityAreas = await priorityAreasResponse.json();
+		const populationStats = await populationStatsResponse.json();
 
-		console.log({
-			priorityAreas: JSON.stringify(priorityAreas)
-		});
 
 		const data: ApiResponse = {
 			homeData: homeData,
 			learningData: learningData,
 			newsData: newsData,
-			priorityAreas: priorityAreas
+			priorityAreas: priorityAreas,
+			populationStats: populationStats
 		};
 
 		return { data };

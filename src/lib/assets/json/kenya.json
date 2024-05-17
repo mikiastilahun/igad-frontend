@@ -12,7 +12,10 @@
             "type": "Feature",
             "properties": {
                 "GID_0": "KEN",
-                "COUNTRY": "Kenya"
+                "COUNTRY": "Kenya",
+                "MALE": 0,
+                "FEMALE": 0,
+                "TOTAL": 0
             },
             "geometry": {
                 "type": "MultiPolygon",
