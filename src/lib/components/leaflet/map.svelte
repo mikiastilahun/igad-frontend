@@ -24,7 +24,7 @@
 			Object.values(data)
 				.flat()
 				.filter((item) => item && item.year)
-				.map((item) => item.year)
+				.map((item) => item.year.split('-')[0])
 		)
 	];
 
@@ -39,7 +39,7 @@
 		features: [djibouti, eritrea, ethiopia, kenya, somalia, southSudan, sudan, uganda].map(
 			(country) => {
 				let countryData = data[country.features[0].properties.COUNTRY];
-				let countryYearData = countryData.find((item) => item.year === selectedYear);
+				let countryYearData = countryData.find((item) => item.year.split('-')[0] === selectedYear);
 
 				let male = Number(countryYearData?.male || 0);
 				let female = Number(countryYearData?.female || 0);
