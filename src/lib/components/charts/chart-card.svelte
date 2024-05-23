@@ -5,59 +5,34 @@
 		value: number;
 		age_group: string;
 		year: string;
-	}[];
+	};
 </script>
 
 <script lang="ts">
-	import { LineChart, ScaleTypes, BarChartGrouped, PieChart } from '@carbon/charts-svelte';
+	import {
+		LineChart,
+		ScaleTypes,
+		BarChartGrouped,
+		PieChart,
+		BarChartStacked
+	} from '@carbon/charts-svelte';
 	import '@carbon/charts-svelte/styles.css';
 	import Select from '$lib/components/_shared/select/select.svelte';
 	import Table from './table.svelte';
-	import type {
-		AgeGroup,
-		PopulationPerCountryStats
-	} from '../../../routes/statistics/proxy+page.server.js';
 
 	export let title = '';
-	export let chartType: 'bar' | 'table' | 'pie' | 'line' = 'bar';
+	export let chartType: 'bar' | 'table' | 'pie' | 'line' | 'bar_stacked' = 'bar';
 	let chartTypes = ['bar', 'table', 'pie', 'line'];
 	export let isSwappable = false;
 
-	export let externalData:
-		| Omit<
-				PopulationPerCountryStats['data']['attributes'],
-				'createdAt' | 'updatedAt' | 'publishedAt'
-		  >
-		| undefined = undefined;
+	export let uniqueYears: any[] = [];
+	export let selectedYear: string;
 
-	let uniqueYears: any[] = [
-		...new Set(
-			Object.values(externalData ?? {})
-				.flat()
-				.filter((item) => item && item.year)
-				.map((item) => item.year.split('-')[0])
-		)
-	];
-	let selectedYear: string = uniqueYears[0];
+	export let uniqueAgeGroups: any[] = [];
+	export let selectedAgeGroup: string;
 
-	let uniqueAgeGroups: AgeGroup[] = [
-		...new Set(
-			Object.values(externalData ?? {})
-				.flat()
-				.filter((item) => item && item.age_group)
-				.map((item) => item.age_group)
-		)
-	];
-	let selectedAgeGroup: AgeGroup = uniqueAgeGroups[0];
+	export let data: any[] = [];
 
-	let data: DataType = [];
-	let filteredData: {
-		group: string;
-		key: string;
-		value: number;
-		age_group: string;
-		year: string;
-	}[] = [];
 	export let options = {
 		axes: {
 			bottom: {
@@ -89,47 +64,6 @@
 			enabled: false
 		}
 	};
-
-	$: {
-		for (let country in externalData) {
-			if (Array.isArray(externalData[country])) {
-				externalData[country].forEach((item) => {
-					data.push({
-						group: 'Total',
-						key: country,
-						value: item.male + item.female,
-						age_group: item.age_group,
-						year: item.year
-					});
-					// Add male data
-					data.push({
-						group: 'Male',
-						key: country,
-						value: item.male,
-						age_group: item.age_group,
-						year: item.year
-					});
-
-					// Add female data
-					data.push({
-						group: 'Female',
-						key: country,
-						value: item.female,
-						age_group: item.age_group,
-						year: item.year
-					});
-				});
-			}
-		}
-	}
-
-	$: {
-		selectedAgeGroup;
-		selectedYear;
-		filteredData = data.filter((item) => {
-			return item.age_group === selectedAgeGroup && item.year.split('-')[0] === selectedYear;
-		});
-	}
 </script>
 
 <div class="bg-white shadow grid gap-6 p-2 md:p-6 rounded bg-zin">
@@ -184,43 +118,47 @@
 				</div>
 			{/if}
 			<!-- select age group -->
-			<Select
-				placeholder="Select age group"
-				bind:selectedOption={selectedAgeGroup}
-				options={[
-					...uniqueAgeGroups.map((year) => {
-						return {
-							value: year,
-							label: year
-						};
-					})
-				]}
-			/>
+			{#if uniqueAgeGroups.length > 0}
+				<Select
+					placeholder="Select age group"
+					bind:selectedOption={selectedAgeGroup}
+					options={[
+						...uniqueAgeGroups.map((year) => {
+							return {
+								value: year,
+								label: year
+							};
+						})
+					]}
+				/>
+			{/if}
 
 			<!-- select year -->
-			<Select
-				placeholder="Select year"
-				bind:selectedOption={selectedYear}
-				options={[
-					...uniqueYears.map((year) => {
-						return {
-							value: year,
-							label: year
-						};
-					})
-				]}
-			/>
+			{#if uniqueYears.length > 0}
+				<Select
+					placeholder="Select year"
+					bind:selectedOption={selectedYear}
+					options={[
+						...uniqueYears.map((year) => {
+							return {
+								value: year,
+								label: year
+							};
+						})
+					]}
+				/>
+			{/if}
 		</div>
 	</div>
 	<div class="w-full h-[0px] border border-stone-200"></div>
 	<div class="mt-4">
 		{#if chartType === 'line'}
-			<LineChart data={filteredData} {options} />
+			<LineChart {data} {options} />
 		{:else if chartType === 'bar'}
-			<BarChartGrouped data={filteredData} {options} />
+			<BarChartGrouped {data} {options} />
 		{:else if chartType === 'pie'}
 			<PieChart
-				data={filteredData}
+				{data}
 				options={{
 					...options,
 					legend: {
@@ -229,7 +167,11 @@
 				}}
 			/>
 		{:else if chartType === 'table'}
-			<Table data={filteredData} />
+			<Table {data} />
+		{:else if chartType === 'bar_stacked'}
+			<BarChartStacked {data} {options} />
+		{:else}
+			<p>Invalid chart type</p>
 		{/if}
 	</div>
 </div>

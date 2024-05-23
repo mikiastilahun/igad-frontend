@@ -2,12 +2,150 @@
 	import Hero from '$lib/assets/statistics/hero.png';
 	import Map from '$lib/components/leaflet/map.svelte';
 
-	import ChartCard from '$lib/components/charts/chart-card.svelte';
+	import ChartCard, { type DataType } from '$lib/components/charts/chart-card.svelte';
 
 	export let data;
 
 	const populationStats = data.data?.populationStats.data.attributes;
 	const populationPerCountry = data.data?.populationPerCountry.data.attributes;
+	const igadRegionMigration = data.data?.igadRegionMigrants.data.attributes;
+
+	const transformIGADRegionMigrationData = (data: typeof igadRegionMigration) => {
+		let transformedData = [];
+
+		for (let m in data?.migrant) {
+			let year = data.migrant[m].year;
+			if (Object.keys(data.migrant[m]).length > 0) {
+				for (let group in data.migrant[m]) {
+					// if the group is not an object, skip
+					if (typeof data.migrant[m][group] !== 'object') continue;
+					let groupData = data.migrant[m][group];
+					if (year.split('-')[0] === '2010') {
+						console.log({
+							group,
+							groupData
+						});
+					}
+					transformedData.push({
+						group: 'Total',
+						key: group,
+						value: groupData.male + groupData.female,
+						year: year
+					});
+					transformedData.push({
+						group: 'Male',
+						key: group,
+						value: groupData.male,
+						year: year
+					});
+					transformedData.push({
+						group: 'Female',
+						key: group,
+						value: groupData.female,
+						year: year
+					});
+				}
+			}
+		}
+
+		return transformedData;
+	};
+
+	const getUniqueYearsForIgadMigration = (data) => {
+		let uniqueYears = [
+			...new Set(
+				Object.values(data ?? {})
+					.flat()
+					.filter((item) => item && item.year)
+					.map((item) => item.year.split('-')[0])
+			)
+		];
+		let selectedYear = uniqueYears[0];
+		return { uniqueYears, selectedYear };
+	};
+	getUniqueYearsForIgadMigration(igadRegionMigration);
+
+	const getUniqueYearsAndAgeGroupsForPopulation = (data: any) => {
+		let uniqueYears = [
+			...new Set(
+				Object.values(data ?? {})
+					.flat()
+					.filter((item) => item && item.year)
+					.map((item) => item.year.split('-')[0])
+			)
+		];
+		let selectedYear = uniqueYears[0];
+
+		let uniqueAgeGroups = [
+			...new Set(
+				Object.values(data ?? {})
+					.flat()
+					.filter((item) => item && item.age_group)
+					.map((item) => item.age_group)
+			)
+		];
+		let selectedAgeGroup = uniqueAgeGroups[0];
+
+		return { uniqueYears, selectedYear, uniqueAgeGroups, selectedAgeGroup };
+	};
+
+	const transformPopulationPerCountryData = (data: any) => {
+		let transformedData: { group: string; key: string; value: any; age_group: any; year: any }[] =
+			[];
+		for (let country in data) {
+			if (Array.isArray(data[country])) {
+				data[country].forEach((item) => {
+					transformedData.push({
+						group: 'Total',
+						key: country,
+						value: item.male + item.female,
+						age_group: item.age_group,
+						year: item.year
+					});
+					// Add male data
+					transformedData.push({
+						group: 'Male',
+						key: country,
+						value: item.male,
+						age_group: item.age_group,
+						year: item.year
+					});
+					// Add
+					transformedData.push({
+						group: 'Female',
+						key: country,
+						value: item.female,
+						age_group: item.age_group,
+						year: item.year
+					});
+				});
+			}
+		}
+
+		return transformedData;
+	};
+
+	let { selectedYear, selectedAgeGroup, uniqueAgeGroups, uniqueYears } =
+		getUniqueYearsAndAgeGroupsForPopulation(populationPerCountry);
+	let transformedPopulationPerCountryData = transformPopulationPerCountryData(populationPerCountry);
+
+	let filteredPopulationPerCountryData: DataType[] = [];
+	$: {
+		filteredPopulationPerCountryData = transformedPopulationPerCountryData.filter((item) => {
+			return item.age_group === selectedAgeGroup && item.year.split('-')[0] === selectedYear;
+		});
+	}
+
+	// migration
+	let { selectedYear: selectedYearForIGAD, uniqueYears: uForIGAD } =
+		getUniqueYearsForIgadMigration(igadRegionMigration);
+	let transformedIgadRegionMigrationData = transformIGADRegionMigrationData(igadRegionMigration);
+	let filteredIGADRegionMigration: Omit<DataType, 'age_group'>[] = [];
+	$: {
+		filteredIGADRegionMigration = transformedIgadRegionMigrationData.filter((item) => {
+			return item.year.split('-')[0] === selectedYearForIGAD;
+		});
+	}
 </script>
 
 <div class="md:p-4">
@@ -52,7 +190,15 @@
 		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
-	<ChartCard externalData={populationPerCountry} title="Population" isSwappable={true} />
+	<ChartCard
+		bind:selectedAgeGroup
+		bind:selectedYear
+		{uniqueAgeGroups}
+		{uniqueYears}
+		data={filteredPopulationPerCountryData}
+		title="Population"
+		isSwappable={true}
+	/>
 </section>
 
 <section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-4">
@@ -64,7 +210,13 @@
 		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
-	<ChartCard externalData={populationPerCountry} title="Migrants" chartType="line" />
+	<ChartCard
+		bind:selectedYear={selectedYearForIGAD}
+		uniqueYears={uForIGAD}
+		data={filteredIGADRegionMigration}
+		title="Migrants"
+		chartType="bar_stacked"
+	/>
 	<p class="text-base leading-normal">
 		Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
 		phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
@@ -72,5 +224,5 @@
 		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
-	<ChartCard externalData={populationPerCountry} isSwappable={true} title="Migrants over 18" />
+	<!-- <ChartCard externalData={populationPerCountry} isSwappable={true} title="Migrants over 18" /> -->
 </section>

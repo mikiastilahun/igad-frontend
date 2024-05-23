@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { DataType } from './chart-card.svelte';
 
-	export let data: DataType = [];
+	export let data: DataType[] = [];
 
 	let columns: string[] = [];
 	let tableData: { [s: string]: any } | ArrayLike<any> = [];

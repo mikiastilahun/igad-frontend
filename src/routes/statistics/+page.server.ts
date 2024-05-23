@@ -80,9 +80,37 @@ export type PopulationPerCountryStats = {
 	meta: any;
 }
 
+type Migrant = {
+	total: number;
+	male: number;
+	female: number;
+}
+export type IGADRegionMigrants = {
+	data: {
+		id: number;
+		attributes: {
+			id: number;
+			createdAt: string;
+			updatedAt: string
+			publishedAt: string
+			migrant: {
+				id: number;
+				year: string;
+				total: Migrant;
+				migrants_15_plus: Migrant;
+				labor_force_migrants: Migrant;
+				youth_labor_force_migrants: Migrant;
+			}[
+			]
+		}
+	},
+	meta: any;
+}
+
 type ApiResponseStats = {
 	populationStats: PopulationStats;
 	populationPerCountry: PopulationPerCountryStats;
+	igadRegionMigrants: IGADRegionMigrants;
 }
 export const load: Load = async ({ fetch }) => {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -99,11 +127,19 @@ export const load: Load = async ({ fetch }) => {
 			throw new Error(`HTTP error! status: ${populationStatsResponse.status}`);
 		}
 
+		const igadRegionMigrantsResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/igad-region-migrant?populate=migrant.total,migrant.migrants_15_plus,migrant.labor_force_migrants,migrant.youth_labor_force_migrants`);
+
+		if (!igadRegionMigrantsResponse.ok) {
+			throw new Error(`HTTP error! status: ${populationStatsResponse.status}`);
+		}
+
 
 		const data: ApiResponseStats = {
 			populationStats: await populationStatsResponse.json(),
 			populationPerCountry: await populationPerCountryStatsResponse.json(),
+			igadRegionMigrants: await igadRegionMigrantsResponse.json(),
 		};
+
 
 
 
@@ -113,3 +149,6 @@ export const load: Load = async ({ fetch }) => {
 		return { error: (e as Error).message };
 	}
 };
+
+
+
