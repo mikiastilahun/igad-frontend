@@ -5,6 +5,7 @@
 		value: number;
 		age_group: string;
 		year: string;
+		country?: string;
 	};
 </script>
 
@@ -20,6 +21,7 @@
 	import Select from '$lib/components/_shared/select/select.svelte';
 	import Table from './table.svelte';
 
+	export let tableColumnName = 'Country';
 	export let title = '';
 	export let chartType: 'bar' | 'table' | 'pie' | 'line' | 'bar_stacked' = 'bar';
 	let chartTypes = ['bar', 'table', 'pie', 'line'];
@@ -30,6 +32,9 @@
 
 	export let uniqueAgeGroups: any[] = [];
 	export let selectedAgeGroup: string;
+
+	export let uniqueCountries: any[] = [];
+	export let selectedCountry: string;
 
 	export let data: any[] = [];
 
@@ -148,6 +153,22 @@
 					]}
 				/>
 			{/if}
+
+			<!-- select country -->
+			{#if uniqueCountries.length > 0}
+				<Select
+					placeholder="Select country"
+					bind:selectedOption={selectedCountry}
+					options={[
+						...uniqueCountries.map((country) => {
+							return {
+								value: country,
+								label: country
+							};
+						})
+					]}
+				/>
+			{/if}
 		</div>
 	</div>
 	<div class="w-full h-[0px] border border-stone-200"></div>
@@ -167,7 +188,7 @@
 				}}
 			/>
 		{:else if chartType === 'table'}
-			<Table {data} />
+			<Table {tableColumnName} {data} />
 		{:else if chartType === 'bar_stacked'}
 			<BarChartStacked {data} {options} />
 		{:else}

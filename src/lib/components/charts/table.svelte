@@ -2,6 +2,7 @@
 	import type { DataType } from './chart-card.svelte';
 
 	export let data: DataType[] = [];
+	export let tableColumnName = 'Country';
 
 	let columns: string[] = [];
 	let tableData: { [s: string]: any } | ArrayLike<any> = [];
@@ -9,7 +10,7 @@
 	// Make columns and tableData reactive
 	$: {
 		columns = Array.from(new Set(data.map((item) => item.group)));
-		columns.unshift('Country');
+		columns.unshift(tableColumnName);
 
 		tableData = data.reduce((acc: { [key: string]: any }, item) => {
 			if (!acc[item.key]) {

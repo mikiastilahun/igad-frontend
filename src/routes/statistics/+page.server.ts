@@ -80,6 +80,82 @@ export type PopulationPerCountryStats = {
 	meta: any;
 }
 
+export type MigrantsPerCountry = {
+	data: {
+		id: number;
+		attributes: {
+			Ethiopia: {
+				id: number;
+				year: string;
+				total: Migrant;
+				migrants_15_plus: Migrant;
+				labor_force_migrants: Migrant;
+				youth_labor_force_migrants: Migrant;
+			}[],
+			Kenya: {
+				id: number;
+				year: string;
+				total: Migrant;
+				migrants_15_plus: Migrant;
+				labor_force_migrants: Migrant;
+				youth_labor_force_migrants: Migrant;
+			}[],
+			SouthSudan: {
+				id: number;
+				year: string;
+				total: Migrant;
+				migrants_15_plus: Migrant;
+				labor_force_migrants: Migrant;
+				youth_labor_force_migrants: Migrant;
+			}[],
+			Eritrea: {
+				id: number;
+				year: string;
+				total: Migrant;
+				migrants_15_plus: Migrant;
+				labor_force_migrants: Migrant;
+				youth_labor_force_migrants: Migrant;
+			}[],
+			Somalia: {
+				id: number;
+				year: string;
+				total: Migrant;
+				migrants_15_plus: Migrant;
+				labor_force_migrants: Migrant;
+				youth_labor_force_migrants: Migrant;
+			}[],
+			Uganda: {
+				id: number;
+				year: string;
+				total: Migrant;
+				migrants_15_plus: Migrant;
+				labor_force_migrants: Migrant;
+				youth_labor_force_migrants: Migrant;
+			}[],
+			Sudan: {
+				id: number;
+				year: string;
+				total: Migrant;
+				migrants_15_plus: Migrant;
+				labor_force_migrants: Migrant;
+				youth_labor_force_migrants: Migrant;
+			}[],
+			Djibouti: {
+				id: number;
+				year: string;
+				total: Migrant;
+				migrants_15_plus: Migrant;
+				labor_force_migrants: Migrant;
+				youth_labor_force_migrants: Migrant;
+			}[],
+			createdAt: string;
+			updatedAt: string;
+			publishedAt: string;
+		};
+	};
+	meta: any;
+}
+
 type Migrant = {
 	total: number;
 	male: number;
@@ -111,6 +187,7 @@ type ApiResponseStats = {
 	populationStats: PopulationStats;
 	populationPerCountry: PopulationPerCountryStats;
 	igadRegionMigrants: IGADRegionMigrants;
+	migrantsPerCountry: MigrantsPerCountry;
 }
 export const load: Load = async ({ fetch }) => {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -133,15 +210,19 @@ export const load: Load = async ({ fetch }) => {
 			throw new Error(`HTTP error! status: ${populationStatsResponse.status}`);
 		}
 
+		const migrantsPerCountryResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/migrants-per-country?populate=Ethiopia.total,Ethiopia.migrants_15_plus,Ethiopia.labor_force_migrants,Ethiopia.youth_labor_force_migrants,Kenya.total,Kenya.migrants_15_plus,Kenya.labor_force_migrants,Kenya.youth_labor_force_migrants,SouthSudan.total,SouthSudan.migrants_15_plus,SouthSudan.labor_force_migrants,SouthSudan.youth_labor_force_migrants,Eritrea.total,Eritrea.migrants_15_plus,Eritrea.labor_force_migrants,Eritrea.youth_labor_force_migrants,Somalia.total,Somalia.migrants_15_plus,Somalia.labor_force_migrants,Somalia.youth_labor_force_migrants,Uganda.total,Uganda.migrants_15_plus,Uganda.labor_force_migrants,Uganda.youth_labor_force_migrants,Sudan.total,Sudan.migrants_15_plus,Sudan.labor_force_migrants,Sudan.youth_labor_force_migrants,Djibouti.total,Djibouti.migrants_15_plus,Djibouti.labor_force_migrants,Djibouti.youth_labor_force_migrants`);
+
+		if (!migrantsPerCountryResponse.ok) {
+			throw new Error(`HTTP error! status: ${populationStatsResponse.status}`);
+		}
+
 
 		const data: ApiResponseStats = {
 			populationStats: await populationStatsResponse.json(),
 			populationPerCountry: await populationPerCountryStatsResponse.json(),
 			igadRegionMigrants: await igadRegionMigrantsResponse.json(),
+			migrantsPerCountry: await migrantsPerCountryResponse.json()
 		};
-
-
-
 
 		return { data }
 	} catch (e: unknown) {

@@ -9,6 +9,51 @@
 	const populationStats = data.data?.populationStats.data.attributes;
 	const populationPerCountry = data.data?.populationPerCountry.data.attributes;
 	const igadRegionMigration = data.data?.igadRegionMigrants.data.attributes;
+	const migrantsPerCountry = data.data?.migrantsPerCountry.data.attributes;
+
+	const transformMigrantsPerCountry = (data: typeof migrantsPerCountry) => {
+		let transformedData: {
+			group: string;
+			key: string;
+			value: number;
+			year: string;
+			country: string;
+		}[] = [];
+
+		for (let country in data) {
+			if (Array.isArray(data[country])) {
+				data[country].forEach((item) => {
+					for (let group in item) {
+						if (typeof item[group] !== 'object') continue;
+						let groupData = item[group];
+						transformedData.push({
+							group: 'Total',
+							key: group,
+							value: groupData.male + groupData.female,
+							year: item.year,
+							country: country
+						});
+						transformedData.push({
+							group: 'Male',
+							key: group,
+							value: groupData.male,
+							year: item.year,
+							country: country
+						});
+						transformedData.push({
+							group: 'Female',
+							key: group,
+							value: groupData.female,
+							year: item.year,
+							country: country
+						});
+					}
+				});
+			}
+		}
+
+		return transformedData;
+	};
 
 	const transformIGADRegionMigrationData = (data: typeof igadRegionMigration) => {
 		let transformedData = [];
@@ -20,12 +65,7 @@
 					// if the group is not an object, skip
 					if (typeof data.migrant[m][group] !== 'object') continue;
 					let groupData = data.migrant[m][group];
-					if (year.split('-')[0] === '2010') {
-						console.log({
-							group,
-							groupData
-						});
-					}
+
 					transformedData.push({
 						group: 'Total',
 						key: group,
@@ -146,6 +186,30 @@
 			return item.year.split('-')[0] === selectedYearForIGAD;
 		});
 	}
+
+	// migration per country
+	let { selectedYear: selectedYearForMigrants, uniqueYears: uForMigrants } =
+		getUniqueYearsForIgadMigration(migrantsPerCountry);
+	let uniqueCountries = [
+		...new Set(
+			Object.keys(migrantsPerCountry ?? {}).filter((item) =>
+				Array.isArray(migrantsPerCountry[item])
+			)
+		)
+	];
+
+	let selectedCountry = uniqueCountries[0];
+
+	let transformedMigrantsPerCountry = transformMigrantsPerCountry(migrantsPerCountry);
+
+	let filteredMigrationPerCountry: Omit<DataType, 'age_group'>[] = [];
+	$: {
+		filteredMigrationPerCountry = transformedMigrantsPerCountry.filter((item) => {
+			return (
+				item.year.split('-')[0] === selectedYearForMigrants && item.country === selectedCountry
+			);
+		});
+	}
 </script>
 
 <div class="md:p-4">
@@ -224,5 +288,15 @@
 		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
-	<!-- <ChartCard externalData={populationPerCountry} isSwappable={true} title="Migrants over 18" /> -->
+	<ChartCard
+		bind:selectedYear={selectedYearForMigrants}
+		bind:selectedCountry
+		{uniqueCountries}
+		uniqueYears={uForMigrants}
+		data={filteredMigrationPerCountry}
+		isSwappable={true}
+		chartType="bar_stacked"
+		title="Migrants"
+		tableColumnName="Migrants"
+	/>
 </section>
