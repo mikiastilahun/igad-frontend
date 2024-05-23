@@ -21,7 +21,6 @@
 
 		tableData = Object.values(tableData);
 	}
-	$: console.log({ columns, tableData, data });
 </script>
 
 <table class="w-full bg-white">
