@@ -9,7 +9,13 @@ type Publication = {
 			content: string;
 			publicationDate: string;
 			featured: boolean;
-			publication_type: string;
+			publication_type: {
+				data: {
+					attributes: {
+						type: string;
+					};
+				};
+			};
 			coverImage: {
 				data: {
 					id: number;
