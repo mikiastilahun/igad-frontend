@@ -21,7 +21,7 @@
 
 	let uniqueYears: any[] = [
 		...new Set(
-			Object.values(data)
+			Object.values(data ?? {})
 				.flat()
 				.filter((item) => item && item.year)
 				.map((item) => item.year.split('-')[0])
@@ -29,8 +29,6 @@
 	];
 
 	let selectedYear: string = uniqueYears[0];
-
-	$: console.log(selectedYear, data);
 
 	// assign male
 
