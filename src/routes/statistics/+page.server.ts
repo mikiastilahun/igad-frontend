@@ -188,6 +188,7 @@ type ApiResponseStats = {
 	populationPerCountry: PopulationPerCountryStats;
 	igadRegionMigrants: IGADRegionMigrants;
 	migrantsPerCountry: MigrantsPerCountry;
+	refugeesPerCountry: PopulationPerCountryStats;
 }
 export const load: Load = async ({ fetch }) => {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -217,12 +218,21 @@ export const load: Load = async ({ fetch }) => {
 		}
 
 
+		const refugeesPerCountryResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/refugee?populate=*`);
+
+		if (!refugeesPerCountryResponse.ok) {
+			throw new Error(`HTTP error! status: ${populationStatsResponse.status}`);
+		}
+
+
 		const data: ApiResponseStats = {
 			populationStats: await populationStatsResponse.json(),
 			populationPerCountry: await populationPerCountryStatsResponse.json(),
 			igadRegionMigrants: await igadRegionMigrantsResponse.json(),
-			migrantsPerCountry: await migrantsPerCountryResponse.json()
+			migrantsPerCountry: await migrantsPerCountryResponse.json(),
+			refugeesPerCountry: await refugeesPerCountryResponse.json(),
 		};
+
 
 		return { data }
 	} catch (e: unknown) {

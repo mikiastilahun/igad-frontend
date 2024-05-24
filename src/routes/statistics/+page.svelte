@@ -10,6 +10,7 @@
 	const populationPerCountry = data.data?.populationPerCountry.data.attributes;
 	const igadRegionMigration = data.data?.igadRegionMigrants.data.attributes;
 	const migrantsPerCountry = data.data?.migrantsPerCountry.data.attributes;
+	const refugeesPerCountry = data.data?.refugeesPerCountry.data.attributes;
 
 	const transformMigrantsPerCountry = (data: typeof migrantsPerCountry) => {
 		let transformedData: {
@@ -105,6 +106,7 @@
 	};
 	getUniqueYearsForIgadMigration(igadRegionMigration);
 
+	// population
 	const getUniqueYearsAndAgeGroupsForPopulation = (data: any) => {
 		let uniqueYears = [
 			...new Set(
@@ -162,6 +164,8 @@
 			}
 		}
 
+		console.log(transformedData);
+
 		return transformedData;
 	};
 
@@ -208,6 +212,21 @@
 			return (
 				item.year.split('-')[0] === selectedYearForMigrants && item.country === selectedCountry
 			);
+		});
+	}
+
+	// refugees
+	let {
+		selectedYear: selectedYearForRefugees,
+		uniqueYears: uForRefugees,
+		uniqueAgeGroups: uForRefugeesAgeGroups
+	} = getUniqueYearsAndAgeGroupsForPopulation(refugeesPerCountry);
+	let transformedRefugeesPerCountryData = transformPopulationPerCountryData(refugeesPerCountry);
+
+	let filteredRefugeesPerCountryData: DataType[] = [];
+	$: {
+		filteredRefugeesPerCountryData = transformedRefugeesPerCountryData.filter((item) => {
+			return item.year.split('-')[0] === selectedYearForRefugees;
 		});
 	}
 </script>
@@ -299,4 +318,30 @@
 		title="Migrants"
 		tableColumnName="Migrants"
 	/>
+</section>
+
+<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-4">
+	<h2 class="text-2xl font-bold leading-normal">Refugees</h2>
+	<p class="text-base leading-normal">
+		Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
+		phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
+		Sodales pulvinar facilisi donec facilisis.Lorem ipsum dolor sit amet consectetur. Egestas nulla
+		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
+		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
+	</p>
+	<ChartCard
+		bind:selectedYear={selectedYearForRefugees}
+		uniqueYears={uForRefugees}
+		uniqueAgeGroups={uForRefugeesAgeGroups}
+		data={filteredRefugeesPerCountryData}
+		title="Refugees"
+		chartType="pie"
+	/>
+	<p class="text-base leading-normal">
+		Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
+		phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
+		Sodales pulvinar facilisi donec facilisis.Lorem ipsum dolor sit amet consectetur. Egestas nulla
+		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
+		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
+	</p>
 </section>

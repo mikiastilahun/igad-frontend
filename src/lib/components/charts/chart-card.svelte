@@ -28,13 +28,13 @@
 	export let isSwappable = false;
 
 	export let uniqueYears: any[] = [];
-	export let selectedYear: string;
+	export let selectedYear: string = 'All';
 
 	export let uniqueAgeGroups: any[] = [];
-	export let selectedAgeGroup: string;
+	export let selectedAgeGroup: string = 'All';
 
 	export let uniqueCountries: any[] = [];
-	export let selectedCountry: string;
+	export let selectedCountry: string = 'All';
 
 	export let data: any[] = [];
 
@@ -69,6 +69,23 @@
 			enabled: false
 		}
 	};
+
+	const totalAgeGroupValue = data
+		.filter((d) => d.group === 'Total')
+		.reduce((acc, curr) => acc + curr.value, 0);
+
+	function formatNumber(num: number) {
+		if (num >= 1e9) {
+			return (num / 1e9).toFixed(1) + 'B';
+		}
+		if (num >= 1e6) {
+			return (num / 1e6).toFixed(1) + 'M';
+		}
+		if (num >= 1e3) {
+			return (num / 1e3).toFixed(1) + 'k';
+		}
+		return num.toString();
+	}
 </script>
 
 <div class="bg-white shadow grid gap-6 p-2 md:p-6 rounded bg-zin">
@@ -178,15 +195,89 @@
 		{:else if chartType === 'bar'}
 			<BarChartGrouped {data} {options} />
 		{:else if chartType === 'pie'}
-			<PieChart
-				{data}
-				options={{
-					...options,
-					legend: {
-						alignment: 'center'
-					}
-				}}
-			/>
+			<div class="flex gap-8 flex-col-reverse md:flex-row">
+				<div class="flex-1">
+					<PieChart
+						data={data
+							.filter((item) => item.group === 'Total')
+							.reduce((acc, curr) => {
+								let found = acc.find((a) => a.key === curr.key);
+								if (found) {
+									found.value += curr.value;
+								} else {
+									acc.push({ ...curr });
+								}
+								return acc;
+							}, [])}
+						options={{
+							...options,
+							data: {
+								groupMapsTo: 'key'
+							},
+							color: {
+								scale: {
+									Djibouti: '#1DA0F0',
+									Eritrea: '#58CB86',
+									Ethiopia: '#00833F',
+									Kenya: '#F4BE49',
+									Somalia: '#F4BE49',
+									SouthSudan: 'rgb(55, 65, 81)',
+									Sudan: ' #9747FF',
+									Uganda: '#E74C3C'
+								}
+							},
+							legend: { enabled: true }
+						}}
+					/>
+				</div>
+				<div class=" flex-1">
+					<div class="flex flex-col gap-8">
+						<div class="flex justify-between items-end">
+							<span class="text-stone-500 text-base font-bold">Age Group</span>
+							<div class="flex gap-1 flex-col justify-end items-end">
+								<span class="leading-tight text-stone-500">Total:</span>
+								<span class="text-stone-900 text-xl font-bold">
+									{data
+										.filter((d) => d.group === 'Total')
+										.reduce((acc, curr) => acc + curr.value, 0)}
+								</span>
+							</div>
+						</div>
+						<div class="flex flex-col gap-8">
+							{#each uniqueAgeGroups as ageGroup}
+								{@const totalForSingleAgeGroup = data
+									.filter((d) => d.age_group === ageGroup && d.group === 'Total')
+									.reduce((acc, curr) => acc + curr.value, 0)}
+								<div class="flex flex-col">
+									<div class="flex justify-between text-stone-500 text-xs">
+										<span>{ageGroup.replace('age', '')}</span>
+										<span>{totalForSingleAgeGroup}</span>
+									</div>
+									<div class="relative">
+										<div
+											style="width: {((totalForSingleAgeGroup / totalAgeGroupValue) * 100).toFixed(
+												2
+											)}%"
+											class="absolute top-0 left-0 z-10 h-4 bg-green-700 rounded"
+										></div>
+										<div class="absolute top-0 left-0 w-full h-4 bg-neutral-100 rounded"></div>
+									</div>
+								</div>
+							{/each}
+							<div class="flex justify-between text-stone-500 text-xs">
+								{#each Array.from({ length: 5 }).map((_, i) => i) as section}
+									{@const diff = totalAgeGroupValue / 5}
+									<span>
+										{formatNumber(
+											section === 0 ? 0 : section === 4 ? totalAgeGroupValue : section * diff
+										)}
+									</span>
+								{/each}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		{:else if chartType === 'table'}
 			<Table {tableColumnName} {data} />
 		{:else if chartType === 'bar_stacked'}
