@@ -40,7 +40,7 @@
 				},
 				{
 					title: 'Policies and Frameworks',
-					href: '/team',
+					href: '/policies',
 					icon: Badge,
 					description:
 						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'

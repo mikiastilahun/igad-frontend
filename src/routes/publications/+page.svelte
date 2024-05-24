@@ -6,7 +6,7 @@
 	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
 
 	import IGADLogo from '$lib/assets/igad-logo.png';
-	import { PUBLIC_STATIC_URL } from '$env/static/public';
+	import { PUBLIC_STATIC_URL, PUBLIC_STRAPI_URL } from '$env/static/public';
 	import dayjs from 'dayjs';
 	import { goto } from '$app/navigation';
 
@@ -44,7 +44,7 @@
 	const search = async () => {
 		console.log('searching');
 		await fetch(
-			`http://localhost:1337/api/publications?filters[title][$containsi]=${searchValue}&populate=*`,
+			`${PUBLIC_STRAPI_URL}/api/publications?filters[title][$containsi]=${searchValue}&populate=*`,
 			{
 				method: 'GET',
 				headers: {
@@ -75,7 +75,7 @@
 	const applyPublicationType = async () => {
 		console.log('searching');
 		await fetch(
-			`http://localhost:1337/api/publications?populate=*${
+			`${PUBLIC_STRAPI_URL}/api/publications?populate=*${
 				selectedPublicationTypes.length > 0
 					? selectedPublicationTypes.map(
 							(type, i) => `&filters[publication_type][type][$in][${i}]=${type}`
@@ -126,7 +126,7 @@
 
 		console.log('searching', startDate, endDate);
 		await fetch(
-			`http://localhost:1337/api/publications?filters[publicationDate][$between][0]=${startDate}3&filters[publicationDate][$between][1]=${endDate}&populate=*`,
+			`${PUBLIC_STRAPI_URL}/api/publications?filters[publicationDate][$between][0]=${startDate}3&filters[publicationDate][$between][1]=${endDate}&populate=*`,
 			{
 				method: 'GET',
 				headers: {
