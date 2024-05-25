@@ -278,6 +278,7 @@
 		bind:selectedYear
 		{uniqueAgeGroups}
 		{uniqueYears}
+		isAgeFilterable={true}
 		data={filteredPopulationPerCountryData}
 		title="Population"
 		isSwappable={true}
@@ -334,6 +335,7 @@
 		uniqueYears={uForRefugees}
 		uniqueAgeGroups={uForRefugeesAgeGroups}
 		data={filteredRefugeesPerCountryData}
+		showGenderIndicators={false}
 		title="Refugees"
 		chartType="pie"
 	/>

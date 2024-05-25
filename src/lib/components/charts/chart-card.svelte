@@ -36,6 +36,9 @@
 	export let uniqueCountries: any[] = [];
 	export let selectedCountry: string = 'All';
 
+	export let isAgeFilterable = false;
+	export let showGenderIndicators = true;
+
 	export let data: any[] = [];
 
 	export let options = {
@@ -98,7 +101,7 @@
 			<span class="text-zinc-400 text-base leading-tight">Statistics</span>
 			<div class="flex gap-6 justify-center items-baseline">
 				<h4 class="text-stone-900 text-lg font-bold leading-7">{title}</h4>
-				<div class="flex gap-3">
+				<div class="flex gap-3 {showGenderIndicators ? '' : 'hidden'}">
 					<div class="flex items-center">
 						<div class="h-2.5 w-2.5 rounded-full bg-gray-700 mr-2"></div>
 						<span class="text-neutral-400 text-xs font-normal leading-none">Total</span>
@@ -140,7 +143,7 @@
 				</div>
 			{/if}
 			<!-- select age group -->
-			{#if uniqueAgeGroups.length > 0}
+			{#if uniqueAgeGroups.length > 0 && isAgeFilterable}
 				<Select
 					placeholder="Select age group"
 					bind:selectedOption={selectedAgeGroup}
@@ -216,12 +219,12 @@
 							},
 							color: {
 								scale: {
-									Djibouti: '#1DA0F0',
-									Eritrea: '#58CB86',
+									Djibouti: '#6880FF',
+									Eritrea: '#8BC34A',
 									Ethiopia: '#00833F',
 									Kenya: '#F4BE49',
-									Somalia: '#F4BE49',
-									SouthSudan: 'rgb(55, 65, 81)',
+									Somalia: '#C34AB7',
+									SouthSudan: '#4AC3C3',
 									Sudan: ' #9747FF',
 									Uganda: '#E74C3C'
 								}
@@ -248,7 +251,7 @@
 								{@const totalForSingleAgeGroup = data
 									.filter((d) => d.age_group === ageGroup && d.group === 'Total')
 									.reduce((acc, curr) => acc + curr.value, 0)}
-								<div class="flex flex-col">
+								<div class="flex flex-col gap-1">
 									<div class="flex justify-between text-stone-500 text-xs">
 										<span>{ageGroup.replace('age', '')}</span>
 										<span>{totalForSingleAgeGroup}</span>
