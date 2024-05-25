@@ -156,6 +156,66 @@ export type MigrantsPerCountry = {
 	meta: any;
 }
 
+export type RemittancePerCountry = {
+	data: {
+		id: number;
+		attributes: {
+			Ethiopia: {
+				id: number;
+				year: string;
+				amount: number;
+				region: string
+			}[],
+			Kenya: {
+				id: number;
+				year: string;
+				amount: number;
+				region: string
+			}[],
+			SouthSudan: {
+				id: number;
+				year: string;
+				amount: number;
+				region: string
+			}[],
+			Eritrea: {
+				id: number;
+				year: string;
+				amount: number;
+				region: string
+			}[],
+			Somalia: {
+				id: number;
+				year: string;
+				amount: number;
+				region: string
+			}[],
+			Uganda: {
+				id: number;
+				year: string;
+				amount: number;
+				region: string
+			}[],
+			Sudan: {
+				id: number;
+				year: string;
+				amount: number;
+				region: string
+			}[],
+			Djibouti: {
+				id: number;
+				year: string;
+				amount: number;
+				region: string
+			}[],
+			createdAt: string;
+			updatedAt: string;
+			publishedAt: string;
+		};
+	};
+	meta: any;
+}
+
 type Migrant = {
 	total: number;
 	male: number;
@@ -189,6 +249,7 @@ type ApiResponseStats = {
 	igadRegionMigrants: IGADRegionMigrants;
 	migrantsPerCountry: MigrantsPerCountry;
 	refugeesPerCountry: PopulationPerCountryStats;
+	remittancePerCountry: RemittancePerCountry;
 }
 export const load: Load = async ({ fetch }) => {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -225,12 +286,20 @@ export const load: Load = async ({ fetch }) => {
 		}
 
 
+		const remittancePerCountryResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/remittance?populate=*`);
+
+		if (!remittancePerCountryResponse.ok) {
+			throw new Error(`HTTP error! status: ${remittancePerCountryResponse.status}`);
+		}
+
+
 		const data: ApiResponseStats = {
 			populationStats: await populationStatsResponse.json(),
 			populationPerCountry: await populationPerCountryStatsResponse.json(),
 			igadRegionMigrants: await igadRegionMigrantsResponse.json(),
 			migrantsPerCountry: await migrantsPerCountryResponse.json(),
 			refugeesPerCountry: await refugeesPerCountryResponse.json(),
+			remittancePerCountry: await remittancePerCountryResponse.json(),
 		};
 
 

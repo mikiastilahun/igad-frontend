@@ -3,6 +3,7 @@
 	import Map from '$lib/components/leaflet/map.svelte';
 
 	import ChartCard, { type DataType } from '$lib/components/charts/chart-card.svelte';
+	import RemittanceChart from '$lib/components/charts/remittance-chart.svelte';
 
 	export let data;
 
@@ -11,6 +12,7 @@
 	const igadRegionMigration = data.data?.igadRegionMigrants.data.attributes;
 	const migrantsPerCountry = data.data?.migrantsPerCountry.data.attributes;
 	const refugeesPerCountry = data.data?.refugeesPerCountry.data.attributes;
+	const remittancePerCountry = data.data?.remittancePerCountry.data.attributes;
 
 	const transformMigrantsPerCountry = (data: typeof migrantsPerCountry) => {
 		let transformedData: {
@@ -164,7 +166,24 @@
 			}
 		}
 
-		console.log(transformedData);
+		return transformedData;
+	};
+
+	const transformRemittancePerCountryData = (data: any) => {
+		// country, year, amount, region
+		let transformedData: { country: string; region: string; amount: string; year: string }[] = [];
+		for (let country in data) {
+			if (Array.isArray(data[country])) {
+				data[country].forEach((item) => {
+					transformedData.push({
+						country: country,
+						region: item.region,
+						amount: item.amount,
+						year: item.year.split('-')[0]
+					});
+				});
+			}
+		}
 
 		return transformedData;
 	};
@@ -229,6 +248,9 @@
 			return item.year.split('-')[0] === selectedYearForRefugees;
 		});
 	}
+
+	// Remittance
+	let transformedRemittancePerCountryData = transformRemittancePerCountryData(remittancePerCountry);
 </script>
 
 <div class="md:p-4">
@@ -338,6 +360,30 @@
 		showGenderIndicators={false}
 		title="Refugees"
 		chartType="pie"
+	/>
+	<p class="text-base leading-normal">
+		Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
+		phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
+		Sodales pulvinar facilisi donec facilisis.Lorem ipsum dolor sit amet consectetur. Egestas nulla
+		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
+		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
+	</p>
+</section>
+
+<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-4">
+	<h2 class="text-2xl font-bold leading-normal">Remittance</h2>
+	<p class="text-base leading-normal">
+		Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
+		phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
+		Sodales pulvinar facilisi donec facilisis.Lorem ipsum dolor sit amet consectetur. Egestas nulla
+		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
+		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
+	</p>
+	<RemittanceChart
+		isSwappable={true}
+		data={transformedRemittancePerCountryData}
+		title="Remittance"
+		chartType="line"
 	/>
 	<p class="text-base leading-normal">
 		Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
