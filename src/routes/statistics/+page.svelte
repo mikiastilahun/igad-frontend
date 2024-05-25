@@ -4,6 +4,7 @@
 
 	import ChartCard, { type DataType } from '$lib/components/charts/chart-card.svelte';
 	import RemittanceChart from '$lib/components/charts/remittance-chart.svelte';
+	import RefugeesChart, { type RefugeesType } from '$lib/components/charts/refugees-chart.svelte';
 
 	export let data;
 
@@ -132,7 +133,6 @@
 
 		return { uniqueYears, selectedYear, uniqueAgeGroups, selectedAgeGroup };
 	};
-
 	const transformPopulationPerCountryData = (data: any) => {
 		let transformedData: { group: string; key: string; value: any; age_group: any; year: any }[] =
 			[];
@@ -167,6 +167,24 @@
 		}
 
 		return transformedData;
+	};
+
+	const transformRefugeesPerCountryData = (data: any) => {
+		let t: any[] = [];
+		for (let country in data) {
+			if (Array.isArray(data[country])) {
+				data[country].forEach((item) => {
+					t.push({
+						country: country,
+						age_group: item.age_group,
+						male: item.male,
+						female: item.female,
+						year: item.year.split('-')[0]
+					});
+				});
+			}
+		}
+		return t;
 	};
 
 	const transformRemittancePerCountryData = (data: any) => {
@@ -235,19 +253,8 @@
 	}
 
 	// refugees
-	let {
-		selectedYear: selectedYearForRefugees,
-		uniqueYears: uForRefugees,
-		uniqueAgeGroups: uForRefugeesAgeGroups
-	} = getUniqueYearsAndAgeGroupsForPopulation(refugeesPerCountry);
-	let transformedRefugeesPerCountryData = transformPopulationPerCountryData(refugeesPerCountry);
 
-	let filteredRefugeesPerCountryData: DataType[] = [];
-	$: {
-		filteredRefugeesPerCountryData = transformedRefugeesPerCountryData.filter((item) => {
-			return item.year.split('-')[0] === selectedYearForRefugees;
-		});
-	}
+	let transformedRefugeesPerCountryData = transformRefugeesPerCountryData(refugeesPerCountry);
 
 	// Remittance
 	let transformedRemittancePerCountryData = transformRemittancePerCountryData(remittancePerCountry);
@@ -352,14 +359,11 @@
 		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
-	<ChartCard
-		bind:selectedYear={selectedYearForRefugees}
-		uniqueYears={uForRefugees}
-		uniqueAgeGroups={uForRefugeesAgeGroups}
-		data={filteredRefugeesPerCountryData}
-		showGenderIndicators={false}
+	<RefugeesChart
+		data={transformedRefugeesPerCountryData}
+		isSwappable={true}
 		title="Refugees"
-		chartType="pie"
+		chartType="line"
 	/>
 	<p class="text-base leading-normal">
 		Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
