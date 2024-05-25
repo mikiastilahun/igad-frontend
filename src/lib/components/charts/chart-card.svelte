@@ -20,6 +20,7 @@
 	import '@carbon/charts-svelte/styles.css';
 	import Select from '$lib/components/_shared/select/select.svelte';
 	import Table from './table.svelte';
+	import { formatNumber } from '$lib/utils/format-number.js';
 
 	export let tableColumnName = 'Country';
 	export let title = '';
@@ -76,19 +77,6 @@
 	const totalAgeGroupValue = data
 		.filter((d) => d.group === 'Total')
 		.reduce((acc, curr) => acc + curr.value, 0);
-
-	function formatNumber(num: number) {
-		if (num >= 1e9) {
-			return (num / 1e9).toFixed(1) + 'B';
-		}
-		if (num >= 1e6) {
-			return (num / 1e6).toFixed(1) + 'M';
-		}
-		if (num >= 1e3) {
-			return (num / 1e3).toFixed(1) + 'k';
-		}
-		return num.toString();
-	}
 </script>
 
 <div class="bg-white shadow grid gap-6 p-2 md:p-6 rounded bg-zin">
