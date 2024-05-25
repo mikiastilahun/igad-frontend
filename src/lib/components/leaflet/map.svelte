@@ -11,11 +11,13 @@
 	import sudan from '$lib/assets/json/sudan.json';
 	import uganda from '$lib/assets/json/uganda.json';
 
+	// import {} from 'leaflet';
+
 	import type { PopulationStats } from '../../../routes/+page.server.js';
 
 	import 'leaflet/dist/leaflet.css';
 
-	import type { LatLngExpression, Map } from 'leaflet';
+	import type { LatLngExpression, Map, geoJson, GeoJSON } from 'leaflet';
 
 	export let data: PopulationStats['data']['attributes'] | undefined;
 
@@ -51,6 +53,7 @@
 	};
 
 	let map: Map;
+	let geojson: GeoJSON;
 
 	const loadLeaflet = async () => {
 		const L = await import('leaflet');
@@ -214,7 +217,7 @@
 			maxZoom: 19,
 			attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 		}).addTo(map);
-		let geojson = L.geoJson(eastAfricaGeoJSON, {
+		geojson = L.geoJson(eastAfricaGeoJSON, {
 			style: style,
 			onEachFeature: (feature, layer) => {
 				layer.on({
@@ -228,6 +231,14 @@
 		info.addTo(map);
 		legend.addTo(map);
 	};
+
+	$: {
+		selectedYear;
+		if (geojson) {
+			geojson.clearLayers();
+			geojson.addData(eastAfricaGeoJSON);
+		}
+	}
 
 	onMount(() => {
 		loadLeaflet();
