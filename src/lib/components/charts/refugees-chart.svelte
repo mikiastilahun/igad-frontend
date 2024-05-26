@@ -325,12 +325,7 @@
 					},
 					legend: { enabled: true, alignment: 'center' },
 					pie: {
-						alignment: 'center',
-						labels: {
-							formatter: (d) => {
-								return `${d.data.group} (${d.data.value})`;
-							}
-						}
+						alignment: 'center'
 					}
 				}}
 			/>
