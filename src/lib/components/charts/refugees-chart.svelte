@@ -183,12 +183,12 @@
 					...options,
 					axes: {
 						bottom: {
-							title: 'Annual Remittance',
+							title: 'Year',
 							mapsTo: 'year',
 							scaleType: ScaleTypes.LABELS
 						},
 						left: {
-							title: ' Million US$',
+							title: 'Total Refugees',
 							mapsTo: 'value',
 							scaleType: ScaleTypes.LINEAR
 						}
