@@ -1,22 +1,29 @@
 <script lang="ts" context="module">
 	export type RefugeesType = {
 		country: string;
-		male: string;
-		female: any;
+		male: number;
+		female: number;
 		age_group: any;
 		year: any;
 		[key: string]: any;
 	};
+	export type TransformedBarType = {
+		group: string;
+		value: number;
+		age_group: any;
+		year: any;
+		country: string;
+	};
 </script>
 
 <script lang="ts">
-	import { LineChart, ScaleTypes, HeatmapChart, BarChartSimple } from '@carbon/charts-svelte';
+	import { LineChart, ScaleTypes, PieChart, BarChartGrouped } from '@carbon/charts-svelte';
 	import '@carbon/charts-svelte/styles.css';
 	import Select from '$lib/components/_shared/select/select.svelte';
 
 	export let title = '';
-	export let chartType: 'bar' | 'line' | 'heatmap' = 'line';
-	let chartTypes = ['line', 'bar', 'heatmap'];
+	export let chartType: 'bar' | 'line' | 'pie' = 'line';
+	let chartTypes = ['line', 'bar', 'pie'];
 	export let isSwappable = false;
 
 	export let data: any[] = [];
@@ -84,37 +91,82 @@
 			.filter((x) => x !== undefined);
 	};
 
-	let remittanceBarData = [];
+	let refugeesBarData: TransformedBarType[] = [];
+	let refugeesPieData: { group: string; value: number }[] = [];
 
 	const transformDataForBar = (data: RefugeesType[]) => {
-		//calculate the total amount for each country over the years and return an array of objects with country and total amount
-		// filter the data by year if selectedYear is not 'All'
-		if (selectedYear !== 'All') {
-			data = data.filter((d) => d.year === selectedYear);
-		}
-		const countries = data.reduce((acc, curr) => {
-			if (acc[curr.country]) {
-				acc[curr.country] += curr.amount;
-			} else {
-				acc[curr.country] = curr.amount;
-			}
-			return acc;
-		}, {});
+		let transformedData: TransformedBarType[] = [];
 
-		return Object.keys(countries).map((country) => {
-			return {
-				group: country,
-				amount: countries[country]
-			};
-		});
+		data
+			.filter((d) => d.year === selectedYear && d.country === selectedCountry)
+			.map((d) => {
+				transformedData.push({
+					group: 'Male',
+					value: d.male,
+					age_group: d.age_group.split(' ')[1],
+					year: d.year,
+					country: d.country
+				});
+				transformedData.push({
+					group: 'Female',
+					value: d.female,
+					age_group: d.age_group.split(' ')[1],
+					year: d.year,
+					country: d.country
+				});
+			});
+
+		transformedData.push(
+			...transformedData,
+			{
+				group: 'Male',
+				value: transformedData
+					.filter((d) => d.group === 'Male')
+					.reduce((acc, curr) => acc + curr.value, 0),
+				age_group: 'Total',
+				year: selectedYear,
+				country: selectedCountry
+			},
+			{
+				group: 'Female',
+				value: transformedData
+					.filter((d) => d.group === 'Female')
+					.reduce((acc, curr) => acc + curr.value, 0),
+				age_group: 'Total',
+				year: selectedYear,
+				country: selectedCountry
+			}
+		);
+
+		return transformedData;
+	};
+
+	const transformPieChartData = (data: RefugeesType[]) => {
+		let transformedData: { group: string; value: number }[] = [];
+
+		data
+			.filter((d) => d.year === selectedYear && d.country === selectedCountry)
+			.map((d) => {
+				transformedData.push({
+					group: d.age_group,
+					value: d.male + d.female
+				});
+			});
+
+		return transformedData;
 	};
 
 	$: {
-		selectedYear, (remittanceBarData = transformDataForBar(data));
+		selectedYear;
+		selectedCountry;
+		refugeesBarData = transformDataForBar(data);
+		refugeesPieData = transformPieChartData(data);
 	}
 
 	const uniqueYears = data.map((d) => d.year).filter((v, i, a) => a.indexOf(v) === i);
-	let selectedYear = 'All';
+	const uniqueCountries = data.map((d) => d.country).filter((v, i, a) => a.indexOf(v) === i);
+	let selectedYear = uniqueYears[0];
+	let selectedCountry = uniqueCountries[0];
 </script>
 
 <div class="bg-white shadow grid gap-6 p-2 md:p-6 rounded bg-zin">
@@ -127,19 +179,41 @@
 			<span class="text-zinc-400 text-base leading-tight">Statistics</span>
 			<div class="flex gap-6 justify-center items-baseline">
 				<h4 class="text-stone-900 text-lg font-bold leading-7">{title}</h4>
+				<div class="flex gap-3 {chartType === 'bar' ? '' : 'hidden'}">
+					<div class="flex items-center">
+						<div class="h-2.5 w-2.5 rounded-full bg-primary-500 mr-2"></div>
+						<span class="text-neutral-400 text-xs font-normal leading-none">Male</span>
+					</div>
+					<div class="flex items-center">
+						<div class="h-2.5 w-2.5 rounded-full bg-secondary-500 mr-2"></div>
+						<span class="text-neutral-400 text-xs font-normal leading-none">Female</span>
+					</div>
+				</div>
 			</div>
 		</div>
 
 		<div class=" flex gap-3 flex-col md:flex-row">
-			{#if chartType === 'bar'}
+			{#if chartType === 'bar' || chartType === 'pie'}
 				<div class=" flex gap-3 flex-col md:flex-row">
 					<!-- select year -->
 					<Select
 						placeholder="Select year"
 						bind:selectedOption={selectedYear}
 						options={[
-							{ value: 'All', label: 'All' },
 							...uniqueYears.map((year) => {
+								return {
+									value: year,
+									label: year
+								};
+							})
+						]}
+					/>
+					<!-- select year -->
+					<Select
+						placeholder="Select country"
+						bind:selectedOption={selectedCountry}
+						options={[
+							...uniqueCountries.map((year) => {
 								return {
 									value: year,
 									label: year
@@ -210,85 +284,54 @@
 			/>
 		{:else if chartType === 'bar'}
 			{#key selectedYear}
-				<BarChartSimple
-					data={transformDataForBar(data)}
+				<BarChartGrouped
+					data={refugeesBarData}
 					options={{
 						...options,
 						axes: {
 							bottom: {
-								title: 'Country',
-								mapsTo: 'group',
+								title: 'Age Group',
+								mapsTo: 'age_group',
 								scaleType: ScaleTypes.LABELS
 							},
 							left: {
-								title: 'Total Remittance (Million US$)',
-								mapsTo: 'amount',
+								title: 'Number of Refugees ',
+								mapsTo: 'value',
 								scaleType: ScaleTypes.LINEAR
 							}
 						},
 						color: {
 							scale: {
-								Djibouti: '#6880FF',
-								Eritrea: '#8BC34A',
-								Ethiopia: '#00833F',
-								Kenya: '#F4BE49',
-								Somalia: '#C34AB7',
-								SouthSudan: '#4AC3C3',
-								Sudan: ' #9747FF',
-								Uganda: '#E74C3C'
+								Male: '#00833F',
+								Female: '#F4BE49'
 							}
 						}
 					}}
 				/>
 			{/key}
-		{:else if chartType === 'heatmap'}
-			<HeatmapChart
-				data={data.map((d) => {
-					return {
-						...d,
-						value: d.amount
-					};
-				})}
+		{:else if chartType === 'pie'}
+			<PieChart
+				data={refugeesPieData}
 				options={{
 					...options,
-					axes: {
-						bottom: {
-							title: 'Country',
-							mapsTo: 'country',
-							scaleType: ScaleTypes.LABELS
-						},
-						left: {
-							title: 'year',
-							mapsTo: 'year',
-							scaleType: ScaleTypes.LABELS
-						}
-					},
-					heatmap: {
-						colorLegend: {
-							title: 'Remittance (Million US$)',
-							type: 'linear'
-						},
-						divider: {
-							state: 'off'
-						}
-					},
 					color: {
-						gradient: {
-							colors: [
-								'#fef9ed',
-								'#fdf2db',
-								'#fbe5b6',
-								'#f8d892',
-								'#f6cb6d',
-								'#f4be49',
-								'#c3983a',
-								'#92722c',
-								'#624c1d',
-								'#31260f'
-							]
+						scale: {
+							'age 0-4': '#6880FF',
+							'age 5-11': '#8BC34A',
+							'age 12-17': '#00833F',
+							'age 18-69': '#F4BE49',
+							'age 60+': '#C34AB7'
 						}
 					},
-					legend: { enabled: true }
+					legend: { enabled: true, alignment: 'center' },
+					pie: {
+						alignment: 'center',
+						labels: {
+							formatter: (d) => {
+								return `${d.data.group} (${d.data.value})`;
+							}
+						}
+					}
 				}}
 			/>
 		{:else}
