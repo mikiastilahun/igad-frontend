@@ -75,6 +75,7 @@ export type PopulationPerCountryStats = {
 			createdAt: string;
 			updatedAt: string;
 			publishedAt: string;
+			[key: string]: any;
 		};
 	};
 	meta: any;

@@ -9,6 +9,9 @@
 	import MigrantsPerCountryChart, {
 		type MigrantsType
 	} from '$lib/components/charts/migrants-per-country-chart.svelte';
+	import PopulationPerCountryChart, {
+		type PopulationType
+	} from '$lib/components/charts/population-per-country-chart.svelte';
 
 	export let data;
 
@@ -78,40 +81,25 @@
 
 		return { uniqueYears, selectedYear, uniqueAgeGroups, selectedAgeGroup };
 	};
-	const transformPopulationPerCountryData = (data: any) => {
-		let transformedData: { group: string; key: string; value: any; age_group: any; year: any }[] =
-			[];
+	const transformPopulationPerCountryData = (data: typeof populationPerCountry) => {
+		let t: PopulationType[] = [];
+
 		for (let country in data) {
 			if (Array.isArray(data[country])) {
-				data[country].forEach((item) => {
-					transformedData.push({
-						group: 'Total',
-						key: country,
-						value: item.male + item.female,
+				data[country].forEach((item: PopulationType) => {
+					t.push({
 						age_group: item.age_group,
-						year: item.year
-					});
-					// Add male data
-					transformedData.push({
-						group: 'Male',
-						key: country,
-						value: item.male,
-						age_group: item.age_group,
-						year: item.year
-					});
-					// Add
-					transformedData.push({
-						group: 'Female',
-						key: country,
-						value: item.female,
-						age_group: item.age_group,
-						year: item.year
+						male: item.male,
+						female: item.female,
+						country: country,
+						year: item.year.split('-')[0],
+						id: item.id
 					});
 				});
 			}
 		}
 
-		return transformedData;
+		return t;
 	};
 
 	const transformRefugeesPerCountryData = (data: any) => {
@@ -150,20 +138,6 @@
 
 		return transformedData;
 	};
-
-	let { selectedYear, selectedAgeGroup, uniqueAgeGroups, uniqueYears } =
-		getUniqueYearsAndAgeGroupsForPopulation(populationPerCountry);
-	let transformedPopulationPerCountryData = transformPopulationPerCountryData(populationPerCountry);
-
-	let filteredPopulationPerCountryData: DataType[] = [];
-	$: {
-		filteredPopulationPerCountryData = transformedPopulationPerCountryData.filter((item) => {
-			return item.age_group === selectedAgeGroup && item.year.split('-')[0] === selectedYear;
-		});
-	}
-
-	// migration
-	// let transformedMigrationData = transformIGADRegionMigrationData(igadRegionMigration);
 
 	// refugees
 
@@ -215,15 +189,12 @@
 		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
-	<ChartCard
-		bind:selectedAgeGroup
-		bind:selectedYear
-		{uniqueAgeGroups}
-		{uniqueYears}
-		isAgeFilterable={true}
-		data={filteredPopulationPerCountryData}
+	<PopulationPerCountryChart
+		data={transformPopulationPerCountryData(populationPerCountry)}
+		externalData={populationPerCountry}
 		title="Population"
 		isSwappable={true}
+		chartType="bar"
 	/>
 </section>
 
