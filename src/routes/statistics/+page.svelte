@@ -5,6 +5,7 @@
 	import ChartCard, { type DataType } from '$lib/components/charts/chart-card.svelte';
 	import RemittanceChart from '$lib/components/charts/remittance-chart.svelte';
 	import RefugeesChart, { type RefugeesType } from '$lib/components/charts/refugees-chart.svelte';
+	import MigrantsChart from '$lib/components/charts/migrants-chart.svelte';
 
 	export let data;
 
@@ -53,42 +54,6 @@
 						});
 					}
 				});
-			}
-		}
-
-		return transformedData;
-	};
-
-	const transformIGADRegionMigrationData = (data: typeof igadRegionMigration) => {
-		let transformedData = [];
-
-		for (let m in data?.migrant) {
-			let year = data.migrant[m].year;
-			if (Object.keys(data.migrant[m]).length > 0) {
-				for (let group in data.migrant[m]) {
-					// if the group is not an object, skip
-					if (typeof data.migrant[m][group] !== 'object') continue;
-					let groupData = data.migrant[m][group];
-
-					transformedData.push({
-						group: 'Total',
-						key: group,
-						value: groupData.male + groupData.female,
-						year: year
-					});
-					transformedData.push({
-						group: 'Male',
-						key: group,
-						value: groupData.male,
-						year: year
-					});
-					transformedData.push({
-						group: 'Female',
-						key: group,
-						value: groupData.female,
-						year: year
-					});
-				}
 			}
 		}
 
@@ -218,39 +183,7 @@
 	}
 
 	// migration
-	let { selectedYear: selectedYearForIGAD, uniqueYears: uForIGAD } =
-		getUniqueYearsForIgadMigration(igadRegionMigration);
-	let transformedIgadRegionMigrationData = transformIGADRegionMigrationData(igadRegionMigration);
-	let filteredIGADRegionMigration: Omit<DataType, 'age_group'>[] = [];
-	$: {
-		filteredIGADRegionMigration = transformedIgadRegionMigrationData.filter((item) => {
-			return item.year.split('-')[0] === selectedYearForIGAD;
-		});
-	}
-
-	// migration per country
-	let { selectedYear: selectedYearForMigrants, uniqueYears: uForMigrants } =
-		getUniqueYearsForIgadMigration(migrantsPerCountry);
-	let uniqueCountries = [
-		...new Set(
-			Object.keys(migrantsPerCountry ?? {}).filter((item) =>
-				Array.isArray(migrantsPerCountry[item])
-			)
-		)
-	];
-
-	let selectedCountry = uniqueCountries[0];
-
-	let transformedMigrantsPerCountry = transformMigrantsPerCountry(migrantsPerCountry);
-
-	let filteredMigrationPerCountry: Omit<DataType, 'age_group'>[] = [];
-	$: {
-		filteredMigrationPerCountry = transformedMigrantsPerCountry.filter((item) => {
-			return (
-				item.year.split('-')[0] === selectedYearForMigrants && item.country === selectedCountry
-			);
-		});
-	}
+	// let transformedMigrationData = transformIGADRegionMigrationData(igadRegionMigration);
 
 	// refugees
 
@@ -323,12 +256,11 @@
 		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
-	<ChartCard
-		bind:selectedYear={selectedYearForIGAD}
-		uniqueYears={uForIGAD}
-		data={filteredIGADRegionMigration}
+	<MigrantsChart
+		data={igadRegionMigration?.migrant}
 		title="Migrants"
-		chartType="bar_stacked"
+		isSwappable={true}
+		chartType="line"
 	/>
 	<p class="text-base leading-normal">
 		Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
@@ -337,7 +269,7 @@
 		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
-	<ChartCard
+	<!-- <ChartCard
 		bind:selectedYear={selectedYearForMigrants}
 		bind:selectedCountry
 		{uniqueCountries}
@@ -347,7 +279,7 @@
 		chartType="bar_stacked"
 		title="Migrants"
 		tableColumnName="Migrants"
-	/>
+	/> -->
 </section>
 
 <section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-4">
