@@ -16,14 +16,21 @@
 </script>
 
 <script lang="ts">
-	import { LineChart, ScaleTypes, BarChartGrouped, BarChartStacked } from '@carbon/charts-svelte';
+	import {
+		LineChart,
+		ScaleTypes,
+		BarChartGrouped,
+		BarChartStacked,
+		PieChart
+	} from '@carbon/charts-svelte';
 	import '@carbon/charts-svelte/styles.css';
 	import Select from '$lib/components/_shared/select/select.svelte';
 	import type { PopulationPerCountryStats } from '../../../routes/statistics/proxy+page.server.js';
+	import { formatNumber } from '$lib/utils/format-number.js';
 
 	export let title = '';
-	export let chartType: 'bar' | 'line' = 'line';
-	let chartTypes = ['line', 'bar'];
+	export let chartType: 'bar' | 'line' | 'pie' = 'line';
+	let chartTypes = ['line', 'bar', 'pie'];
 	export let isSwappable = false;
 
 	export let data: any[] = [];
@@ -92,6 +99,7 @@
 	};
 
 	let populationBarData: TransformedBarType[] = [];
+	let populationPieData: { group: string; value: number }[] = [];
 
 	const transformDataForBar = () => {
 		let transformedData: any[] = [];
@@ -135,10 +143,54 @@
 		return transformedData;
 	};
 
+	const transformPieChartData = (data: PopulationType[]) => {
+		let transformedData: { group: string; value: number }[] = [];
+
+		data
+			.filter((d) => d.year === selectedYear && d.country === selectedCountry)
+			.map((d) => {
+				let ageCategory = '';
+				if (
+					d.age_group.includes('age 0-4') ||
+					d.age_group.includes('age 5-9') ||
+					d.age_group.includes('age 10-14')
+				) {
+					ageCategory = '0-14';
+				} else if (
+					d.age_group.includes('age 15-19') ||
+					d.age_group.includes('age 20-24') ||
+					d.age_group.includes('age 25-29') ||
+					d.age_group.includes('age 30-34') ||
+					d.age_group.includes('age 35-39') ||
+					d.age_group.includes('age 40-44') ||
+					d.age_group.includes('age 45-49') ||
+					d.age_group.includes('age 50-54') ||
+					d.age_group.includes('age 55-59') ||
+					d.age_group.includes('age 60-64')
+				) {
+					ageCategory = '15-64';
+				} else {
+					ageCategory = '65+';
+				}
+				const existingData = transformedData.find((item) => item.group === ageCategory);
+				if (existingData) {
+					existingData.value += d.male + d.female;
+				} else {
+					transformedData.push({
+						group: ageCategory,
+						value: d.male + d.female
+					});
+				}
+			});
+
+		return transformedData;
+	};
+
 	$: {
 		selectedCountry;
 		selectedYear;
 		populationBarData = transformDataForBar();
+		populationPieData = transformPieChartData(data);
 	}
 
 	const uniqueYears = data.map((d) => d.year).filter((v, i, a) => a.indexOf(v) === i);
@@ -174,7 +226,7 @@
 		<div class=" flex gap-3 flex-col md:flex-row">
 			<div class=" flex gap-3 flex-col md:flex-row">
 				<!-- select migrant type -->
-				{#if chartType === 'bar'}
+				{#if chartType === 'bar' || chartType === 'pie'}
 					<Select
 						placeholder="Select country"
 						bind:selectedOption={selectedCountry}
@@ -281,6 +333,71 @@
 					}
 				}}
 			/>
+		{:else if chartType === 'pie'}
+			<div class="flex gap-8 flex-col-reverse md:flex-row">
+				<div class="flex-1">
+					<PieChart
+						data={populationPieData}
+						options={{
+							...options,
+							color: {
+								scale: {
+									'0-14': '#F4BE49',
+									'15-64': '#8BC34A',
+									'65+': '#ADFF2F'
+								}
+							},
+							legend: { enabled: true, alignment: 'center' },
+							pie: {
+								alignment: 'center'
+							}
+						}}
+					/>
+				</div>
+				<div class=" flex-1">
+					<div class="flex flex-col gap-8">
+						<div class="flex justify-between items-end">
+							<span class="text-stone-500 text-base font-bold">Age Group</span>
+							<div class="flex gap-1 flex-col justify-end items-end">
+								<span class="leading-tight text-stone-500">Total:</span>
+								<span class="text-stone-900 text-xl font-bold">
+									{populationPieData.reduce((acc, curr) => acc + curr.value, 0)}
+								</span>
+							</div>
+						</div>
+						<div class="flex flex-col gap-8">
+							{#each ['0-14', '15-64', '65+'] as ageGroup}
+								{@const totalForSingleAgeGroup =
+									populationPieData.find((d) => d.group === ageGroup)?.value || 0}
+								{@const total = populationPieData.reduce((acc, curr) => acc + curr.value, 0)}
+								<div class="flex flex-col gap-1">
+									<div class="flex justify-between text-stone-500 text-xs">
+										<span>{ageGroup}</span>
+										<span>{formatNumber(totalForSingleAgeGroup)}</span>
+									</div>
+									<div class="relative">
+										<div
+											style="width: {((totalForSingleAgeGroup / total) * 100).toFixed(2)}%"
+											class="absolute top-0 left-0 z-10 h-4 bg-green-700
+												 rounded"
+										></div>
+										<div class="absolute top-0 left-0 w-full h-4 bg-neutral-100 rounded"></div>
+									</div>
+								</div>
+							{/each}
+							<div class="flex justify-between text-stone-500 text-xs">
+								{#each Array.from({ length: 5 }).map((_, i) => i) as section}
+									{@const total = populationPieData.reduce((acc, curr) => acc + curr.value, 0)}
+									{@const diff = total / 5}
+									<span>
+										{formatNumber(section === 0 ? 0 : section === 4 ? total : section * diff)}
+									</span>
+								{/each}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		{:else}
 			<p>Invalid chart type</p>
 		{/if}
