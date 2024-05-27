@@ -2,9 +2,8 @@
 	import Hero from '$lib/assets/statistics/hero.png';
 	import Map from '$lib/components/leaflet/map.svelte';
 
-	import ChartCard, { type DataType } from '$lib/components/charts/chart-card.svelte';
 	import RemittanceChart from '$lib/components/charts/remittance-chart.svelte';
-	import RefugeesChart, { type RefugeesType } from '$lib/components/charts/refugees-chart.svelte';
+	import RefugeesChart from '$lib/components/charts/refugees-chart.svelte';
 	import MigrantsChart from '$lib/components/charts/migrants-chart.svelte';
 	import MigrantsPerCountryChart, {
 		type MigrantsType
@@ -43,44 +42,6 @@
 		return t;
 	};
 
-	const getUniqueYearsForIgadMigration = (data) => {
-		let uniqueYears = [
-			...new Set(
-				Object.values(data ?? {})
-					.flat()
-					.filter((item) => item && item.year)
-					.map((item) => item.year.split('-')[0])
-			)
-		];
-		let selectedYear = uniqueYears[0];
-		return { uniqueYears, selectedYear };
-	};
-	getUniqueYearsForIgadMigration(igadRegionMigration);
-
-	// population
-	const getUniqueYearsAndAgeGroupsForPopulation = (data: any) => {
-		let uniqueYears = [
-			...new Set(
-				Object.values(data ?? {})
-					.flat()
-					.filter((item) => item && item.year)
-					.map((item) => item.year.split('-')[0])
-			)
-		];
-		let selectedYear = uniqueYears[0];
-
-		let uniqueAgeGroups = [
-			...new Set(
-				Object.values(data ?? {})
-					.flat()
-					.filter((item) => item && item.age_group)
-					.map((item) => item.age_group)
-			)
-		];
-		let selectedAgeGroup = uniqueAgeGroups[0];
-
-		return { uniqueYears, selectedYear, uniqueAgeGroups, selectedAgeGroup };
-	};
 	const transformPopulationPerCountryData = (data: typeof populationPerCountry) => {
 		let t: PopulationType[] = [];
 
@@ -194,7 +155,7 @@
 		externalData={populationPerCountry}
 		title="Population"
 		isSwappable={true}
-		chartType="bar"
+		chartType="line"
 	/>
 </section>
 

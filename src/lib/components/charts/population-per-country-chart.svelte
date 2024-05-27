@@ -16,13 +16,7 @@
 </script>
 
 <script lang="ts">
-	import {
-		LineChart,
-		ScaleTypes,
-		BarChartGrouped,
-		BarChartStacked,
-		PieChart
-	} from '@carbon/charts-svelte';
+	import { LineChart, ScaleTypes, BarChartStacked, PieChart } from '@carbon/charts-svelte';
 	import '@carbon/charts-svelte/styles.css';
 	import Select from '$lib/components/_shared/select/select.svelte';
 	import type { PopulationPerCountryStats } from '../../../routes/statistics/proxy+page.server.js';
@@ -195,7 +189,6 @@
 
 	const uniqueYears = data.map((d) => d.year).filter((v, i, a) => a.indexOf(v) === i);
 	const uniqueCountries = data.map((d) => d.country).filter((v, i, a) => a.indexOf(v) === i);
-	const uniqueAgeGroups = data.map((d) => d.age_group).filter((v, i, a) => a.indexOf(v) === i);
 	let selectedYear = uniqueYears[0];
 	let selectedCountry = uniqueCountries[0];
 </script>
