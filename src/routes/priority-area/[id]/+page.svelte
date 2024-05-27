@@ -29,7 +29,7 @@
 	</div>
 </section>
 
-<section class="max-w-5xl flex mx-auto gap-16 p-4">
+<section class="max-w-7xl flex flex-col-reverse mx-auto gap-16 p-4 md:flex md:flex-row">
 	<div class="w-full py-10">
 		<h2
 			class="text-3xl font-bold text-primary mt-4 mb-4 border-b-2 border-primary pb-2"
@@ -38,7 +38,7 @@
 			{priorityArea?.attributes.header}
 		</h2>
 		<!-- content -->
-		<p class="mx-auto prose">
+		<p class="prose w-full !max-w-full">
 			<SvelteMarkdown source={priorityArea?.attributes.Content} />
 		</p>
 
@@ -147,7 +147,7 @@
 
 	<!-- side nav with header selector-->
 
-	<div class="flex items-center gap-4 flex-col max-w-64 mt-40">
+	<div class="flex items-center gap-4 flex-col max-w-80 mt-40">
 		<a
 			href="#header"
 			class="hover:text-secondary transition-colors duration-300 ease-in-out text-primary"
