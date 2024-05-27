@@ -6,6 +6,9 @@
 	import RemittanceChart from '$lib/components/charts/remittance-chart.svelte';
 	import RefugeesChart, { type RefugeesType } from '$lib/components/charts/refugees-chart.svelte';
 	import MigrantsChart from '$lib/components/charts/migrants-chart.svelte';
+	import MigrantsPerCountryChart, {
+		type MigrantsType
+	} from '$lib/components/charts/migrants-per-country-chart.svelte';
 
 	export let data;
 
@@ -17,47 +20,24 @@
 	const remittancePerCountry = data.data?.remittancePerCountry.data.attributes;
 
 	const transformMigrantsPerCountry = (data: typeof migrantsPerCountry) => {
-		let transformedData: {
-			group: string;
-			key: string;
-			value: number;
-			year: string;
-			country: string;
-		}[] = [];
+		let t: MigrantsType[] = [];
 
 		for (let country in data) {
 			if (Array.isArray(data[country])) {
-				data[country].forEach((item) => {
-					for (let group in item) {
-						if (typeof item[group] !== 'object') continue;
-						let groupData = item[group];
-						transformedData.push({
-							group: 'Total',
-							key: group,
-							value: groupData.male + groupData.female,
-							year: item.year,
-							country: country
-						});
-						transformedData.push({
-							group: 'Male',
-							key: group,
-							value: groupData.male,
-							year: item.year,
-							country: country
-						});
-						transformedData.push({
-							group: 'Female',
-							key: group,
-							value: groupData.female,
-							year: item.year,
-							country: country
-						});
-					}
+				data[country].forEach((item: MigrantsType) => {
+					t.push({
+						country: country,
+						labor_force_migrants: item.labor_force_migrants,
+						migrants_15_plus: item.migrants_15_plus,
+						youth_labor_force_migrants: item.youth_labor_force_migrants,
+						year: item.year.split('-')[0],
+						id: item.id
+					});
 				});
 			}
 		}
 
-		return transformedData;
+		return t;
 	};
 
 	const getUniqueYearsForIgadMigration = (data) => {
@@ -269,17 +249,12 @@
 		ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit
 		ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
 	</p>
-	<!-- <ChartCard
-		bind:selectedYear={selectedYearForMigrants}
-		bind:selectedCountry
-		{uniqueCountries}
-		uniqueYears={uForMigrants}
-		data={filteredMigrationPerCountry}
+	<MigrantsPerCountryChart
+		data={transformMigrantsPerCountry(migrantsPerCountry)}
 		isSwappable={true}
-		chartType="bar_stacked"
-		title="Migrants"
-		tableColumnName="Migrants"
-	/> -->
+		chartType="bar"
+		title="Migrants per country"
+	/>
 </section>
 
 <section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-4">

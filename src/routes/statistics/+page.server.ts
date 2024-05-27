@@ -87,7 +87,6 @@ export type MigrantsPerCountry = {
 			Ethiopia: {
 				id: number;
 				year: string;
-				total: Migrant;
 				migrants_15_plus: Migrant;
 				labor_force_migrants: Migrant;
 				youth_labor_force_migrants: Migrant;
@@ -95,7 +94,6 @@ export type MigrantsPerCountry = {
 			Kenya: {
 				id: number;
 				year: string;
-				total: Migrant;
 				migrants_15_plus: Migrant;
 				labor_force_migrants: Migrant;
 				youth_labor_force_migrants: Migrant;
@@ -103,7 +101,6 @@ export type MigrantsPerCountry = {
 			SouthSudan: {
 				id: number;
 				year: string;
-				total: Migrant;
 				migrants_15_plus: Migrant;
 				labor_force_migrants: Migrant;
 				youth_labor_force_migrants: Migrant;
@@ -111,7 +108,6 @@ export type MigrantsPerCountry = {
 			Eritrea: {
 				id: number;
 				year: string;
-				total: Migrant;
 				migrants_15_plus: Migrant;
 				labor_force_migrants: Migrant;
 				youth_labor_force_migrants: Migrant;
@@ -119,7 +115,6 @@ export type MigrantsPerCountry = {
 			Somalia: {
 				id: number;
 				year: string;
-				total: Migrant;
 				migrants_15_plus: Migrant;
 				labor_force_migrants: Migrant;
 				youth_labor_force_migrants: Migrant;
@@ -127,7 +122,6 @@ export type MigrantsPerCountry = {
 			Uganda: {
 				id: number;
 				year: string;
-				total: Migrant;
 				migrants_15_plus: Migrant;
 				labor_force_migrants: Migrant;
 				youth_labor_force_migrants: Migrant;
@@ -135,7 +129,6 @@ export type MigrantsPerCountry = {
 			Sudan: {
 				id: number;
 				year: string;
-				total: Migrant;
 				migrants_15_plus: Migrant;
 				labor_force_migrants: Migrant;
 				youth_labor_force_migrants: Migrant;
@@ -143,7 +136,6 @@ export type MigrantsPerCountry = {
 			Djibouti: {
 				id: number;
 				year: string;
-				total: Migrant;
 				migrants_15_plus: Migrant;
 				labor_force_migrants: Migrant;
 				youth_labor_force_migrants: Migrant;
@@ -151,6 +143,7 @@ export type MigrantsPerCountry = {
 			createdAt: string;
 			updatedAt: string;
 			publishedAt: string;
+			[key: string]: any;
 		};
 	};
 	meta: any;
@@ -217,7 +210,6 @@ export type RemittancePerCountry = {
 }
 
 type Migrant = {
-	total: number;
 	male: number;
 	female: number;
 }
