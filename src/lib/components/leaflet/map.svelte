@@ -11,17 +11,20 @@
 	import sudan from '$lib/assets/json/sudan.json';
 	import uganda from '$lib/assets/json/uganda.json';
 
+	// import {} from 'leaflet';
+
 	import type { PopulationStats } from '../../../routes/+page.server.js';
 
 	import 'leaflet/dist/leaflet.css';
 
-	import type { LatLngExpression, Map } from 'leaflet';
+	import type { Map, GeoJSON } from 'leaflet';
+	import { formatNumber } from '$lib/utils/format-number.js';
 
 	export let data: PopulationStats['data']['attributes'] | undefined;
 
 	let uniqueYears: any[] = [
 		...new Set(
-			Object.values(data)
+			Object.values(data ?? {})
 				.flat()
 				.filter((item) => item && item.year)
 				.map((item) => item.year.split('-')[0])
@@ -29,10 +32,6 @@
 	];
 
 	let selectedYear: string = uniqueYears[0];
-
-	$: console.log(selectedYear, data);
-
-	// assign male
 
 	$: eastAfricaGeoJSON = {
 		type: 'FeatureCollection',
@@ -53,26 +52,44 @@
 	};
 
 	let map: Map;
+	let geojson: GeoJSON;
+	let grades: number[] = [];
+
+	const calculateGrades = () => {
+		let max = Math.max(
+			...eastAfricaGeoJSON.features.map((country) => country.features[0].properties.TOTAL)
+		);
+		let min = Math.min(
+			...eastAfricaGeoJSON.features.map((country) => country.features[0].properties.TOTAL)
+		);
+
+		let step = (max - min) / 8;
+		for (let i = 0; i < 8; i++) {
+			grades.push(min + step * i);
+		}
+	};
 
 	const loadLeaflet = async () => {
 		const L = await import('leaflet');
 		const screenWidth = window.innerWidth;
 
+		calculateGrades();
+
 		function getColor(d: number) {
 			// total number of density groups: 8
-			return d > 1000
+			return d > grades[8]
 				? '#005a32'
-				: d > 500
+				: d > grades[7]
 					? '#238b45'
-					: d > 200
+					: d > grades[6]
 						? '#41ab5d'
-						: d > 100
+						: d > grades[5]
 							? '#74c476'
-							: d > 50
+							: d > grades[4]
 								? '#a1d99b'
-								: d > 20
+								: d > grades[3]
 									? '#c7e9c0'
-									: d > 10
+									: d > grades[2]
 										? '#e5f5e0'
 										: '#f7fcf5';
 		}
@@ -128,9 +145,9 @@
                 </div>
             </div>
             <div class="flex-col justify-start items-start gap-2 inline-flex">
-                <div class=" text-xs font-semibold  leading-[18px]">${layer.feature.properties.TOTAL}</div>
-                <div class=" text-xs font-semibold  leading-[18px]"> ${layer.feature.properties.MALE}</div>
-                <div class=" text-xs font-semibold  leading-[18px]">${layer.feature.properties.FEMALE}</div>
+                <div class=" text-xs font-semibold  leading-[18px]">${formatNumber(layer.feature.properties.TOTAL)}</div>
+                <div class=" text-xs font-semibold  leading-[18px]"> ${formatNumber(layer.feature.properties.MALE)}</div>
+                <div class=" text-xs font-semibold  leading-[18px]">${formatNumber(layer.feature.properties.FEMALE)}</div>
             </div>
         </div>
     </div>
@@ -158,7 +175,6 @@
 
 		legend.onAdd = function (map) {
 			var div = L.DomUtil.create('div', 'info legend'),
-				grades = [0, 10, 20, 50, 100, 200, 500, 1000],
 				labels = [],
 				from,
 				to;
@@ -168,7 +184,7 @@
 				to = grades[i + 1];
 
 				labels.push(
-					`<span><i style="background:${getColor(from + 1)}"></i> ${from}${to ? '&ndash;' + to : '+'}</span>`
+					`<span><i style="background:${getColor(from + 1)}"></i> ${formatNumber(from)}${to ? '&ndash;' + formatNumber(to) : '+'}</span>`
 				);
 			}
 
@@ -186,9 +202,9 @@
 				'<h4>IGAD Population</h4>' +
 				(props
 					? `<b>Population</b><br/>
-            <b>Total: </b>${props.TOTAL}<br/>
-            <b>Male: </b>${props.MALE}<br/>
-            <b>Female: </b>${props.FEMALE}`
+            <b>Total: </b>${formatNumber(props.TOTAL)}<br/>
+            <b>Male: </b>${formatNumber(props.MALE)}<br/>
+            <b>Female: </b>${formatNumber(props.FEMALE)}`
 					: 'Hover over a country');
 		};
 
@@ -216,7 +232,7 @@
 			maxZoom: 19,
 			attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 		}).addTo(map);
-		let geojson = L.geoJson(eastAfricaGeoJSON, {
+		geojson = L.geoJson(eastAfricaGeoJSON, {
 			style: style,
 			onEachFeature: (feature, layer) => {
 				layer.on({
@@ -230,6 +246,14 @@
 		info.addTo(map);
 		legend.addTo(map);
 	};
+
+	$: {
+		selectedYear;
+		if (geojson) {
+			geojson.clearLayers();
+			geojson.addData(eastAfricaGeoJSON);
+		}
+	}
 
 	onMount(() => {
 		loadLeaflet();

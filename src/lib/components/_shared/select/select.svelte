@@ -13,7 +13,7 @@
 	bind:value={selectedOption}
 	class="w-full min-w-[180px] h-10 px-2 bg-white rounded-lg border border-zinc-200 text-zinc-900 text-xs font-semibold font-['Open Sans']"
 >
-	<option value="">{placeholder}</option>
+	<option value="" disabled>{placeholder}</option>
 	{#each options as option (option.value)}
 		<option value={option.value}>{option.label}</option>
 	{/each}
