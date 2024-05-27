@@ -2,12 +2,33 @@
 	import IGAD_LOGO from '$lib/assets/igad-logo.png';
 	import { fade } from 'svelte/transition';
 	import { linear } from 'svelte/easing';
+	import { PUBLIC_STATIC_URL } from '$env/static/public';
 	let name = '';
 	let email = '';
 	let showCongrats = false;
 
-	function register() {
+	async function register() {
 		// Add your registration logic here
+
+		// send a fetch post request to PUBLIC_STATIC_URL/learning-material-interest-form
+		const data = {
+			fullname: name,
+			email
+		};
+
+		const response = await fetch(`${PUBLIC_STATIC_URL}/api/learning-material-interest-forms`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ data: data })
+		});
+
+		if (!response.ok) {
+			console.error('Failed to register');
+			return;
+		}
+
 		showCongrats = true;
 	}
 
