@@ -59,8 +59,12 @@
 	</div>
 	<div class="w-full">
 		<!-- content -->
-		<p class="max-w-5xl mx-auto prose">
+		<!-- <p class="max-w-5xl mx-auto prose">
 			<SvelteMarkdown source={news?.attributes.content} />
+		</p> -->
+
+		<p class="max-w-5xl mx-auto prose ck-content">
+			{@html news?.attributes.article}
 		</p>
 	</div>
 </section>

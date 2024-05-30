@@ -16,7 +16,7 @@
 		return {
 			id: item.id,
 			title: item.attributes.title,
-			content: item.attributes.content,
+			content: item.attributes.mainContent || '',
 			coverImage: item.attributes.coverImage,
 			publicationDate: item.attributes.publicationDate,
 			publication_type: item.attributes.publication_type
@@ -27,7 +27,7 @@
 		return {
 			id: item.id,
 			title: item.attributes.title,
-			content: item.attributes.content,
+			content: item.attributes.mainContent || '',
 			coverImage: item.attributes.coverImage,
 			publicationDate: item.attributes.publicationDate,
 			publication_type: item.attributes.publication_type
@@ -59,7 +59,7 @@
 					return {
 						id: item.id,
 						title: item.attributes.title,
-						content: item.attributes.content,
+						content: item.attributes.mainContent,
 						coverImage: item.attributes.coverImage,
 						publicationDate: item.attributes.publicationDate,
 						publication_type: item.attributes.publication_type
@@ -96,7 +96,7 @@
 					return {
 						id: item.id,
 						title: item.attributes.title,
-						content: item.attributes.content,
+						content: item.attributes.mainContent,
 						coverImage: item.attributes.coverImage,
 						publicationDate: item.attributes.publicationDate,
 						publication_type: item.attributes.publication_type
@@ -141,7 +141,7 @@
 					return {
 						id: item.id,
 						title: item.attributes.title,
-						content: item.attributes.content,
+						content: item.attributes.mainContent,
 						coverImage: item.attributes.coverImage,
 						publicationDate: item.attributes.publicationDate,
 						publication_type: item.attributes.publication_type
