@@ -35,7 +35,7 @@
 			{title}.
 		</h2>
 
-		<p class="mt-2 text-zinc-500 text-sm">
+		<p class="mt-2 text-zinc-500 text-sm line-clamp-3 ...">
 			{description}
 		</p>
 	</div>

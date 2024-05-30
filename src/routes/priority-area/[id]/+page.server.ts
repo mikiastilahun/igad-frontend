@@ -8,7 +8,7 @@ type PriorityArea = {
 			Title: string;
 			header: string;
 			ShortDescription: string;
-			Content: string;
+			mainContent: string;
 			IgadActions: {
 				id: number;
 				ActionTitle: string;

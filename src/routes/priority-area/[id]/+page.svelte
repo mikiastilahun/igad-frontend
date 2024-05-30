@@ -36,7 +36,7 @@
 		</h2>
 		<!-- content -->
 		<p class="prose w-full !max-w-full">
-			<SvelteMarkdown source={priorityArea?.attributes.Content} />
+			<SvelteMarkdown source={priorityArea?.attributes.mainContent} />
 		</p>
 
 		<!-- IGAD ACTIONS -->

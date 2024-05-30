@@ -46,7 +46,7 @@
 					{#each news?.slice(1, 4) ?? [] as newsItem}
 						<FeaturedNewsCard
 							title={newsItem.attributes.title}
-							content={newsItem.attributes.content}
+							content={newsItem.attributes.article}
 							date={newsItem.attributes.date}
 							imgSrc={`${PUBLIC_STATIC_URL}${newsItem.attributes.thumbnail.data.attributes.url}`}
 							id={newsItem.id}
@@ -81,10 +81,23 @@
 <section class="max-w-[1136px] mx-auto py-10 px-8 md:px-4">
 	<h2 class="text-2xl font-bold">Our News</h2>
 	<div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-		<Card />
-		<Card />
-		<Card />
-		<Card />
+		{#each news || [] as newsItem}
+			{#if newsItem.attributes.thumbnail.data.attributes.url}
+				<Card
+					title={newsItem.attributes.title}
+					description={newsItem.attributes.article}
+					imageUrl={`${PUBLIC_STATIC_URL}${newsItem.attributes.thumbnail.data.attributes.url}`}
+					link={`news/${newsItem.id}`}
+				/>
+			{:else}
+				<Card
+					title={newsItem.attributes.title}
+					description={newsItem.attributes.article}
+					imageUrl={NewsImg2}
+					link={`news/${newsItem.id}`}
+				/>
+			{/if}
+		{/each}
 	</div>
 	<div class="text-center">
 		<button class="text-primary mt-8 font-semibold">Load More</button>

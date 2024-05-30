@@ -48,7 +48,7 @@
 
 		<!-- content -->
 		<p class="max-w-5xl mx-auto prose">
-			<SvelteMarkdown source={publication?.content} />
+			<SvelteMarkdown source={publication?.mainContent} />
 		</p>
 	</div>
 

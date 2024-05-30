@@ -6,7 +6,7 @@ type NewsData = {
 		id: number;
 		attributes: {
 			title: string;
-			content: string;
+			article: string;
 			date: string;
 			createdAt: string;
 			updatedAt: string;
