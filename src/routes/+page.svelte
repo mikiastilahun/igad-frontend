@@ -101,10 +101,10 @@
 											x: lastSelectedPriorityArea < selectedPriorityArea ? -100 : 100
 										}}
 									>
-										<h1 class="text-2xl md:text-3xl font-bold mb-2">
+										<h1 class="text-2xl md:text-4xl font-bold mb-2">
 											{area.attributes.Title ?? ''}
 										</h1>
-										<p class=" text-base md:text-base font-normal leading-normal">
+										<p class=" text-lg md:text-2xl font-normal leading-normal">
 											{area.attributes.ShortDescription ?? ''}
 										</p>
 
