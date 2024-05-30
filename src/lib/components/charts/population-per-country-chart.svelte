@@ -19,7 +19,10 @@
 	import { LineChart, ScaleTypes, BarChartStacked, PieChart } from '@carbon/charts-svelte';
 	import '@carbon/charts-svelte/styles.css';
 	import Select from '$lib/components/_shared/select/select.svelte';
-	import type { PopulationPerCountryStats } from '../../../routes/statistics/proxy+page.server.js';
+	import type {
+		AgeGroup,
+		PopulationPerCountryStats
+	} from '../../../routes/statistics/proxy+page.server.js';
 	import { formatNumber } from '$lib/utils/format-number.js';
 
 	export let title = '';
@@ -137,35 +140,30 @@
 		return transformedData;
 	};
 
+	const mapAgeGroupToCategory = (ageGroup: AgeGroup) => {
+		const age = parseInt(ageGroup.split(' ')[1].split('-')[1]);
+
+		if (age <= 14) {
+			return '0-14';
+		} else if (age <= 19) {
+			return '15-19';
+		} else if (age <= 29) {
+			return '20-29';
+		} else if (age <= 59) {
+			return '30-59';
+		} else {
+			return '60+';
+		}
+	};
+
 	const transformPieChartData = (data: PopulationType[]) => {
 		let transformedData: { group: string; value: number }[] = [];
 
 		data
 			.filter((d) => d.year === selectedYear && d.country === selectedCountry)
 			.map((d) => {
-				let ageCategory = '';
-				if (
-					d.age_group.includes('age 0-4') ||
-					d.age_group.includes('age 5-9') ||
-					d.age_group.includes('age 10-14')
-				) {
-					ageCategory = '0-14';
-				} else if (
-					d.age_group.includes('age 15-19') ||
-					d.age_group.includes('age 20-24') ||
-					d.age_group.includes('age 25-29') ||
-					d.age_group.includes('age 30-34') ||
-					d.age_group.includes('age 35-39') ||
-					d.age_group.includes('age 40-44') ||
-					d.age_group.includes('age 45-49') ||
-					d.age_group.includes('age 50-54') ||
-					d.age_group.includes('age 55-59') ||
-					d.age_group.includes('age 60-64')
-				) {
-					ageCategory = '15-64';
-				} else {
-					ageCategory = '65+';
-				}
+				let ageCategory = mapAgeGroupToCategory(d.age_group as AgeGroup);
+
 				const existingData = transformedData.find((item) => item.group === ageCategory);
 				if (existingData) {
 					existingData.value += d.male + d.female;
@@ -336,8 +334,10 @@
 							color: {
 								scale: {
 									'0-14': '#F4BE49',
-									'15-64': '#8BC34A',
-									'65+': '#ADFF2F'
+									'15-19': '#8BC34A',
+									'20-29': '#6880FF',
+									'30-59': '#E74C3C',
+									'60+': '#ADFF2F'
 								}
 							},
 							legend: { enabled: true, alignment: 'center' },
@@ -359,7 +359,7 @@
 							</div>
 						</div>
 						<div class="flex flex-col gap-8">
-							{#each ['0-14', '15-64', '65+'] as ageGroup}
+							{#each ['0-14', '15-19', '20-29', '30-59', '60+'] as ageGroup}
 								{@const totalForSingleAgeGroup =
 									populationPieData.find((d) => d.group === ageGroup)?.value || 0}
 								{@const total = populationPieData.reduce((acc, curr) => acc + curr.value, 0)}
