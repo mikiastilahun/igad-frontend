@@ -6,7 +6,7 @@ type Publication = {
 		id: number;
 		attributes: {
 			title: string;
-			content: string;
+			mainContent: string;
 			publicationDate: string;
 			featured: boolean;
 			publication_type: {
