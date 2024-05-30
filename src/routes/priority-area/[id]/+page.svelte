@@ -29,12 +29,9 @@
 	</div>
 </section>
 
-<section class="max-w-7xl flex flex-col-reverse mx-auto gap-16 p-4 md:flex md:flex-row">
-	<div class="w-full py-10">
-		<h2
-			class="text-3xl font-bold text-primary mt-4 mb-4 border-b-2 border-primary pb-2"
-			id="header"
-		>
+<section class="py-10 pl-8 flex gap-8 max-w-[1136px] mx-auto items-start relative">
+	<div class="w-full max-w-5xl ml-auto">
+		<h2 class="text-3xl font-bold text-primary mt-4 mb-4 pb-2" id="header">
 			{priorityArea?.attributes.header}
 		</h2>
 		<!-- content -->
@@ -43,12 +40,12 @@
 		</p>
 
 		<!-- IGAD ACTIONS -->
-		<div class="mt-4">
-			<h1 class="text-3xl font-bold mb-4">Actions for IGAD</h1>
+		<div class="mt-10">
+			<h1 class="text-2xl font-bold mb-4">Actions for IGAD</h1>
 
 			<div class="flex flex-col">
 				{#each priorityArea?.attributes.IgadActions || [] as action}
-					<h2 class="text-primary text-xl" id={action.ActionTitle}>
+					<h2 class="text-primary text-lg font-bold" id={action.ActionTitle}>
 						{action.ActionTitle}
 					</h2>
 					<!-- ul with action.actionItemList -->
@@ -63,12 +60,12 @@
 			</div>
 		</div>
 		<!-- MemberState ACTIONS -->
-		<div class="mt-4">
+		<div class="mt-10">
 			<h1 class="text-3xl font-bold mb-4">Actions for Member States</h1>
 
 			<div class="flex flex-col">
 				{#each priorityArea?.attributes.memberStateActions || [] as action}
-					<h2 class="text-primary text-xl" id={action.ActionTitle}>
+					<h2 class="text-primary text-lg font-bold" id={action.ActionTitle}>
 						{action.ActionTitle}
 					</h2>
 					<!-- ul with action.actionItemList -->
@@ -83,8 +80,8 @@
 			</div>
 		</div>
 		<!-- Expected Outcomes -->
-		<div class="mt-4">
-			<h1 class="text-2xl font-bold">Expected Outcomes</h1>
+		<div class="mt-10">
+			<h1 class="text-2xl font-bold" id="expected_outcome">Expected Outcomes</h1>
 
 			<div class="flex flex-col">
 				<ul class=" border-gray-300 rounded-md p-4 mb-4 list-disc list-outside">
@@ -146,42 +143,55 @@
 	</div>
 
 	<!-- side nav with header selector-->
+	<div class="w-full max-w-72 sticky top-10">
+		<div class="flex flex-col">
+			<a
+				href="#header"
+				class="border-l-2 hover:border-l-primary-700 px-3 transition-colors duration-300 ease-in-out hover:text-primary"
+				>{priorityArea?.attributes.header}</a
+			>
 
-	<div class="flex items-center gap-4 flex-col max-w-80 mt-40">
-		<a
-			href="#header"
-			class="hover:text-secondary transition-colors duration-300 ease-in-out text-primary"
-			>{priorityArea?.attributes.header}</a
-		>
+			<div class="py-4 border-l-2">
+				<p class="px-3 pb-2 text-green-700 text-sm font-semibold">Action for IGAD</p>
+				<ul class=" flex flex-col gap-2">
+					{#each priorityArea?.attributes.IgadActions || [] as action}
+						<li class="px-6 list-none border-l-2 hover:border-l-primary-700 -m-[2px]">
+							<a
+								href="#{action.ActionTitle}"
+								class="hover:text-primary text-sm transition-colors duration-300 ease-in-out"
+								>{action.ActionTitle}</a
+							>
+						</li>
+					{/each}
+				</ul>
+			</div>
 
-		<div>
-			<p>Action for IGAD</p>
-			<ul>
-				{#each priorityArea?.attributes.IgadActions || [] as action}
-					<li class="list-disc py-1">
+			<div class=" border-l-2">
+				<p class="px-3 pb-2 text-green-700 text-sm font-semibold">Action for Member States</p>
+				<ul class="flex flex-col gap-2">
+					{#each priorityArea?.attributes.memberStateActions || [] as action}
+						<li class="px-6 list-none border-l-2 hover:border-l-primary-700 -m-[2px]">
+							<a
+								href="#{action.ActionTitle}"
+								class="hover:text-primary text-sm transition-colors duration-300 ease-in-out"
+								>{action.ActionTitle}</a
+							>
+						</li>
+					{/each}
+				</ul>
+			</div>
+
+			<div class=" pt-4 border-l-2">
+				<ul class="flex flex-col gap-2">
+					<li class="px-3 list-none border-l-2 hover:border-l-primary-700 -m-[2px]">
 						<a
-							href="#{action.ActionTitle}"
-							class="hover:text-secondary transition-colors duration-300 ease-in-out text-primary"
-							>{action.ActionTitle}</a
+							href="#expected_outcome"
+							class="hover:text-primary text-sm transition-colors duration-300 ease-in-out"
+							>Expected outcome</a
 						>
 					</li>
-				{/each}
-			</ul>
-		</div>
-
-		<div>
-			<p>Action for Member States</p>
-			<ul>
-				{#each priorityArea?.attributes.memberStateActions || [] as action}
-					<li class="list-disc py-1">
-						<a
-							href="#{action.ActionTitle}"
-							class="hover:text-secondary transition-colors duration-300 ease-in-out text-primary"
-							>{action.ActionTitle}</a
-						>
-					</li>
-				{/each}
-			</ul>
+				</ul>
+			</div>
 		</div>
 	</div>
 </section>
