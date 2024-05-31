@@ -5,7 +5,8 @@
 	import BadgeIcon from '$lib/assets/icons/badge.svg.svelte';
 	import TreeStructureIcon from '$lib/assets/icons/tree-structure.svg.svelte';
 	import MenuDropdownItem from '../menu-dropdown-item/menu-dropdown-item.svelte';
-	import type { ComponentType } from 'svelte';
+	import { type ComponentType } from 'svelte';
+	import { onMount } from 'svelte';
 	import Team from '$lib/assets/nav/team.svg.svelte';
 	import Partner from '$lib/assets/nav/partner.svg.svelte';
 	import Mail from '$lib/assets/icons/mail.svg.svelte';
@@ -109,22 +110,7 @@
 	let activeIndex: number | null = null;
 	let mobileActiveIndex: number | null = null;
 	let isMobileOpen = false;
-
-	export let quickLinks: { label: string; href: string }[];
 </script>
-
-<!-- an always visible top sticky section above the navigation to show quick links separated by |  -->
-
-<div class=" bg-primary text-white text-sm font-semibold flex items-center gap-2 py-2">
-	<div
-		class="px-4 max-w-6xl mx-auto items-center gap-2 hidden lg:flex text-white bg-primary flex-row flex-wrap overflow-x-auto overflow-y-hidden whitespace-nowrap w-full top-0 z-10"
-	>
-		<p>Quick links:</p>
-		{#each quickLinks as link}
-			<a href={link.href} class="hover:underline hover:text-secondary">{link.label}</a>
-		{/each}
-	</div>
-</div>
 
 <div class="">
 	<header
@@ -329,5 +315,22 @@
 	.link:hover::after {
 		transform: scaleX(1);
 		transform-origin: bottom left;
+	}
+
+	.header-hidden {
+		transform: translateY(-100%);
+	}
+	.hover-underline-animation:after {
+		content: '';
+		display: block;
+		height: 2px;
+		background: #ff9e00; /* Change this to your desired color */
+		transition:
+			width 0.3s ease,
+			background-color 0.3s ease;
+		width: 0;
+	}
+	.hover-underline-animation:hover:after {
+		width: 100%;
 	}
 </style>
