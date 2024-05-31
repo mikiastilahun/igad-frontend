@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+	import { onMount } from 'svelte';
+
 	import IGAD_LOGO from '$lib/assets/igad-logo.png';
 	import { fade } from 'svelte/transition';
 	import { linear } from 'svelte/easing';
@@ -7,8 +9,33 @@
 	let email = '';
 	let showCongrats = false;
 
+	// @ts-ignore
+	let token: any;
+
+	onMount(() => {
+		const script = document.createElement('script');
+		script.src = 'https://www.google.com/recaptcha/api.js';
+		script.async = true;
+		script.defer = true;
+		document.head.appendChild(script);
+	});
+
+	$: console.log({ token });
+
 	async function register() {
-		// Add your registration logic here
+		// @ts-ignore
+		const t = grecaptcha.getResponse();
+		token = t;
+
+		if (!token || token.length === 0) {
+			alert('Please complete the reCAPTCHA');
+			return;
+		}
+
+		if (!name || !email) {
+			alert('Please fill in all fields');
+			return;
+		}
 
 		// send a fetch post request to PUBLIC_STATIC_URL/learning-material-interest-form
 		const data = {
@@ -30,6 +57,8 @@
 		}
 
 		showCongrats = true;
+
+		// 6LdMtewpAAAAALXMHE48391WzxOeewPO3Hu3SmTA
 	}
 
 	export let show = false;
@@ -85,6 +114,8 @@
 				type="email"
 				placeholder="Email"
 			/>
+			<div class="g-recaptcha p-4" data-sitekey="6LdMtewpAAAAAO3YQbhgzR0Ksan-aVhIwUgAHt4E"></div>
+
 			<button on:click={register} class="block w-full p-2 bg-secondary text-black rounded-md"
 				>Register</button
 			>

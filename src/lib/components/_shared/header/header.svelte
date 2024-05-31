@@ -109,7 +109,22 @@
 	let activeIndex: number | null = null;
 	let mobileActiveIndex: number | null = null;
 	let isMobileOpen = false;
+
+	export let quickLinks: { label: string; href: string }[];
 </script>
+
+<!-- an always visible top sticky section above the navigation to show quick links separated by |  -->
+
+<div class=" bg-primary text-white text-sm font-semibold flex items-center gap-2 py-2">
+	<div
+		class="px-4 max-w-6xl mx-auto items-center gap-2 hidden lg:flex text-white bg-primary flex-row flex-wrap overflow-x-auto overflow-y-hidden whitespace-nowrap w-full top-0 z-10"
+	>
+		<p>Quick links:</p>
+		{#each quickLinks as link}
+			<a href={link.href} class="hover:underline hover:text-secondary">{link.label}</a>
+		{/each}
+	</div>
+</div>
 
 <div class="">
 	<header
