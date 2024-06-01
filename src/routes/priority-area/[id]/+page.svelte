@@ -7,10 +7,6 @@
 	export let data;
 
 	const priorityArea = data.data?.priorityArea.data;
-
-	$: {
-		console.log({ priorityArea });
-	}
 </script>
 
 <section class="relative min-h-[674px] flex items-center rounded-lg bg-primary">

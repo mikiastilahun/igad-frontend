@@ -6,8 +6,6 @@
 
 	export let data;
 
-	console.log({ data });
-
 	const quickLinks =
 		data.data?.quickLinks.data.attributes.quickLinks.map((item) => ({
 			label: item.label,
