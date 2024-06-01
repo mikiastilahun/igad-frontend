@@ -57,8 +57,6 @@
 		}
 
 		showCongrats = true;
-
-		// 6LdMtewpAAAAALXMHE48391WzxOeewPO3Hu3SmTA
 	}
 
 	export let show = false;
