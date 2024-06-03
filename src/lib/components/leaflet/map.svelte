@@ -199,9 +199,9 @@
 
 		info.update = function (props) {
 			this._div.innerHTML =
-				'<h4>IGAD Population</h4>' +
+				'<h4>IGAD Countries Population</h4>' +
 				(props
-					? `<b>Population</b><br/>
+					? `<b>${props.COUNTRY} </b><br/>
             <b>Total: </b>${formatNumber(props.TOTAL)}<br/>
             <b>Male: </b>${formatNumber(props.MALE)}<br/>
             <b>Female: </b>${formatNumber(props.FEMALE)}`
@@ -284,10 +284,11 @@
 	:global(.info) {
 		padding: 6px 8px;
 		font-size: 12px;
-		background: white;
+		/* background: white; */
 		background: rgba(255, 255, 255, 0.8);
 		box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 		border-radius: 5px;
+		color: #000;
 	}
 
 	:global(.legend) {
