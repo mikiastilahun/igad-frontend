@@ -101,10 +101,10 @@
 											x: lastSelectedPriorityArea < selectedPriorityArea ? -100 : 100
 										}}
 									>
-										<h1 class="text-2xl md:text-4xl font-bold mb-2">
+										<h1 class="text-2xl md:text-4xl font-bold">
 											{area.attributes.Title ?? ''}
 										</h1>
-										<p class=" text-lg md:text-2xl font-normal leading-normal">
+										<p class=" text-lg opacity-80 leading-normal mt-4">
 											{area.attributes.ShortDescription ?? ''}
 										</p>
 
@@ -112,7 +112,8 @@
 											on:click={() => {
 												goto(`/priority-area/${area.id}`);
 											}}
-											class="block p-2 mt-4 bg-secondary text-black rounded-md">Read More</button
+											class="block mt-8 px-6 py-2 font-semibold bg-secondary text-black rounded-md"
+											>Read More</button
 										>
 									</div>
 								{/if}

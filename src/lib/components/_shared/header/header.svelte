@@ -113,9 +113,7 @@
 </script>
 
 <div class="">
-	<header
-		class="bg-white shadow-2xl rounded-full mt-8 w-fit max-w-6xl mx-auto hidden lg:flex gap-8"
-	>
+	<header class=" bg-white shadow-2xl rounded-full w-fit max-w-6xl mx-auto hidden lg:flex gap-8">
 		<a href="/">
 			<img src={IGAD_LOGO} alt="Logo" class="h-20 w-20 m-1" />
 		</a>
@@ -177,7 +175,7 @@
 		</div>
 	</header>
 
-	<div class="lg:hidden flex justify-end pr-8 pt-8 relative z-50">
+	<div class="lg:hidden flex justify-end pr-8 relative z-50">
 		<div
 			class="lg:hidden flex justify-center items-center w-11 h-11 bg-white rounded-full text-right"
 		>
