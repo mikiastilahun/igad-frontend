@@ -78,20 +78,20 @@
 		function getColor(d: number) {
 			// total number of density groups: 8
 			return d > grades[8]
-				? '#005a32'
+				? '#00512d'
 				: d > grades[7]
-					? '#238b45'
+					? '#005a32'
 					: d > grades[6]
-						? '#41ab5d'
+						? '#238b45'
 						: d > grades[5]
-							? '#74c476'
+							? '#41ab5d'
 							: d > grades[4]
-								? '#a1d99b'
+								? '#74c476'
 								: d > grades[3]
-									? '#c7e9c0'
+									? '#a1d99b'
 									: d > grades[2]
-										? '#e5f5e0'
-										: '#f7fcf5';
+										? '#c7e9c0'
+										: '#e5f5e0';
 		}
 
 		function style(feature: {
