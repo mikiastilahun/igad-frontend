@@ -202,7 +202,7 @@
 
 	<!-- Sidebar Navigation -->
 	<div class="sticky top-10 w-1/4">
-		<h2 class="text-xl font-bold mb-4">Projects</h2>
+		<h2 class="text-xl text-stone-900 font-bold mb-4">Projects</h2>
 		{#each projects as project, i}
 			<div class="pb-4 border-l-2">
 				<details class="group">

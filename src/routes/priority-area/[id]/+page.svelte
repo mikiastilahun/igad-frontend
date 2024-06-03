@@ -9,21 +9,23 @@
 	const priorityArea = data.data?.priorityArea.data;
 </script>
 
-<section class="relative min-h-[674px] flex items-center rounded-lg bg-primary">
-	<div class="max-w-7xl mx-auto flex items-center h-full gap-28">
-		<div class="max-w-3xl">
-			<h1 class="text-xl font-bold mb-2 text-white">{priorityArea?.attributes.Title}</h1>
-			<p class="text-white">{priorityArea?.attributes.ShortDescription}</p>
-		</div>
+<div class="md:p-4">
+	<section class="relative min-h-[674px] flex items-center rounded-lg bg-primary">
+		<div class="max-w-7xl mx-auto flex items-center h-full gap-28">
+			<div class="max-w-3xl">
+				<h1 class="text-xl font-bold mb-2 text-white">{priorityArea?.attributes.Title}</h1>
+				<p class="text-white">{priorityArea?.attributes.ShortDescription}</p>
+			</div>
 
-		<img
-			src="{PUBLIC_STATIC_URL}{priorityArea?.attributes.icon.data.attributes.url}"
-			alt={priorityArea?.attributes.Title}
-			height="200"
-			width="200"
-		/>
-	</div>
-</section>
+			<img
+				src="{PUBLIC_STATIC_URL}{priorityArea?.attributes.icon.data.attributes.url}"
+				alt={priorityArea?.attributes.Title}
+				height="200"
+				width="200"
+			/>
+		</div>
+	</section>
+</div>
 
 <section class="py-10 pl-8 flex gap-8 max-w-[1136px] mx-auto items-start relative">
 	<div class="w-full max-w-5xl ml-auto">
@@ -143,18 +145,18 @@
 		<div class="flex flex-col">
 			<a
 				href="#header"
-				class="border-l-2 hover:border-l-primary-700 px-3 transition-colors duration-300 ease-in-out hover:text-primary"
+				class="border-l-2 hover:border-l-primary-600 px-3 transition-colors duration-300 ease-in-out text-stone-900 hover:text-primary"
 				>{priorityArea?.attributes.header}</a
 			>
 
 			<div class="py-4 border-l-2">
-				<p class="px-3 pb-2 text-green-700 text-sm font-semibold">Action for IGAD</p>
+				<p class="px-3 pb-2 text-green-600 text-sm font-semibold">Action for IGAD</p>
 				<ul class=" flex flex-col gap-2">
 					{#each priorityArea?.attributes.IgadActions || [] as action}
-						<li class="px-6 list-none border-l-2 hover:border-l-primary-700 -m-[2px]">
+						<li class="px-6 list-none border-l-2 hover:border-l-primary-600 -m-[2px]">
 							<a
 								href="#{action.ActionTitle}"
-								class="hover:text-primary text-sm transition-colors duration-300 ease-in-out"
+								class="hover:text-primary text-stone-900 text-sm transition-colors duration-300 ease-in-out"
 								>{action.ActionTitle}</a
 							>
 						</li>
@@ -163,13 +165,13 @@
 			</div>
 
 			<div class=" border-l-2">
-				<p class="px-3 pb-2 text-green-700 text-sm font-semibold">Action for Member States</p>
+				<p class="px-3 pb-2 text-green-600 text-sm font-semibold">Action for Member States</p>
 				<ul class="flex flex-col gap-2">
 					{#each priorityArea?.attributes.memberStateActions || [] as action}
-						<li class="px-6 list-none border-l-2 hover:border-l-primary-700 -m-[2px]">
+						<li class="px-6 list-none border-l-2 hover:border-l-primary-600 -m-[2px]">
 							<a
 								href="#{action.ActionTitle}"
-								class="hover:text-primary text-sm transition-colors duration-300 ease-in-out"
+								class="hover:text-primary text-stone-900 text-sm transition-colors duration-300 ease-in-out"
 								>{action.ActionTitle}</a
 							>
 						</li>
@@ -179,7 +181,7 @@
 
 			<div class=" pt-4 border-l-2">
 				<ul class="flex flex-col gap-2">
-					<li class="px-3 list-none border-l-2 hover:border-l-primary-700 -m-[2px]">
+					<li class="px-3 list-none border-l-2 hover:border-l-primary-600 -m-[2px]">
 						<a
 							href="#expected_outcome"
 							class="hover:text-primary text-sm transition-colors duration-300 ease-in-out"

@@ -13,7 +13,7 @@
 		})) || [];
 </script>
 
-<div class="  w-full z-30 transition-all duration-300 bg-primary">
+<div class="  w-full z-30 transition-all duration-300 bg-primary rounded-b-lg">
 	<div class="max-w-6xl mx-auto text-white text-sm font-semibold flex items-center gap-2 py-2">
 		<div
 			class="px-4 max-w-6xl mx-auto items-center justify-center gap-4 hidden lg:flex text-white bg-primary flex-row flex-wrap overflow-x-auto overflow-y-hidden whitespace-nowrap w-full top-0 z-10"
@@ -29,6 +29,7 @@
 		</div>
 	</div>
 </div>
+
 <div
 	use:bindCssVarToScrollDirection={{
 		downVars: () => ({ '--top': '-120px' }),
