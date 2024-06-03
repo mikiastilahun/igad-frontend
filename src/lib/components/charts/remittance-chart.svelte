@@ -8,9 +8,23 @@
 </script>
 
 <script lang="ts">
-	import { LineChart, ScaleTypes, HeatmapChart, BarChartSimple } from '@carbon/charts-svelte';
-	import '@carbon/charts-svelte/styles.css';
 	import Select from '$lib/components/_shared/select/select.svelte';
+	import '@carbon/charts-svelte/styles.css';
+
+	import { onMount, type ComponentType } from 'svelte';
+	import { ScaleTypes } from '@carbon/charts-svelte';
+	import { type BarChartSimple, type HeatmapChart, type LineChart } from '@carbon/charts-svelte';
+
+	let lineChart: ComponentType<LineChart>;
+	let barChart: ComponentType<BarChartSimple>;
+	let heatmapChart: ComponentType<HeatmapChart>;
+
+	onMount(async () => {
+		const { BarChartSimple, HeatmapChart, LineChart } = await import('@carbon/charts-svelte');
+		barChart = BarChartSimple;
+		heatmapChart = HeatmapChart;
+		lineChart = LineChart;
+	});
 
 	export let title = '';
 	export let chartType: 'bar' | 'line' | 'heatmap' = 'line';
@@ -153,7 +167,8 @@
 	<div class="w-full h-[0px] border border-stone-200"></div>
 	<div class="mt-4">
 		{#if chartType === 'line'}
-			<LineChart
+			<svelte:component
+				this={lineChart}
 				data={transformDataForLine(data)}
 				options={{
 					...options,
@@ -186,7 +201,8 @@
 			/>
 		{:else if chartType === 'bar'}
 			{#key selectedYear}
-				<BarChartSimple
+				<svelte:component
+					this={barChart}
 					data={transformDataForBar(data)}
 					options={{
 						...options,
@@ -218,7 +234,8 @@
 				/>
 			{/key}
 		{:else if chartType === 'heatmap'}
-			<HeatmapChart
+			<svelte:component
+				this={heatmapChart}
 				data={data.map((d) => {
 					return {
 						...d,
