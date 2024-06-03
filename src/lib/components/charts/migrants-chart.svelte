@@ -15,9 +15,22 @@
 </script>
 
 <script lang="ts">
-	import { LineChart, ScaleTypes, BarChartGrouped } from '@carbon/charts-svelte';
+	// import { LineChart, ScaleTypes, BarChartGrouped } from '@carbon/charts-svelte';
 	import '@carbon/charts-svelte/styles.css';
 	import Select from '$lib/components/_shared/select/select.svelte';
+
+	import { onMount, type ComponentType } from 'svelte';
+	import { ScaleTypes } from '@carbon/charts-svelte';
+	import { type LineChart, type BarChartGrouped } from '@carbon/charts-svelte';
+
+	let lineChart: ComponentType<LineChart>;
+	let barChart: ComponentType<BarChartGrouped>;
+
+	onMount(async () => {
+		const { LineChart, BarChartGrouped } = await import('@carbon/charts-svelte');
+		lineChart = LineChart;
+		barChart = BarChartGrouped;
+	});
 
 	export let title = '';
 	export let chartType: 'bar' | 'line' = 'line';
@@ -197,7 +210,8 @@
 	<div class="w-full h-[0px] border border-stone-200"></div>
 	<div class="mt-4">
 		{#if chartType === 'line'}
-			<LineChart
+			<svelte:component
+				this={lineChart}
 				data={transformDataForLine(data)}
 				options={{
 					...options,
@@ -225,7 +239,8 @@
 				}}
 			/>
 		{:else if chartType === 'bar'}
-			<BarChartGrouped
+			<svelte:component
+				this={barChart}
 				data={migrantsBarData}
 				options={{
 					...options,

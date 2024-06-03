@@ -16,7 +16,6 @@
 </script>
 
 <script lang="ts">
-	import { LineChart, ScaleTypes, BarChartStacked, PieChart } from '@carbon/charts-svelte';
 	import '@carbon/charts-svelte/styles.css';
 	import Select from '$lib/components/_shared/select/select.svelte';
 	import type {
@@ -24,6 +23,21 @@
 		PopulationPerCountryStats
 	} from '../../../routes/statistics/proxy+page.server.js';
 	import { formatNumber } from '$lib/utils/format-number.js';
+
+	import { onMount, type ComponentType } from 'svelte';
+	import { ScaleTypes } from '@carbon/charts-svelte';
+	import { type LineChart, type BarChartStacked, type PieChart } from '@carbon/charts-svelte';
+
+	let lineChart: ComponentType<LineChart>;
+	let barChart: ComponentType<BarChartStacked>;
+	let pieChart: ComponentType<PieChart>;
+
+	onMount(async () => {
+		const { LineChart, BarChartStacked, PieChart } = await import('@carbon/charts-svelte');
+		lineChart = LineChart;
+		barChart = BarChartStacked;
+		pieChart = PieChart;
+	});
 
 	export let title = '';
 	export let chartType: 'bar' | 'line' | 'pie' = 'line';
@@ -272,7 +286,8 @@
 	<div class="w-full h-[0px] border border-stone-200"></div>
 	<div class="mt-4">
 		{#if chartType === 'line'}
-			<LineChart
+			<svelte:component
+				this={lineChart}
 				data={transformDataForLine(data)}
 				options={{
 					...options,
@@ -300,7 +315,8 @@
 				}}
 			/>
 		{:else if chartType === 'bar'}
-			<BarChartStacked
+			<svelte:component
+				this={barChart}
 				data={populationBarData}
 				options={{
 					...options,
@@ -327,7 +343,8 @@
 		{:else if chartType === 'pie'}
 			<div class="flex gap-8 flex-col-reverse md:flex-row">
 				<div class="flex-1">
-					<PieChart
+					<svelte:component
+						this={pieChart}
 						data={populationPieData}
 						options={{
 							...options,

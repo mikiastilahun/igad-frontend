@@ -17,9 +17,23 @@
 </script>
 
 <script lang="ts">
-	import { LineChart, ScaleTypes, PieChart, BarChartGrouped } from '@carbon/charts-svelte';
 	import '@carbon/charts-svelte/styles.css';
 	import Select from '$lib/components/_shared/select/select.svelte';
+
+	import { onMount, type ComponentType } from 'svelte';
+	import { ScaleTypes } from '@carbon/charts-svelte';
+	import { type LineChart, type PieChart, type BarChartGrouped } from '@carbon/charts-svelte';
+
+	let lineChart: ComponentType<LineChart>;
+	let pieChart: ComponentType<PieChart>;
+	let barChart: ComponentType<BarChartGrouped>;
+
+	onMount(async () => {
+		const { LineChart, BarChartGrouped, PieChart } = await import('@carbon/charts-svelte');
+		lineChart = LineChart;
+		pieChart = PieChart;
+		barChart = BarChartGrouped;
+	});
 
 	export let title = '';
 	export let chartType: 'bar' | 'line' | 'pie' = 'line';
@@ -251,7 +265,8 @@
 	<div class="w-full h-[0px] border border-stone-200"></div>
 	<div class="mt-4">
 		{#if chartType === 'line'}
-			<LineChart
+			<svelte:component
+				this={lineChart}
 				data={transformDataForLine(data)}
 				options={{
 					...options,
@@ -284,7 +299,8 @@
 			/>
 		{:else if chartType === 'bar'}
 			{#key selectedYear}
-				<BarChartGrouped
+				<svelte:component
+					this={barChart}
 					data={refugeesBarData}
 					options={{
 						...options,
@@ -310,7 +326,8 @@
 				/>
 			{/key}
 		{:else if chartType === 'pie'}
-			<PieChart
+			<svelte:component
+				this={pieChart}
 				data={refugeesPieData}
 				options={{
 					...options,

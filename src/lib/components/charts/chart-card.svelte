@@ -10,17 +10,34 @@
 </script>
 
 <script lang="ts">
-	import {
-		LineChart,
-		ScaleTypes,
-		BarChartGrouped,
-		PieChart,
-		BarChartStacked
-	} from '@carbon/charts-svelte';
 	import '@carbon/charts-svelte/styles.css';
 	import Select from '$lib/components/_shared/select/select.svelte';
 	import Table from './table.svelte';
 	import { formatNumber } from '$lib/utils/format-number.js';
+
+	import { onMount, type ComponentType } from 'svelte';
+	import { ScaleTypes } from '@carbon/charts-svelte';
+	import {
+		type LineChart,
+		type BarChartGrouped,
+		type BarChartStacked,
+		type PieChart
+	} from '@carbon/charts-svelte';
+
+	let lineChart: ComponentType<LineChart>;
+	let barChartGrouped: ComponentType<BarChartGrouped>;
+	let barChartStacked: ComponentType<BarChartStacked>;
+	let pieChart: ComponentType<PieChart>;
+
+	onMount(async () => {
+		const { LineChart, BarChartGrouped, BarChartStacked, PieChart } = await import(
+			'@carbon/charts-svelte'
+		);
+		lineChart = LineChart;
+		barChartGrouped = BarChartGrouped;
+		barChartStacked = BarChartStacked;
+		pieChart = PieChart;
+	});
 
 	export let tableColumnName = 'Country';
 	export let title = '';
@@ -182,13 +199,14 @@
 	<div class="w-full h-[0px] border border-stone-200"></div>
 	<div class="mt-4">
 		{#if chartType === 'line'}
-			<LineChart {data} {options} />
+			<svelte:component this={lineChart} {data} {options} />
 		{:else if chartType === 'bar'}
-			<BarChartGrouped {data} {options} />
+			<svelte:component this={barChartGrouped} {data} {options} />
 		{:else if chartType === 'pie'}
 			<div class="flex gap-8 flex-col-reverse md:flex-row">
 				<div class="flex-1">
-					<PieChart
+					<svelte:component
+						this={pieChart}
 						data={data
 							.filter((item) => item.group === 'Total')
 							.reduce((acc, curr) => {
@@ -272,7 +290,7 @@
 		{:else if chartType === 'table'}
 			<Table {tableColumnName} {data} />
 		{:else if chartType === 'bar_stacked'}
-			<BarChartStacked {data} {options} />
+			<svelte:component this={barChartStacked} {data} {options} />
 		{:else}
 			<p>Invalid chart type</p>
 		{/if}
