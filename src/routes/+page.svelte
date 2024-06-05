@@ -8,8 +8,8 @@
 	import Card from '$lib/components/_shared/card/card.svelte';
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
 
-	import { fly } from 'svelte/transition';
-	import { sineOut } from 'svelte/easing';
+	import { fly, slide, fade, crossfade } from 'svelte/transition';
+	import { sineOut, cubicOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
 	import CaretDown from '$lib/assets/icons/caret-down.svg.svelte';
 	import Registration from '$lib/components/registration/registration.svelte';
@@ -27,28 +27,8 @@
 	let selectedPriorityArea = 0;
 	let lastSelectedPriorityArea = 0;
 
-	console.log({ news, learningLinks, home, priorityAreas, populationStats });
+	let scrollContainer: HTMLDivElement;
 
-	let scrollContainer: HTMLElement;
-	let direction = 1;
-
-	onMount(() => {
-		// if (scrollContainer && scrollContainer.firstChild) {
-		// 	const imageWidth = (scrollContainer.firstChild as HTMLElement).offsetWidth;
-		// 	setInterval(() => {
-		// 		if (
-		// 			scrollContainer.scrollLeft + scrollContainer.offsetWidth >=
-		// 			scrollContainer.scrollWidth
-		// 		) {
-		// 			direction = -1;
-		// 		} else if (scrollContainer.scrollLeft === 0) {
-		// 			direction = 1;
-		// 		}
-		// 		scrollContainer.scrollBy({ left: imageWidth * direction, behavior: 'smooth' });
-		// 	}, 5000);
-		// }
-	});
-	const scrollAmount = 500;
 	function scrollLeft() {
 		if (priorityAreas && selectedPriorityArea === 0) {
 			selectedPriorityArea = priorityAreas.length - 1;
@@ -70,37 +50,38 @@
 
 <div class="">
 	<!-- hero section -->
-	<section class="relative flex h-[1000px] w-full items-center md:h-screen md:max-h-[890px]">
-		<div class=" absolute bottom-0 left-0 top-0 w-full">
-			<div
-				bind:this={scrollContainer}
-				class="hide-scroll flex h-full w-full transform-gpu snap-x snap-mandatory overflow-x-scroll scroll-smooth"
-			>
-				{#if home?.BackgroundImage}
-					{@const imageUrl = home.BackgroundImage.data?.attributes?.url}
-					<div class="relative min-w-full snap-center">
-						<img
-							class="h-full w-full object-cover"
-							alt={'this is the alt text'}
-							src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
-						/>
+	<section
+		class="relative flex h-[1000px] w-full max-w-full items-center md:h-screen md:max-h-[890px]"
+	>
+		<div class="relative h-full w-full">
+			<div class=" relative flex h-full w-full transform-gpu">
+				<div class="z-50 flex w-full items-center md:px-4">
+					<div class="-mt-64 flex w-full md:mt-0">
+						<button
+							on:click={() => {
+								scrollContainer.scrollBy({
+									left: -scrollContainer.clientWidth,
+									behavior: 'smooth'
+								});
+							}}
+							class="group relative self-center p-2"
+						>
+							<span
+								class="absolute inset-0 block h-full w-full rounded-full bg-gray-50/25 opacity-0 transition-all duration-150 group-hover:animate-pulse group-hover:opacity-100"
+							></span>
+							<CaretDown class="h-6 w-6 rotate-90 scale-150 fill-white" />
+						</button>
 						<div
-							class=" absolute left-0 top-0 h-full w-full bg-gradient-to-t from-black/80 from-55% to-transparent md:bg-gradient-to-r md:from-50%"
-						></div>
-
-						<div
-							class=" absolute left-1/2 top-[40%] mx-auto flex w-full max-w-[1136px] -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-4 px-8 sm:top-1/2 md:justify-start md:px-4"
+							bind:this={scrollContainer}
+							class=" hide-scroll mx-auto flex w-full max-w-[1136px] snap-x snap-mandatory overflow-x-scroll"
 						>
 							{#each priorityAreas as area, i}
-								{#if i === selectedPriorityArea}
-									<div
-										class="absolute max-w-2xl text-white"
-										transition:fly={{
-											duration: 300,
-											easing: sineOut,
-											x: lastSelectedPriorityArea < selectedPriorityArea ? -100 : 100
-										}}
-									>
+								<!-- {#if i === selectedPriorityArea} -->
+								<div
+									class="w-full min-w-full snap-start px-4 text-white"
+									transition:fade={{ duration: 300, easing: cubicOut }}
+								>
+									<div class="max-w-2xl">
 										<h1 class="text-2xl font-bold md:text-4xl">
 											{area.attributes.Title ?? ''}
 										</h1>
@@ -116,35 +97,40 @@
 											>Read More</button
 										>
 									</div>
-								{/if}
+								</div>
+								<!-- {/if} -->
 							{/each}
 						</div>
+						<button
+							on:click={() => {
+								scrollContainer.scrollBy({ left: scrollContainer.clientWidth, behavior: 'smooth' });
+							}}
+							class=" group relative self-center p-2"
+						>
+							<span
+								class="absolute inset-0 block h-full w-full rounded-full bg-gray-50/25 opacity-0 transition-all duration-150 group-hover:animate-pulse group-hover:opacity-100"
+							></span>
+							<CaretDown class="h-6 w-6 -rotate-90 scale-150 fill-white " /></button
+						>
 					</div>
+				</div>
+				{#if home?.BackgroundImage}
+					{@const imageUrl = home.BackgroundImage.data?.attributes?.url}
+					<img
+						class="absolute inset-0 h-full w-full object-cover"
+						alt={'this is the alt text'}
+						src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
+					/>
+					<div
+						class=" absolute inset-0 h-full w-full bg-gradient-to-t from-black/80 from-55% to-transparent md:bg-gradient-to-r md:from-50%"
+					></div>
 				{/if}
 			</div>
-			<button
-				on:click={scrollLeft}
-				class="group absolute left-0 top-[30%] -translate-y-1/2 transform p-2 sm:top-1/2 md:left-8"
-			>
-				<span
-					class="absolute inset-0 block h-full w-full rounded-full bg-gray-50/25 opacity-0 transition-all duration-150 group-hover:animate-pulse group-hover:opacity-100"
-				></span>
-				<CaretDown class="h-6 w-6 rotate-90 scale-150 fill-white" />
-			</button>
-			<button
-				on:click={scrollRight}
-				class=" group absolute right-0 top-[30%] -translate-y-1/2 transform p-2 sm:top-1/2 md:right-8"
-			>
-				<span
-					class="absolute inset-0 block h-full w-full rounded-full bg-gray-50/25 opacity-0 transition-all duration-150 group-hover:animate-pulse group-hover:opacity-100"
-				></span>
-				<CaretDown class="h-6 w-6 -rotate-90 scale-150 fill-white " /></button
-			>
 		</div>
 
 		<div class=" absolute bottom-0 w-full">
 			<div
-				class="mx-auto grid max-w-[1136px] grid-cols-2 items-start justify-between justify-items-center gap-8 rounded-lg px-8 pb-8 text-white sm:grid-cols-3 sm:pb-16 md:flex md:px-4 md:pb-10"
+				class="mx-auto grid max-w-[1136px] grid-cols-2 items-start justify-between justify-items-center gap-8 rounded-lg px-8 pb-8 text-white sm:grid-cols-3 sm:pb-16 md:flex md:justify-start md:px-4 md:pb-10"
 			>
 				{#if priorityAreas?.length !== 0}
 					{#each priorityAreas ?? [] as area, i}
@@ -164,8 +150,8 @@
 								class=""
 								src={`${PUBLIC_STATIC_URL}${area.attributes.icon.data.attributes.url}`}
 								alt="alt text"
-								width="50"
-								height="50"
+								width="32"
+								height="32"
 							/>
 							<span class="text-center text-xs md:text-sm">{area.attributes.Title} </span>
 						</div>
