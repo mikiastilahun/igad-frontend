@@ -17,19 +17,19 @@
 </script>
 
 <div
-	class="  w-full z-30 transition-all duration-300 bg-primary {currentUrl.pathname === '/'
+	class="  z-30 w-full bg-primary transition-all duration-300 {currentUrl.pathname === '/'
 		? ''
 		: 'md:rounded-b-lg'}"
 >
-	<div class="max-w-6xl mx-auto text-white text-sm font-semibold flex items-center gap-2 py-2">
+	<div class="mx-auto flex max-w-6xl items-center gap-2 py-2 text-sm font-semibold text-white">
 		<div
-			class="px-4 max-w-6xl mx-auto items-center justify-center gap-4 flex text-white bg-primary flex-row flex-wrap overflow-x-auto overflow-y-hidden whitespace-nowrap w-full top-0 z-10"
+			class="top-0 z-10 mx-auto flex w-full max-w-6xl flex-row flex-wrap items-center justify-center gap-4 overflow-x-auto overflow-y-hidden whitespace-nowrap bg-primary px-4 text-white"
 		>
 			<p>Quick links:</p>
 			{#each quickLinks as link}
 				<a
 					href={link.href}
-					class="relative transition-all duration-300 hover:border-transparent hover-underline-animation"
+					class="hover-underline-animation relative transition-all duration-300 hover:border-transparent"
 					>{link.label}</a
 				>
 			{/each}
@@ -42,11 +42,11 @@
 		downVars: () => ({ '--top': '-120px' }),
 		upVars: () => ({ '--top': '0' })
 	}}
-	class="sticky z-50 top-[var(--top)] -mb-[78px] lg:-mb-[120px] w-full pt-8 transition-all duration-300"
+	class="sticky top-[var(--top)] z-50 -mb-[78px] w-full pt-8 transition-all duration-300 lg:-mb-[120px]"
 >
 	<Header />
 </div>
-<main class="relative z-0 min-h-screen bg-darkscale-100 text-white">
+<main class="bg-darkscale-100 relative z-0 min-h-screen">
 	<slot />
 </main>
 <Footer />
