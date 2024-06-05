@@ -7,6 +7,7 @@ export default defineConfig({
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
 	ssr: {
-		noExternal: process.env.NODE_ENV === "production" ? ["@carbon/charts"] : [],
-	}
+		noExternal: ['@carbon/charts']
+	},
+	optimizeDeps: { include: ['@carbon/charts'] }
 });
