@@ -11,17 +11,12 @@ RUN pnpm install
 COPY . .
 
 RUN pnpm run build
-RUN pnpm prune --prod
-
-FROM node:18.8.0-alpine AS deployer
-
-WORKDIR /app
-
-COPY --from=builder /app/build build/
-COPY --from=builder /app/package.json .
+# RUN pnpm prune --prod
 
 EXPOSE 3000
 
 ENV NODE_ENV=production
 
 CMD [ "node", "build" ]
+
+
