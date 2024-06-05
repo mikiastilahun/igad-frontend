@@ -8,32 +8,23 @@
 	import Web from '$lib/assets/icons/web.svg.svelte';
 	import Google from '$lib/assets/icons/google.svg.svelte';
 	import Outlook from '$lib/assets/icons/microsoft.svg.svelte';
+	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
 
 	export let data;
 
 	const event = data.data?.eventData.data.attributes;
 </script>
 
-<div class="p-4">
-	<section class="relative h-[500px] flex items-end pb-10 rounded-lg bg-primary">
-		<div class="relative max-w-[1136px] mx-auto w-full">
-			<div class="text-white max-w-2xl">
-				<h1 class="text-xl font-bold mb-2">
-					{event?.title}
-				</h1>
-
-				<div class="flex gap-2 items-center">
-					<img class="w-4 h-4" src={Location} alt="location" />
-					<span class="text-secondary">{event?.location}</span>
-				</div>
-				<div class="flex gap-2 items-center">
-					<img class="w-4 h-4" src={Time} alt="time" />
-					<span class="text-secondary">{new Date(event?.date || '')} </span>
-				</div>
-			</div>
-		</div>
-	</section>
-</div>
+<PageHeader title={event?.title} class="!items-end pb-8">
+	<div class="flex gap-2 items-center">
+		<img class="w-4 h-4" src={Location} alt="location" />
+		<span class="text-secondary">{event?.location}</span>
+	</div>
+	<div class="flex gap-2 items-center">
+		<img class="w-4 h-4" src={Time} alt="time" />
+		<span class="text-secondary">{new Date(event?.date || '')} </span>
+	</div>
+</PageHeader>
 
 <section class="px-8 py-10 flex flex-row gap-8 relative max-w-7xl mx-auto">
 	<div class="sticky top-0">

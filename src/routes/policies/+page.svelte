@@ -36,20 +36,24 @@
 </script>
 
 <div class="md:p-4">
-	<section class="relative min-h-[674px] flex items-center rounded-lg bg-primary">
-		<div class="relative max-w-[1136px] mx-auto w-full px-4 md:px-8">
-			<div class="text-white max-w-2xl">
-				<h1 class="text-3xl font-bold mb-2">{policy?.title}</h1>
-				<p class=" text-base font-normal leading-normal">
-					{policy?.description}
-				</p>
+	<section
+		class="relative min-h-[674px] flex items-center justify-between md:rounded-lg bg-primary"
+	>
+		<div class="max-w-[1136px] mx-auto w-full flex justify-between items-center gap-4">
+			<div class="relative w-full px-4 md:px-8">
+				<div class="text-white max-w-2xl">
+					<h1 class="text-3xl font-bold mb-2">{policy?.title}</h1>
+					<p class=" text-base font-normal leading-normal">
+						{policy?.description}
+					</p>
+				</div>
 			</div>
+			<img
+				class="md:rounded-full hidden md:inline-block max-w-52 lg:max-w-[300px] h-auto max-h-[400px] px-4 md:px-8"
+				alt={`policies and framework`}
+				src={IGADLogo}
+			/>
 		</div>
-		<img
-			class="rounded-full w-[400px] h-[400px] mr-32 absolute right-0 bottom-1/2 top-1/2 transform -translate-y-1/2"
-			alt={`publications hero image`}
-			src={IGADLogo}
-		/>
 	</section>
 </div>
 

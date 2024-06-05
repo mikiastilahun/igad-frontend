@@ -175,6 +175,7 @@
 		</div>
 	</header>
 
+	<!-- Hamburger menu -->
 	<div class="lg:hidden flex justify-end pr-8 relative z-50">
 		<div
 			class="lg:hidden flex justify-center items-center w-11 h-11 bg-white rounded-full text-right"
@@ -237,7 +238,7 @@
 
 	{#if isMobileOpen}
 		<div
-			class="block lg:hidden fixed overflow-y-auto top-0 bottom-0 w-full h-auto bg-primary/90 backdrop-blur backdrop-saturate-200 shadow-lg rounded-md"
+			class=" block lg:hidden fixed overflow-y-auto top-0 bottom-0 w-full h-auto bg-primary/90 backdrop-blur backdrop-saturate-200 shadow-lg rounded-md"
 		>
 			<nav class=" h-full flex justify-center items-center">
 				<ul class="grid justify-items-start min-w-48">
@@ -290,45 +291,3 @@
 		</div>
 	{/if}
 </div>
-
-<style>
-	.link {
-		position: relative;
-		overflow: hidden;
-	}
-
-	.link::after {
-		content: '';
-		position: absolute;
-		width: 100%;
-		transform: scaleX(0);
-		height: 2px;
-		bottom: 0;
-		left: 0;
-		background-color: #fff;
-		transform-origin: bottom right;
-		transition: transform 0.3s ease-out;
-	}
-
-	.link:hover::after {
-		transform: scaleX(1);
-		transform-origin: bottom left;
-	}
-
-	.header-hidden {
-		transform: translateY(-100%);
-	}
-	.hover-underline-animation:after {
-		content: '';
-		display: block;
-		height: 2px;
-		background: #ff9e00; /* Change this to your desired color */
-		transition:
-			width 0.3s ease,
-			background-color 0.3s ease;
-		width: 0;
-	}
-	.hover-underline-animation:hover:after {
-		width: 100%;
-	}
-</style>

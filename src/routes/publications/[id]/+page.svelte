@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
+	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
 	import dayjs from 'dayjs';
 	import SvelteMarkdown from 'svelte-markdown';
 
@@ -9,23 +10,11 @@
 	const publication = data.data?.publication.data.attributes;
 </script>
 
-<div class="md:p-4">
-	<section class="relative min-h-[674px] flex items-center rounded-lg">
-		<img
-			class="absolute inset-0 object-cover w-full h-full rounded-lg"
-			alt={`publications hero image`}
-			src={`${PUBLIC_STATIC_URL}${publication?.coverImage.data.attributes.url}`}
-		/>
-		<div
-			class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-transparent rounded-lg"
-		></div>
-		<div class="relative max-w-[1136px] mx-auto w-full px-4 md:px-8">
-			<div class="text-white max-w-2xl">
-				<h1 class="text-3xl font-bold mb-2">{publication?.title}</h1>
-			</div>
-		</div>
-	</section>
-</div>
+<PageHeader
+	imgSrc={`${PUBLIC_STATIC_URL}${publication?.coverImage.data.attributes.url}`}
+	imgAlt={'IGAD projects'}
+	title={publication?.title}
+/>
 
 <section class="max-w-5xl flex mx-auto gap-16 p-4">
 	<div class="w-full">
