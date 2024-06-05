@@ -14,6 +14,7 @@
 	} from '$lib/components/charts/population-per-country-chart.svelte';
 
 	export let data;
+	export const ssr = false;
 
 	const populationStats = data.data?.populationStats.data.attributes;
 	const populationPerCountry = data.data?.populationPerCountry.data.attributes;
