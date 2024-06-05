@@ -70,41 +70,41 @@
 
 <div class="">
 	<!-- hero section -->
-	<section class="w-full relative h-[1000px] md:h-screen md:max-h-[890px] flex items-center">
-		<div class=" w-full absolute top-0 left-0 bottom-0">
+	<section class="relative flex h-[1000px] w-full items-center md:h-screen md:max-h-[890px]">
+		<div class=" absolute bottom-0 left-0 top-0 w-full">
 			<div
 				bind:this={scrollContainer}
 				class="hide-scroll flex h-full w-full transform-gpu snap-x snap-mandatory overflow-x-scroll scroll-smooth"
 			>
 				{#if home?.BackgroundImage}
 					{@const imageUrl = home.BackgroundImage.data?.attributes?.url}
-					<div class="snap-center min-w-full relative">
+					<div class="relative min-w-full snap-center">
 						<img
-							class="object-cover w-full h-full"
+							class="h-full w-full object-cover"
 							alt={'this is the alt text'}
 							src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
 						/>
 						<div
-							class=" absolute top-0 left-0 w-full h-full md:bg-gradient-to-r bg-gradient-to-t from-black/80 from-55% md:from-50% to-transparent"
+							class=" absolute left-0 top-0 h-full w-full bg-gradient-to-t from-black/80 from-55% to-transparent md:bg-gradient-to-r md:from-50%"
 						></div>
 
 						<div
-							class=" absolute top-[40%] sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1136px] mx-auto w-full px-8 md:px-4 flex justify-center md:justify-start items-center gap-4"
+							class=" absolute left-1/2 top-[40%] mx-auto flex w-full max-w-[1136px] -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-4 px-8 sm:top-1/2 md:justify-start md:px-4"
 						>
 							{#each priorityAreas as area, i}
 								{#if i === selectedPriorityArea}
 									<div
-										class="text-white max-w-2xl absolute"
+										class="absolute max-w-2xl text-white"
 										transition:fly={{
 											duration: 300,
 											easing: sineOut,
 											x: lastSelectedPriorityArea < selectedPriorityArea ? -100 : 100
 										}}
 									>
-										<h1 class="text-2xl md:text-4xl font-bold">
+										<h1 class="text-2xl font-bold md:text-4xl">
 											{area.attributes.Title ?? ''}
 										</h1>
-										<p class=" text-lg opacity-80 leading-normal mt-4">
+										<p class=" mt-4 text-lg leading-normal opacity-80">
 											{area.attributes.ShortDescription ?? ''}
 										</p>
 
@@ -112,7 +112,7 @@
 											on:click={() => {
 												goto(`/priority-area/${area.id}`);
 											}}
-											class="block mt-8 px-6 py-2 font-semibold bg-secondary text-black rounded-md"
+											class="mt-8 block rounded-md bg-secondary px-6 py-2 font-semibold text-black"
 											>Read More</button
 										>
 									</div>
@@ -124,36 +124,36 @@
 			</div>
 			<button
 				on:click={scrollLeft}
-				class="group p-2 absolute left-0 md:left-8 top-[30%] sm:top-1/2 transform -translate-y-1/2"
+				class="group absolute left-0 top-[30%] -translate-y-1/2 transform p-2 sm:top-1/2 md:left-8"
 			>
 				<span
-					class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
+					class="absolute inset-0 block h-full w-full rounded-full bg-gray-50/25 opacity-0 transition-all duration-150 group-hover:animate-pulse group-hover:opacity-100"
 				></span>
-				<CaretDown class="w-6 h-6 scale-150 rotate-90 fill-white" />
+				<CaretDown class="h-6 w-6 rotate-90 scale-150 fill-white" />
 			</button>
 			<button
 				on:click={scrollRight}
-				class=" group p-2 absolute right-0 md:right-8 top-[30%] sm:top-1/2 transform -translate-y-1/2"
+				class=" group absolute right-0 top-[30%] -translate-y-1/2 transform p-2 sm:top-1/2 md:right-8"
 			>
 				<span
-					class="group-hover:opacity-100 block opacity-0 transition-all duration-150 inset-0 absolute rounded-full group-hover:animate-pulse w-full h-full bg-gray-50/25"
+					class="absolute inset-0 block h-full w-full rounded-full bg-gray-50/25 opacity-0 transition-all duration-150 group-hover:animate-pulse group-hover:opacity-100"
 				></span>
-				<CaretDown class="w-6 h-6 scale-150 -rotate-90 fill-white " /></button
+				<CaretDown class="h-6 w-6 -rotate-90 scale-150 fill-white " /></button
 			>
 		</div>
 
 		<div class=" absolute bottom-0 w-full">
 			<div
-				class="max-w-[1136px] mx-auto text-white pb-8 sm:pb-16 md:pb-10 grid grid-cols-2 sm:grid-cols-3 gap-8 justify-items-center md:flex justify-between items-start rounded-lg px-8 md:px-4"
+				class="mx-auto grid max-w-[1136px] grid-cols-2 items-start justify-between justify-items-center gap-8 rounded-lg px-8 pb-8 text-white sm:grid-cols-3 sm:pb-16 md:flex md:px-4 md:pb-10"
 			>
 				{#if priorityAreas?.length !== 0}
 					{#each priorityAreas ?? [] as area, i}
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<!-- svelte-ignore a11y-no-static-element-interactions -->
 						<div
-							class="relative group flex flex-col gap-1 items-center w-36 justify-center text-center hover:scale-125 hover:cursor-pointer transition-all {i ===
+							class="group relative flex w-36 flex-col items-center justify-center gap-1 text-center transition-all hover:scale-125 hover:cursor-pointer {i ===
 							selectedPriorityArea
-								? 'text-primary scale-125'
+								? 'scale-125 text-primary'
 								: 'text-white'} "
 							on:click={() => {
 								lastSelectedPriorityArea = selectedPriorityArea;
@@ -179,12 +179,12 @@
 	<!-- stats -->
 	<section class=" bg-primary">
 		<div
-			class="px-4 lg:px-0 py-8 max-w-[1136px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 justify-items-center items-center text-center"
+			class="mx-auto grid max-w-[1136px] grid-cols-1 items-center justify-items-center gap-16 px-4 py-8 text-center md:grid-cols-2 lg:grid-cols-4 lg:px-0"
 		>
 			{#if home?.firstStat}
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.firstStat.value}</h2>
-					<p class="font-semibold text-base md:text-lg flex flex-col items-center leading-normal">
+					<p class="flex flex-col items-center text-base font-semibold leading-normal md:text-lg">
 						<span>{home.firstStat.label}</span>
 					</p>
 				</div>
@@ -192,7 +192,7 @@
 			{#if home?.secondStat}
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.secondStat.value}</h2>
-					<p class="font-semibold text-base md:text-lg flex flex-col items-center leading-normal">
+					<p class="flex flex-col items-center text-base font-semibold leading-normal md:text-lg">
 						<span>{home.secondStat.label}</span>
 					</p>
 				</div>
@@ -200,7 +200,7 @@
 			{#if home?.thirdStat}
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.thirdStat.value}</h2>
-					<p class="font-semibold text-base md:text-lg flex flex-col items-center leading-normal">
+					<p class="flex flex-col items-center text-base font-semibold leading-normal md:text-lg">
 						<span>{home.thirdStat?.label}</span>
 					</p>
 				</div>
@@ -208,7 +208,7 @@
 			{#if home?.forthStat}
 				<div class="flex flex-col items-center gap-1 text-white">
 					<h2 class=" text-3xl font-bold">{home.forthStat.value}</h2>
-					<p class="font-semibold text-base md:text-lg flex flex-col items-center leading-normal">
+					<p class="flex flex-col items-center text-base font-semibold leading-normal md:text-lg">
 						<span>{home.forthStat.label}</span>
 					</p>
 				</div>
@@ -217,7 +217,7 @@
 	</section>
 
 	<!-- Regional Statistics -->
-	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
+	<section class="mx-auto flex max-w-[1136px] flex-col gap-3 px-8 py-10 md:px-4">
 		<h2 class="text-2xl font-bold leading-normal">{home?.regionalStatisticsTitle}</h2>
 		<p class="text-base leading-normal">
 			{home?.regionalStatisticsDescription}
@@ -228,7 +228,7 @@
 		</div>
 	</section>
 	<!-- IGAD support platform -->
-	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
+	<section class="mx-auto flex max-w-[1136px] flex-col gap-3 px-8 py-10 md:px-4">
 		<h2 class="text-2xl font-bold leading-normal">{home?.SupportplatformTitle}</h2>
 		<p class="text-base leading-normal">
 			<SvelteMarkdown source={home?.supportPlatformContent} />
@@ -236,9 +236,9 @@
 	</section>
 
 	<!-- Quick Learning Links -->
-	<section class="max-w-[1136px] mx-auto py-10 flex flex-col gap-3 px-8 md:px-4">
+	<section class="mx-auto flex max-w-[1136px] flex-col gap-3 px-8 py-10 md:px-4">
 		<h2 class="text-2xl font-bold leading-normal">Quick Learning Links</h2>
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-4">
+		<div class="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-4 lg:grid-cols-4">
 			<!-- cards -->
 			{#if learningLinks?.length !== 0}
 				{#each learningLinks ?? [] as link}
@@ -254,22 +254,22 @@
 			<!-- register here button with an image behind on a blurry overlay with a rectangle button on top -->
 			<div class="relative h-full rounded-lg">
 				<div
-					class="rounded-lg absolute top-0 left-0 w-full h-full flex justify-center items-center"
+					class="absolute left-0 top-0 flex h-full w-full items-center justify-center rounded-lg"
 				>
 					<div
-						class="w-full rounded-lg bg-black/80 p-8 h-full gap-2 flex justify-center items-center flex-col"
+						class="flex h-full w-full flex-col items-center justify-center gap-2 rounded-lg bg-black/80 p-8"
 					>
 						<h3 class="text-3xl font-bold text-white">Register Here</h3>
-						<p class="text-white text-center">
+						<p class="text-center text-white">
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 						</p>
 						<button
 							on:click={() => (showRegister = true)}
-							class="mt-4 bg-primary text-white px-4 py-2 rounded-md">Register Here</button
+							class="mt-4 rounded-md bg-primary px-4 py-2 text-white">Register Here</button
 						>
 					</div>
 				</div>
-				<enhanced:img class="object-cover w-full h-full rounded-lg" src={HeroImg} alt="alt text" />
+				<enhanced:img class="h-full w-full rounded-lg object-cover" src={HeroImg} alt="alt text" />
 			</div>
 		</div>
 	</section>
@@ -279,13 +279,13 @@
 	{/if}
 
 	<!-- news section -->
-	<section class="max-w-[1136px] mx-auto py-10 px-8 md:px-4">
-		<div class=" flex flex-col-reverse lg:flex-row flex-wrap gap-16 w-full items-stretch">
+	<section class="mx-auto max-w-[1136px] px-8 py-10 md:px-4">
+		<div class=" flex w-full flex-col-reverse flex-wrap items-stretch gap-16 lg:flex-row">
 			<!-- news -->
-			<div class="flex flex-col gap-5 justify-center items-start">
-				<h2 class="text-2xl hidden lg:inline-block font-bold">News and Updates</h2>
+			<div class="flex flex-col items-start justify-center gap-5">
+				<h2 class="hidden text-2xl font-bold lg:inline-block">News and Updates</h2>
 				<!-- news card -->
-				<div class="flex flex-col gap-5 w-full">
+				<div class="flex w-full flex-col gap-5">
 					{#if news?.length !== 0}
 						{#each news?.slice(1, 4) ?? [] as newsItem}
 							<FeaturedNewsCard
@@ -299,34 +299,34 @@
 					{/if}
 				</div>
 
-				<a href="/news" class="mt-4 bg-primary text-white px-4 py-2 rounded-md">Read More</a>
+				<a href="/news" class="mt-4 rounded-md bg-primary px-4 py-2 text-white">Read More</a>
 			</div>
 			<!-- featured -->
-			<div class="flex-1 relative hover:cursor-pointer">
-				<div class="absolute top-0 left-0 h-full w-full bg-black opacity-60 rounded-md"></div>
+			<div class="relative flex-1 hover:cursor-pointer">
+				<div class="absolute left-0 top-0 h-full w-full rounded-md bg-black opacity-60"></div>
 				<enhanced:img
-					class="object-cover rounded-md h-full"
+					class="h-full rounded-md object-cover"
 					src={news?.[0].attributes.thumbnail.data.attributes.url
 						? `${PUBLIC_STATIC_URL}${news?.[0].attributes.thumbnail.data.attributes.url}`
 						: NewsImg2}
 					alt="alt text"
 				/>
 				<div class="absolute bottom-0 px-8 pb-8 text-white">
-					<span class="text-sm md:text-base leading-normal">Debits - 03 June, 2023</span>
-					<h3 class="text-lg sm:text-xl md:text-3xl font-semibold md:font-bold md:leading-normal">
+					<span class="text-sm leading-normal md:text-base">Debits - 03 June, 2023</span>
+					<h3 class="text-lg font-semibold sm:text-xl md:text-3xl md:font-bold md:leading-normal">
 						{news?.[0].attributes.title}
 					</h3>
 				</div>
 			</div>
-			<h2 class="text-2xl lg:hidden inline-block font-bold">News and Updates</h2>
+			<h2 class="inline-block text-2xl font-bold lg:hidden">News and Updates</h2>
 		</div>
 	</section>
 
 	<!-- Partners -->
 	<section class="mx-auto max-w-[1136px] px-8 md:px-4">
-		<div class="w-full py-20 flex-col justify-start items-center gap-10 inline-flex">
-			<h5 class="text-neutral-400 font-bold text-lg">{home?.partnersTitle}</h5>
-			<div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4">
+		<div class="inline-flex w-full flex-col items-center justify-start gap-10 py-20">
+			<h5 class="text-lg font-bold text-neutral-400">{home?.partnersTitle}</h5>
+			<div class="grid w-full grid-cols-2 gap-4 lg:grid-cols-4">
 				{#if home?.partner.length !== 0}
 					{#each home?.partner ?? [] as partner}
 						<div class="flex justify-center">
@@ -349,7 +349,7 @@
 
 <style>
 	.tooltip::before {
-		@apply content-[''] absolute top-[-10px] left-1/2 transform -translate-x-1/2 border-t-2 border-transparent border-b-2 border-white;
+		@apply absolute left-1/2 top-[-10px] -translate-x-1/2 transform border-b-2 border-t-2 border-transparent border-white content-[''];
 	}
 
 	.tooltip:hover .tooltip-content {
