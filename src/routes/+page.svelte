@@ -3,14 +3,9 @@
 	import SvelteMarkdown from 'svelte-markdown';
 
 	import NewsImg2 from '$lib/assets/temp/news-2.png?enhanced';
-	import ChartsImg from '$lib/assets/temp/charts.png?enhanced';
 	import FeaturedNewsCard from '$lib/components/_shared/featured-news-card/featured-news-card.svelte';
 	import Card from '$lib/components/_shared/card/card.svelte';
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
-
-	import { fly, slide, fade, crossfade } from 'svelte/transition';
-	import { sineOut, cubicOut } from 'svelte/easing';
-	import { onMount } from 'svelte';
 	import CaretDown from '$lib/assets/icons/caret-down.svg.svelte';
 	import Registration from '$lib/components/registration/registration.svelte';
 	import { goto } from '$app/navigation';
@@ -25,8 +20,6 @@
 	const populationStats = data.data?.populationStats.data;
 
 	let selectedPriorityArea = 0;
-	let lastSelectedPriorityArea = 0;
-
 	let scrollContainer: HTMLDivElement;
 
 	function scrollLeft() {
@@ -59,10 +52,7 @@
 					<div class="-mt-64 flex w-full md:mt-0">
 						<button
 							on:click={() => {
-								scrollContainer.scrollBy({
-									left: -scrollContainer.clientWidth,
-									behavior: 'smooth'
-								});
+								scrollLeft();
 							}}
 							class="group relative self-center p-2"
 						>
@@ -71,39 +61,49 @@
 							></span>
 							<CaretDown class="h-6 w-6 rotate-90 scale-150 fill-white" />
 						</button>
-						<div
-							bind:this={scrollContainer}
-							class=" hide-scroll mx-auto flex w-full max-w-[1136px] snap-x snap-mandatory overflow-x-scroll"
-						>
-							{#each priorityAreas as area, i}
-								<!-- {#if i === selectedPriorityArea} -->
-								<div
-									class="w-full min-w-full snap-start px-4 text-white"
-									transition:fade={{ duration: 300, easing: cubicOut }}
-								>
-									<div class="max-w-2xl">
-										<h1 class="text-2xl font-bold md:text-4xl">
-											{area.attributes.Title ?? ''}
-										</h1>
-										<p class=" mt-4 text-lg leading-normal opacity-80">
-											{area.attributes.ShortDescription ?? ''}
-										</p>
+						<div class=" mx-auto flex w-full max-w-[1136px]">
+							<div
+								bind:this={scrollContainer}
+								class="hide-scroll flex w-full max-w-3xl snap-x snap-mandatory overflow-x-scroll overscroll-x-contain"
+							>
+								{#each priorityAreas as area, i}
+									{#if selectedPriorityArea === i}
+										<div data-index={i} class=" w-full min-w-full snap-start px-4 text-white">
+											<span class="bg-primary text-white"
+												>selected:{selectedPriorityArea} index: {i}</span
+											>
+											<div class="max-w-2xl">
+												<h1 class="text-2xl font-bold md:text-4xl">
+													{area.attributes.Title ?? ''}
+												</h1>
+												<p class=" mt-4 text-lg leading-normal opacity-80">
+													{area.attributes.ShortDescription ?? ''}
+												</p>
 
-										<button
-											on:click={() => {
-												goto(`/priority-area/${area.id}`);
-											}}
-											class="mt-8 block rounded-md bg-secondary px-6 py-2 font-semibold text-black"
-											>Read More</button
-										>
-									</div>
-								</div>
-								<!-- {/if} -->
-							{/each}
+												<button
+													on:click={() => {
+														goto(`/priority-area/${area.id}`);
+													}}
+													class="mt-8 block rounded-md bg-secondary px-6 py-2 font-semibold text-black"
+													>Read More</button
+												>
+											</div>
+										</div>
+									{/if}
+								{/each}
+							</div>
 						</div>
 						<button
 							on:click={() => {
-								scrollContainer.scrollBy({ left: scrollContainer.clientWidth, behavior: 'smooth' });
+								scrollRight();
+								// if (
+								// 	scrollContainer.scrollLeft ===
+								// 	scrollContainer.scrollWidth - scrollContainer.clientWidth
+								// ) {
+								// 	return;
+								// }
+								// scrollContainer.scrollBy({ left: scrollContainer.clientWidth, behavior: 'smooth' });
+								// selectedPriorityArea = scrollContainer.scrollLeft / scrollContainer.clientWidth + 1;
 							}}
 							class=" group relative self-center p-2"
 						>
@@ -136,13 +136,18 @@
 					{#each priorityAreas ?? [] as area, i}
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<!-- svelte-ignore a11y-no-static-element-interactions -->
-						<div
+						<!-- {#key selectedPriorityArea} -->
+						<button
 							class="group relative flex w-36 flex-col items-center justify-center gap-1 text-center transition-all hover:scale-125 hover:cursor-pointer {i ===
 							selectedPriorityArea
 								? 'scale-125 text-primary'
 								: 'text-white'} "
 							on:click={() => {
-								lastSelectedPriorityArea = selectedPriorityArea;
+								// on click, scroll to the selected area
+								scrollContainer.scrollTo({
+									left: i * scrollContainer.clientWidth,
+									behavior: 'smooth'
+								});
 								selectedPriorityArea = i;
 							}}
 						>
@@ -154,7 +159,8 @@
 								height="32"
 							/>
 							<span class="text-center text-xs md:text-sm">{area.attributes.Title} </span>
-						</div>
+						</button>
+						<!-- {/key} -->
 					{/each}
 				{/if}
 			</div>
