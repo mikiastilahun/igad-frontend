@@ -134,10 +134,9 @@
 						<button
 							class="group relative flex w-36 flex-col items-center justify-center gap-1 text-center transition-all hover:scale-125 hover:cursor-pointer {i ===
 							selectedPriorityArea
-								? 'scale-125 text-primary'
+								? ' text-primary'
 								: 'text-white'} "
 							on:click={() => {
-								// on click, scroll to the selected area
 								scrollContainer.scrollTo({
 									left: i * scrollContainer.clientWidth,
 									behavior: 'smooth'
@@ -147,7 +146,7 @@
 							}}
 						>
 							<img
-								class=""
+								class=" h-8 w-8 object-contain"
 								src={`${PUBLIC_STATIC_URL}${area.attributes.icon.data.attributes.url}`}
 								alt="alt text"
 								width="32"
