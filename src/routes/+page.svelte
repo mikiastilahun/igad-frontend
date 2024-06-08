@@ -68,7 +68,7 @@
 						<div class=" mx-auto flex w-full max-w-[1136px]">
 							<div
 								bind:this={scrollContainer}
-								class="hide-scroll flex w-full max-w-3xl snap-x snap-mandatory overflow-x-scroll overscroll-x-contain"
+								class="hide-scroll flex w-full max-w-3xl snap-x snap-mandatory overflow-x-scroll"
 							>
 								{#each priorityAreas as area, i}
 									{#if selectedPriorityArea === i}
@@ -164,11 +164,11 @@
 	<!-- stats -->
 	<section class=" bg-primary">
 		<div
-			class="mx-auto grid max-w-[1136px] grid-cols-1 items-center justify-items-center gap-16 px-4 py-8 text-center md:grid-cols-2 lg:grid-cols-4 lg:px-0"
+			class="mx-auto grid max-w-[1136px] grid-cols-1 items-center justify-items-center gap-4 px-4 py-8 text-center md:grid-cols-2 lg:grid-cols-4 lg:gap-16 lg:px-0"
 		>
 			{#if home?.firstStat}
-				<div class="flex flex-col items-center gap-1 text-white">
-					<h2 class=" text-3xl font-bold">{home.firstStat.value}</h2>
+				<div class="items-cente gap-4r flex flex-col text-white lg:gap-1">
+					<h2 class="text-2xl font-bold md:text-3xl">{home.firstStat.value}</h2>
 					<p class="flex flex-col items-center text-base font-semibold leading-normal md:text-lg">
 						<span>{home.firstStat.label}</span>
 					</p>
@@ -176,7 +176,7 @@
 			{/if}
 			{#if home?.secondStat}
 				<div class="flex flex-col items-center gap-1 text-white">
-					<h2 class=" text-3xl font-bold">{home.secondStat.value}</h2>
+					<h2 class="text-2xl font-bold md:text-3xl">{home.secondStat.value}</h2>
 					<p class="flex flex-col items-center text-base font-semibold leading-normal md:text-lg">
 						<span>{home.secondStat.label}</span>
 					</p>
@@ -184,7 +184,7 @@
 			{/if}
 			{#if home?.thirdStat}
 				<div class="flex flex-col items-center gap-1 text-white">
-					<h2 class=" text-3xl font-bold">{home.thirdStat.value}</h2>
+					<h2 class="text-2xl font-bold md:text-3xl">{home.thirdStat.value}</h2>
 					<p class="flex flex-col items-center text-base font-semibold leading-normal md:text-lg">
 						<span>{home.thirdStat?.label}</span>
 					</p>
@@ -192,7 +192,7 @@
 			{/if}
 			{#if home?.forthStat}
 				<div class="flex flex-col items-center gap-1 text-white">
-					<h2 class=" text-3xl font-bold">{home.forthStat.value}</h2>
+					<h2 class="text-2xl font-bold md:text-3xl">{home.forthStat.value}</h2>
 					<p class="flex flex-col items-center text-base font-semibold leading-normal md:text-lg">
 						<span>{home.forthStat.label}</span>
 					</p>
