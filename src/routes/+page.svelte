@@ -131,9 +131,6 @@
 			>
 				{#if priorityAreas?.length !== 0}
 					{#each priorityAreas ?? [] as area, i}
-						<!-- svelte-ignore a11y-click-events-have-key-events -->
-						<!-- svelte-ignore a11y-no-static-element-interactions -->
-						<!-- {#key selectedPriorityArea} -->
 						<button
 							class="group relative flex w-36 flex-col items-center justify-center gap-1 text-center transition-all hover:scale-125 hover:cursor-pointer {i ===
 							selectedPriorityArea
@@ -158,7 +155,6 @@
 							/>
 							<span class="text-center text-xs md:text-sm">{area.attributes.Title} </span>
 						</button>
-						<!-- {/key} -->
 					{/each}
 				{/if}
 			</div>
