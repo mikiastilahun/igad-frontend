@@ -174,7 +174,7 @@
 		let legend = L.control({ position: 'bottomright' });
 
 		legend.onAdd = function (map) {
-			var div = L.DomUtil.create('div', 'info legend'),
+			var div = L.DomUtil.create('div', ' legend'),
 				labels = [],
 				from,
 				to;
@@ -184,11 +184,11 @@
 				to = grades[i + 1];
 
 				labels.push(
-					`<span><i style="background:${getColor(from + 1)}"></i> ${formatNumber(from)}${to ? '&ndash;' + formatNumber(to) : '+'}</span>`
+					`<span class="" ><i class="float-left mr-2 h-4 w-4 opacity-90" style="background:${getColor(from + 1)}"></i> ${formatNumber(from)}${to ? '&ndash;' + formatNumber(to) : '+'}</span>`
 				);
 			}
 
-			div.innerHTML = `<div class="gap-2 flex flex-col  flex-wrap scale-" ">${labels.join('')}</div>`;
+			div.innerHTML = `<div class=" gap-2 flex sm:flex-col  flex-wrap " ">${labels.join('')}</div>`;
 			return div;
 		};
 		info.onAdd = function (map) {
@@ -198,14 +198,15 @@
 		};
 
 		info.update = function (props) {
-			this._div.innerHTML =
-				'<h4>IGAD Countries Population</h4>' +
-				(props
-					? `<b>${props.COUNTRY} </b><br/>
-            <b>Total: </b>${formatNumber(props.TOTAL)}<br/>
-            <b>Male: </b>${formatNumber(props.MALE)}<br/>
-            <b>Female: </b>${formatNumber(props.FEMALE)}`
-					: 'Hover over a country');
+			this._div.innerHTML = `<div class=""><h4>IGAD Countries Population</h4>
+				${
+					props
+						? `<b>${props.COUNTRY} </b><br/>
+			<b>Total: </b>${formatNumber(props.TOTAL)}<br/>
+			<b>Male: </b>${formatNumber(props.MALE)}<br/>
+			<b>Female: </b>${formatNumber(props.FEMALE)}`
+						: 'Hover over a country'
+				}</div>`;
 		};
 
 		map = L.map('IGAD_map', {
@@ -261,7 +262,7 @@
 </script>
 
 <div class="relative">
-	<div class="max-w-[180px] absolute z-[99999] top-2 left-2 shadow-lg rounded-lg">
+	<div class="absolute left-2 top-2 z-[99999] max-w-[180px] rounded-lg shadow-lg">
 		<Select
 			placeholder="Select year"
 			bind:selectedOption={selectedYear}
@@ -275,40 +276,16 @@
 			]}
 		/>
 	</div>
-	<div id="IGAD_map" class="relative bg-red overflow-hidden flex justify-center">
-		<div class="h-[400px] md:h-[725px] w-[800px] max-w-full bg-green-100 border-2"></div>
+	<div id="IGAD_map" class="bg-red relative flex justify-center overflow-hidden">
+		<div class="h-[400px] w-[800px] max-w-full border-2 bg-green-100 md:h-[725px]"></div>
 	</div>
 </div>
 
 <style>
 	:global(.info) {
-		padding: 6px 8px;
-		font-size: 12px;
-		/* background: white; */
-		background: rgba(255, 255, 255, 0.8);
-		box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-		border-radius: 5px;
-		color: #000;
+		@apply hidden rounded-md bg-white/80 px-[6px] py-2 text-xs text-black shadow-md sm:block;
 	}
-
 	:global(.legend) {
-		margin: 0 0 5px;
-		color: #777;
-	}
-
-	:global(.legend) {
-		line-height: 18px;
-		color: #555;
-	}
-
-	:global(.legend i) {
-		width: 18px;
-		height: 18px;
-		float: left;
-		margin-right: 8px;
-		opacity: 0.9;
-	}
-	:global(.leaflet-popup-content) {
-		/* margin: 0 !important; */
+		@apply !-mb-3 rounded-md bg-white/80 px-[6px] py-2 text-xs text-black shadow-md sm:!mb-0;
 	}
 </style>
