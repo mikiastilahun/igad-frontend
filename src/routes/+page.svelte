@@ -11,6 +11,9 @@
 	import { goto } from '$app/navigation';
 	import Map from '$lib/components/leaflet/map.svelte';
 
+	import { fly } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
+
 	export let data;
 
 	const home = data.data?.homeData.data.attributes;
@@ -20,6 +23,7 @@
 	const populationStats = data.data?.populationStats.data;
 
 	let selectedPriorityArea = 0;
+	let lastSelectedPriorityArea = 0;
 	let scrollContainer: HTMLDivElement;
 
 	function scrollLeft() {
@@ -69,10 +73,11 @@
 								{#each priorityAreas as area, i}
 									{#if selectedPriorityArea === i}
 										<div data-index={i} class=" w-full min-w-full snap-start px-4 text-white">
-											<span class="bg-primary text-white"
-												>selected:{selectedPriorityArea} index: {i}</span
+											<div
+												class="transition-container max-w-2xl"
+												in:fly={{ duration: 500, easing: quintOut, x: 100 }}
+												out:fly={{ duration: 500, easing: quintOut, x: -100 }}
 											>
-											<div class="max-w-2xl">
 												<h1 class="text-2xl font-bold md:text-4xl">
 													{area.attributes.Title ?? ''}
 												</h1>
@@ -96,14 +101,6 @@
 						<button
 							on:click={() => {
 								scrollRight();
-								// if (
-								// 	scrollContainer.scrollLeft ===
-								// 	scrollContainer.scrollWidth - scrollContainer.clientWidth
-								// ) {
-								// 	return;
-								// }
-								// scrollContainer.scrollBy({ left: scrollContainer.clientWidth, behavior: 'smooth' });
-								// selectedPriorityArea = scrollContainer.scrollLeft / scrollContainer.clientWidth + 1;
 							}}
 							class=" group relative self-center p-2"
 						>
@@ -148,6 +145,7 @@
 									left: i * scrollContainer.clientWidth,
 									behavior: 'smooth'
 								});
+								lastSelectedPriorityArea = selectedPriorityArea;
 								selectedPriorityArea = i;
 							}}
 						>
@@ -351,5 +349,8 @@
 	.hide-scroll {
 		scrollbar-width: none;
 		-ms-overflow-style: none;
+	}
+	.transition-container {
+		transition: opacity 0.5s ease;
 	}
 </style>
