@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import IGAD_LOGO from '$lib/assets/igad-logo.png';
+	import IGAD_LOGO from '$lib/assets/igad-logo.svg';
 	import { fade } from 'svelte/transition';
 	import { linear } from 'svelte/easing';
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
@@ -98,23 +98,23 @@
 		<div
 			class="flex w-full flex-col items-center justify-center rounded-md bg-transparent p-8 md:w-1/2"
 		>
-			<img src={IGAD_LOGO} class="h-w-16 m-4 w-16" alt="IGAD Logo" />
+			<img src={IGAD_LOGO} class="mb-4 h-20 w-20 rounded-full bg-white" alt="IGAD Logo" />
 			<h2 class="mb-4 text-2xl font-bold text-white">Register for Quick Links!</h2>
 			<input
 				bind:value={name}
-				class="mb-4 block w-full rounded-md border border-white bg-white/20 p-3 text-white placeholder:text-white"
+				class="mb-4 block w-full rounded-md border border-white bg-white/20 p-3 text-white placeholder:text-white focus:border-secondary-500 focus:ring-secondary-500"
 				type="text"
 				placeholder="Full Name"
 			/>
 			<input
 				bind:value={email}
-				class="mb-4 block w-full rounded-md border border-white bg-white/20 p-3 text-white placeholder:text-white"
+				class="mb-4 block w-full rounded-md border border-white bg-white/20 p-3 text-white placeholder:text-white focus:border-secondary-500 focus:ring-secondary-500"
 				type="email"
 				placeholder="Email"
 			/>
 			<div class="g-recaptcha p-4" data-sitekey="6LdMtewpAAAAAO3YQbhgzR0Ksan-aVhIwUgAHt4E"></div>
 
-			<button on:click={register} class="block w-full rounded-md bg-secondary p-2 text-black"
+			<button on:click={register} class="block w-full rounded-md bg-secondary px-4 py-3 text-black"
 				>Register</button
 			>
 		</div>

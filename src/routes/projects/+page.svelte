@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Hero from '$lib/assets/publications/hero.jpg';
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
-	import IGADLogo from '$lib/assets/igad-logo.png';
+	import IGADLogo from '$lib/assets/igad-logo.svg';
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
 	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';

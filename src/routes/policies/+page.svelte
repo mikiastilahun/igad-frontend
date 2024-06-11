@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
 	import Download from '$lib/assets/icons/download.svg.svelte';
-	import IGADLogo from '$lib/assets/igad-logo.png';
+	import IGADLogo from '$lib/assets/igad-logo.svg';
 
 	import SvelteMarkdown from 'svelte-markdown';
 
@@ -37,19 +37,19 @@
 
 <div class="md:p-4">
 	<section
-		class="relative min-h-[674px] flex items-center justify-between md:rounded-lg bg-primary"
+		class="relative flex min-h-[674px] items-center justify-between bg-primary md:rounded-lg"
 	>
-		<div class="max-w-[1136px] mx-auto w-full flex justify-between items-center gap-4">
+		<div class="mx-auto flex w-full max-w-[1136px] items-center justify-between gap-4">
 			<div class="relative w-full px-4 md:px-8">
-				<div class="text-white max-w-2xl">
-					<h1 class="text-3xl font-bold mb-2">{policy?.title}</h1>
+				<div class="max-w-2xl text-white">
+					<h1 class="mb-2 text-3xl font-bold">{policy?.title}</h1>
 					<p class=" text-base font-normal leading-normal">
 						{policy?.description}
 					</p>
 				</div>
 			</div>
 			<img
-				class="md:rounded-full hidden md:inline-block max-w-52 lg:max-w-[300px] h-auto max-h-[400px] px-4 md:px-8"
+				class="hidden h-auto max-h-[400px] max-w-52 px-4 md:inline-block md:rounded-full md:px-8 lg:max-w-[300px]"
 				alt={`policies and framework`}
 				src={IGADLogo}
 			/>
@@ -57,11 +57,11 @@
 	</section>
 </div>
 
-<div class="max-w-5xl mx-auto my-4 mb-12 p-4">
+<div class="mx-auto my-4 mb-12 max-w-5xl p-4">
 	{#each policy?.section || [] as section}
 		<div class="w-full">
-			<h2 class="text-2xl font-bold mt-8">{section.title}</h2>
-			<p class="prose max-w-5xl mx-auto">
+			<h2 class="mt-8 text-2xl font-bold">{section.title}</h2>
+			<p class="prose mx-auto max-w-5xl">
 				<SvelteMarkdown source={section.content} />
 			</p>
 		</div>
@@ -69,8 +69,8 @@
 		{#if section?.subSection}
 			{#each section.subSection as subsection}
 				<div class="w-full">
-					<h3 class="text-xl font-bold mt-8 text-primary">{subsection.title}</h3>
-					<p class="prose max-w-5xl mx-auto">
+					<h3 class="mt-8 text-xl font-bold text-primary">{subsection.title}</h3>
+					<p class="prose mx-auto max-w-5xl">
 						<SvelteMarkdown source={subsection.content} />
 					</p>
 				</div>
@@ -79,10 +79,10 @@
 
 		{#if section.files.data}
 			{#each section.files.data as file}
-				<div class="w-full flex items-center gap-8 mt-8">
+				<div class="mt-8 flex w-full items-center gap-8">
 					<!-- download button -->
 					<button
-						class="bg-primary px-4 py-3 rounded flex gap-2 items-center"
+						class="flex items-center gap-2 rounded bg-primary px-4 py-3"
 						on:click={() => {
 							downloadFile(`${PUBLIC_STATIC_URL}${file.attributes.url}`, file.attributes.name);
 						}}

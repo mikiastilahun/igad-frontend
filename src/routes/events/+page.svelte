@@ -3,7 +3,7 @@
 	import Location from '$lib/assets/location.svg';
 	import Time from '$lib/assets/time.svg';
 	import Search from '$lib/assets/icons/search.svg.svelte';
-	import IGADLogo from '$lib/assets/igad-logo.png';
+	import IGADLogo from '$lib/assets/igad-logo.svg';
 	import { InlineCalendar } from 'svelte-calendar';
 	import { goto } from '$app/navigation';
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
@@ -74,7 +74,7 @@
 		aliquam. Sodales pulvinar facilisi donec facilisis`}
 />
 
-<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-10 px-4 sm:px-8 md:px-4">
+<div class="mx-auto flex max-w-[1136px] flex-col gap-10 px-4 py-10 sm:px-8 md:px-4">
 	<h2 class="text-2xl font-bold leading-normal">Recent Events</h2>
 
 	<!-- Events grouped by month -->
@@ -87,15 +87,15 @@
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<!-- svelte-ignore a11y-no-static-element-interactions -->
 						<div
-							class="flex gap-4 hover:cursor-pointer group/evt"
+							class="group/evt flex gap-4 hover:cursor-pointer"
 							on:click={() => {
 								goto(`events/${event.id}`);
 							}}
 						>
 							<!-- indicator -->
-							<div class="h-full flex flex-col relative">
+							<div class="relative flex h-full flex-col">
 								<div
-									class=" group-hover/evt:shadow-[0_0_0_3px_white,0_0_0_6px_green] group-hover/evt:border-0 group-hover/evt:text-white group-hover/evt:bg-primary text-gray-500 border border-gray-500 w-8 h-8 shrink-0 rounded-full flex justify-center items-center transition-all duration-200"
+									class=" flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-500 text-gray-500 transition-all duration-200 group-hover/evt:border-0 group-hover/evt:bg-primary group-hover/evt:text-white group-hover/evt:shadow-[0_0_0_3px_white,0_0_0_6px_green]"
 								>
 									{new Date(event.date).getDate()}
 								</div>
@@ -103,23 +103,23 @@
 								{#if i === Object.keys(groupedEvents).length - 1 && index + 1 === groupedEvents[month].length}
 									<span class="sr-only">Placeholder</span>{:else}
 									<div
-										class=" w-[2px] h-full bg-gray-400 self-center group-hover/evt:bg-primary transition-all duration-200"
+										class=" h-full w-[2px] self-center bg-gray-400 transition-all duration-200 group-hover/evt:bg-primary"
 									></div>
 								{/if}
 							</div>
 							<!-- content -->
-							<div class="flex flex-col pb-8 gap-1">
+							<div class="flex flex-col gap-1 pb-8">
 								<p
-									class="font-semibold leading-5 group-hover/evt:text-primary transition-colors duration-150 line-clamp-2"
+									class="line-clamp-2 font-semibold leading-5 transition-colors duration-150 group-hover/evt:text-primary"
 								>
 									{event.description}
 								</p>
-								<div class="flex gap-2 items-center">
-									<img class="w-4 h-4" src={Time} alt="time" />
+								<div class="flex items-center gap-2">
+									<img class="h-4 w-4" src={Time} alt="time" />
 									<span class="text-primary">{event.time}</span>
 								</div>
-								<div class="flex gap-2 items-center">
-									<img class="w-4 h-4" src={Location} alt="location" />
+								<div class="flex items-center gap-2">
+									<img class="h-4 w-4" src={Location} alt="location" />
 									<span class="text-secondary">{event.location}</span>
 								</div>
 							</div>
@@ -131,25 +131,25 @@
 	</div>
 </div>
 
-<div class="max-w-[1136px] mx-auto py-10 flex flex-col gap-10 px-4 sm:px-8 md:px-4">
+<div class="mx-auto flex max-w-[1136px] flex-col gap-10 px-4 py-10 sm:px-8 md:px-4">
 	<h2 class="text-2xl font-bold leading-normal">All Events Calendar</h2>
-	<div class="flex flex-col lg:flex-row gap-5 p-5">
+	<div class="flex flex-col gap-5 p-5 lg:flex-row">
 		<!-- calendar component -->
 		<div class="lg:w-[427px]">
 			<InlineCalendar bind:selected={currentDate} {theme} />
 		</div>
-		<div class="flex-1 flex flex-col gap-5">
+		<div class="flex flex-1 flex-col gap-5">
 			<!-- search bar -->
 			<section class="">
-				<div class="max-w-[1136px] mx-auto">
+				<div class="mx-auto max-w-[1136px]">
 					<div class="relative flex items-center justify-center">
 						<input
 							type="text"
-							class="w-full px-4 py-2 text-lg font-normal text-gray-800 bg-gray-300/30 border rounded-md focus:outline-none focus:ring-1 focus:ring-primary pr-10"
+							class="w-full rounded-md border border-primary-500 bg-white px-4 py-2 pr-10 text-lg font-normal text-gray-800 focus:border-secondary-500 focus:outline-none focus:ring-1 focus:ring-secondary-500"
 							placeholder="Search for events"
 						/>
-						<button class="absolute right-0 px-4 py-2 text-white rounded-r-md">
-							<Search class="w-6 h-6" />
+						<button class="absolute right-0 rounded-r-md px-4 py-2 text-white">
+							<Search class="h-6 w-6" />
 						</button>
 					</div>
 				</div>
@@ -157,20 +157,20 @@
 			<!-- events list -->
 			<div class="flex flex-col gap-5">
 				{#each events as event}
-					<a href="events/{event.id}" class="flex gap-5 rounded-lg py-3 px-6 shadow-md">
+					<a href="events/{event.id}" class="flex gap-5 rounded-lg px-6 py-3 shadow-md">
 						<div class=" pt-2">
-							<img class="w-[80px] h-[70px] object-cover" src={IGADLogo} alt="Card " />
+							<img class="h-[70px] w-[80px] object-cover" src={IGADLogo} alt="Card " />
 						</div>
 
-						<div class="p-2 w-full flex flex-col gap-2">
-							<p class="font-semibold line-clamp-1">{event.title}</p>
-							<p class="text-sm line-clamp-2">{event.description}</p>
-							<div class="flex gap-2 items-center">
-								<img class="w-4 h-4" src={Time} alt="time" />
+						<div class="flex w-full flex-col gap-2 p-2">
+							<p class="line-clamp-1 font-semibold">{event.title}</p>
+							<p class="line-clamp-2 text-sm">{event.description}</p>
+							<div class="flex items-center gap-2">
+								<img class="h-4 w-4" src={Time} alt="time" />
 								<span class="text-primary">{event.time}</span>
 							</div>
-							<div class="flex gap-2 items-center">
-								<img class="w-4 h-4" src={Location} alt="location" />
+							<div class="flex items-center gap-2">
+								<img class="h-4 w-4" src={Location} alt="location" />
 								<span class="text-secondary">{event.location}</span>
 							</div>
 						</div>

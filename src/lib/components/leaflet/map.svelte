@@ -11,8 +11,6 @@
 	import sudan from '$lib/assets/json/sudan.json';
 	import uganda from '$lib/assets/json/uganda.json';
 
-	// import {} from 'leaflet';
-
 	import type { PopulationStats } from '../../../routes/+page.server.js';
 
 	import 'leaflet/dist/leaflet.css';
@@ -276,7 +274,7 @@
 			]}
 		/>
 	</div>
-	<div id="IGAD_map" class="bg-red relative flex justify-center overflow-hidden">
+	<div id="IGAD_map" class="bg-red relative flex justify-center overflow-hidden rounded-md">
 		<div class="h-[400px] w-[800px] max-w-full border-2 bg-green-100 md:h-[725px]"></div>
 	</div>
 </div>

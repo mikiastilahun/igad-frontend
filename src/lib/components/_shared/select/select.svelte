@@ -11,7 +11,7 @@
 
 <select
 	bind:value={selectedOption}
-	class="w-full min-w-[180px] h-10 px-2 bg-white rounded-lg border border-zinc-200 text-zinc-900 text-xs font-semibold font-['Open Sans']"
+	class=" h-10 w-full min-w-[180px] rounded-lg border border-zinc-200 bg-white px-2 text-xs font-semibold text-zinc-900 focus:border-secondary-500 focus:ring-secondary-500"
 >
 	<option value="" disabled>{placeholder}</option>
 	{#each options as option (option.value)}
@@ -26,7 +26,7 @@
 		background-repeat: no-repeat;
 		background-position: right 0.5em center;
 		background-size: 1.5em;
-		padding-right: 1.5em; /* Adjust as needed */
+		padding-right: 1.5em;
 	}
 	select:hover {
 		background-color: #f3f3f3;

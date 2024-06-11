@@ -19,11 +19,11 @@
 		aliquam. Sodales pulvinar facilisi donec facilisis`}
 />
 
-<section class="max-w-[1136px] mx-auto py-10 px-8 md:px-4">
-	<div class=" flex flex-col-reverse lg:flex-row flex-wrap gap-16 w-full items-stretch">
+<section class="mx-auto max-w-[1136px] px-8 py-10 md:px-4">
+	<div class=" flex w-full flex-col-reverse flex-wrap items-stretch gap-16 lg:flex-row">
 		<!-- news -->
-		<div class="flex flex-col gap-5 justify-center items-start">
-			<h2 class="text-2xl hidden lg:inline-block font-bold">Latest News</h2>
+		<div class="flex flex-col items-start justify-center gap-5">
+			<h2 class="hidden text-2xl font-bold lg:inline-block">Latest News</h2>
 			<!-- news card -->
 			<div class="flex flex-col gap-5">
 				{#if news?.length !== 0}
@@ -41,30 +41,30 @@
 		</div>
 		<!-- featured -->
 		<div class="relative flex-1 hover:cursor-pointer">
-			<div class="absolute top-0 left-0 h-full w-full bg-black opacity-60 rounded-md"></div>
+			<div class="absolute left-0 top-0 h-full w-full rounded-md bg-black opacity-60"></div>
 			<enhanced:img
-				class="object-cover rounded-md h-full"
+				class="h-full rounded-md object-cover"
 				src={news?.[0].attributes.thumbnail.data.attributes.url
 					? `${PUBLIC_STATIC_URL}${news?.[0].attributes.thumbnail.data.attributes.url}`
 					: NewsImg2}
 				alt="alt text"
 			/>
-			<div class="absolute bottom-0 px-4 md:px-8 pb-4 md:pb-8 text-white">
+			<div class="absolute bottom-0 px-4 pb-4 text-white md:px-8 md:pb-8">
 				<span class="text-base leading-normal">Debits - 03 June, 2023</span>
-				<h3 class="text-lg sm:text-xl md:text-3xl font-semibold md:font-bold md:leading-normal">
+				<h3 class="text-lg font-semibold sm:text-xl md:text-3xl md:font-bold md:leading-normal">
 					{news?.[0].attributes.title}
 				</h3>
 			</div>
 		</div>
-		<h2 class="text-2xl lg:hidden inline-block font-bold">Latest News</h2>
+		<h2 class="inline-block text-2xl font-bold lg:hidden">Latest News</h2>
 	</div>
 </section>
 
 <!-- List of news -->
 
-<section class="max-w-[1136px] mx-auto py-10 px-8 md:px-4">
+<section class="mx-auto max-w-[1136px] px-8 py-10 md:px-4">
 	<h2 class="text-2xl font-bold">Our News</h2>
-	<div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+	<div class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
 		{#each news || [] as newsItem}
 			{#if newsItem.attributes.thumbnail.data.attributes.url}
 				<Card
@@ -84,23 +84,23 @@
 		{/each}
 	</div>
 	<div class="text-center">
-		<button class="text-primary mt-8 font-semibold">Load More</button>
+		<button class="mt-8 font-semibold text-primary">Load More</button>
 	</div>
 </section>
 
 <!-- twitter will be here -->
 
 <!-- email subscription -->
-<section class="max-w-[1136px] md:h-[384px] mx-auto my-10">
-	<div class="h-full flex flex-col md:flex-row">
+<section class="mx-auto my-10 max-w-[1136px] md:h-[384px]">
+	<div class="flex h-full flex-col md:flex-row">
 		<div
-			class="py-28 md:w-[410px] rounded-b-none md:rounded-b-lg rounded-lg bg-primary flex justify-center items-center px-10"
+			class="flex items-center justify-center rounded-lg rounded-b-none bg-primary px-10 py-28 md:w-[410px] md:rounded-b-lg"
 		>
-			<h3 class="text-white font-bold text-[26px]">
+			<h3 class="text-[26px] font-bold text-white">
 				Subscribe to our newsletter to stay up-to date.
 			</h3>
 		</div>
-		<form class="py-10 px-8 md:px-4 lg:px-28 flex flex-col gap-8 justify-center flex-1">
+		<form class="flex flex-1 flex-col justify-center gap-8 px-8 py-10 md:px-4 lg:px-28">
 			<label for="email" class="flex flex-col gap-2">
 				<span class="text-base text-gray-700">Email</span>
 				<input
@@ -108,10 +108,10 @@
 					id="email"
 					name="email"
 					placeholder="Enter your email address"
-					class="w-full border border-gray-300 rounded-md p-2"
+					class="w-full rounded-md border border-primary-500 p-2 focus:border-secondary-500 focus:ring-secondary-500"
 				/>
 			</label>
-			<button type="submit" class="bg-primary text-white rounded-full p-2">Subscribe</button>
+			<button type="submit" class="rounded-full bg-primary p-2 text-white">Subscribe</button>
 		</form>
 	</div>
 </section>

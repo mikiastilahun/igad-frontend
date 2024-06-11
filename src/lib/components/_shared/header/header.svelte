@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IGAD_LOGO from '$lib/assets/igad-logo.png';
+	import IGAD_LOGO from '$lib/assets/igad-logo.svg';
 	import SearchIcon from '$lib/assets/icons/search.svg.svelte';
 	import CaretDownIcon from '$lib/assets/icons/caret-down.svg.svelte';
 	import BadgeIcon from '$lib/assets/icons/badge.svg.svelte';
