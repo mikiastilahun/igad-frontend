@@ -48,7 +48,7 @@
 <div class="">
 	<!-- hero section -->
 	<section
-		class="relative flex h-[1000px] w-full max-w-full items-center md:h-screen md:max-h-[890px]"
+		class="relative flex h-[1000px] w-full max-w-full items-center md:h-[calc(100vh-38px-32px)]"
 	>
 		<div class="relative h-full w-full">
 			<div class=" relative flex h-full w-full transform-gpu">
