@@ -119,7 +119,7 @@
 						src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
 					/>
 					<div
-						class=" absolute inset-0 h-full w-full bg-gradient-to-t from-black/80 from-55% to-transparent md:bg-gradient-to-r md:from-50%"
+						class=" absolute inset-0 h-full w-full transform-gpu bg-gradient-to-t from-black/75 from-55% to-transparent md:bg-gradient-to-r md:from-50%"
 					></div>
 				{/if}
 			</div>
@@ -134,7 +134,7 @@
 						<button
 							class="group relative flex w-36 flex-col items-center justify-center gap-1 text-center transition-all hover:scale-125 hover:cursor-pointer {i ===
 							selectedPriorityArea
-								? ' text-primary'
+								? '  text-primary'
 								: 'text-white'} "
 							on:click={() => {
 								scrollContainer.scrollTo({
