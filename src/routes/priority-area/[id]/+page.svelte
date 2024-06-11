@@ -1,12 +1,17 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
 	import Stackholders from '$lib/assets/icons/stackholders.svg.svelte';
 	import Hero from '$lib/assets/publications/hero.jpg';
+	import PriorityAreas from '$lib/components/priority-areas/priority-areas.svelte';
 	import SvelteMarkdown from 'svelte-markdown';
 
 	export let data;
 
 	const priorityArea = data.data?.priorityArea.data;
+	const priorityAreas = data.data?.priorityAreas.data;
+
+	$: filteredPriorityAreas = priorityAreas?.filter((item) => item.id !== parseInt($page.params.id));
 </script>
 
 <svelte:head>
@@ -28,6 +33,9 @@
 				height="200"
 				width="200"
 			/>
+			<div class="absolute bottom-0">
+				<PriorityAreas priorityAreas={filteredPriorityAreas} />
+			</div>
 		</div>
 	</section>
 </div>
@@ -194,3 +202,6 @@
 		</div>
 	</div>
 </section>
+<div class="mx-4 rounded bg-secondary p-8 text-black">
+	<PriorityAreas priorityAreas={filteredPriorityAreas} />
+</div>

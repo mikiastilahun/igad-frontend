@@ -60,6 +60,10 @@
 			href: '/projects'
 		},
 		{
+			title: 'Support areas',
+			href: '/priority-area/1'
+		},
+		{
 			title: 'Support Platforms',
 			href: 'https://igadsupportplatform.org/'
 		},
@@ -113,14 +117,14 @@
 </script>
 
 <div class="">
-	<header class=" mx-auto hidden w-fit max-w-6xl gap-8 rounded-full bg-white shadow-2xl lg:flex">
+	<header class=" mx-auto hidden w-fit max-w-7xl gap-6 rounded-full bg-white shadow-2xl lg:flex">
 		<a href="/">
 			<img src={IGAD_LOGO} alt="Logo" class="m-1 h-20 w-20" />
 		</a>
 		<div class="flex flex-row justify-between gap-4 py-4 xl:gap-8">
 			<!-- logo and links -->
 			<div class="  flex items-center gap-8">
-				<nav class="flex h-full items-center gap-5 text-sm font-bold text-primary xl:gap-8">
+				<nav class="flex h-full items-center gap-2 text-sm font-bold text-primary xl:gap-8">
 					{#each navItems as nav, index}
 						<div use:clickOutside={{ callback: () => (activeIndex = null) }}>
 							{#if nav.subMenu}
