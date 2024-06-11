@@ -66,6 +66,14 @@
 	$: console.log({ currentDate });
 </script>
 
+<svelte:head>
+	<title>IGAD - Events</title>
+	<meta
+		name="description"
+		content={`Stay updated with our events calendar and find out more about upcoming events.`}
+	/>
+</svelte:head>
+
 <PageHeader
 	imgSrc={Hero}
 	title={'Events Calendar'}

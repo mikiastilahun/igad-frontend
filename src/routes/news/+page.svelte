@@ -11,6 +11,11 @@
 	const news = data.data?.newsData.data;
 </script>
 
+<svelte:head>
+	<title>IGAD - News and Articles</title>
+	<meta name="description" content="IGAD news and articles" />
+</svelte:head>
+
 <PageHeader
 	imgSrc={Hero}
 	title={'News'}

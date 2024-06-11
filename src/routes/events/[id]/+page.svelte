@@ -16,6 +16,11 @@
 	const event = data.data?.eventData.data.attributes;
 </script>
 
+<svelte:head>
+	<title>IGAD - {event?.title || ''}</title>
+	<meta name="description" content={event?.title || ''} />
+</svelte:head>
+
 <PageHeader title={event?.title} class="!items-end pb-8">
 	<div class="flex items-center gap-2">
 		<Location class="h-4 w-4 fill-secondary-500" />

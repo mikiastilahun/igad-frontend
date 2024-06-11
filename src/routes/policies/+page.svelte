@@ -8,8 +8,6 @@
 	export let data;
 	const policy = data.data?.policy?.data.attributes;
 
-	console.log({ data });
-
 	function downloadFile(url: string, filename: string) {
 		fetch(url)
 			.then((response) => response.blob())
@@ -25,16 +23,12 @@
 			})
 			.catch((err) => console.error('Error while downloading file:', err));
 	}
-
-	// define the content with sample markdown text and images included
-	const content = `
-# This is a Markdown policy and framework description.
-
-## Headers
-
-`;
 </script>
 
+<svelte:head>
+	<title>IGAD - Policies and Frameworks</title>
+	<meta name="description" content={policy?.description || ''} />
+</svelte:head>
 <div class="md:p-4">
 	<section
 		class="relative flex min-h-[674px] items-center justify-between bg-primary md:rounded-lg"

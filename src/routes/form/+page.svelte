@@ -67,6 +67,10 @@
 	};
 </script>
 
+<svelte:head>
+	<title>IGAD-Form</title>
+</svelte:head>
+
 <div class="md:p-4">
 	<section class="relative flex min-h-[674px] items-center rounded-lg">
 		<img

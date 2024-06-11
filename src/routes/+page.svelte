@@ -45,6 +45,14 @@
 	let showRegister = false;
 </script>
 
+<svelte:head>
+	<title>IGAD Migration and Statistics</title>
+	<meta
+		name="description"
+		content={`Welcome to the IGAD Migration and Statistics page. 
+		Explore priority areas, regional statistics, learning links, and more.`}
+	/>
+</svelte:head>
 <div class="">
 	<!-- hero section -->
 	<section

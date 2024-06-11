@@ -9,6 +9,11 @@
 	const priorityArea = data.data?.priorityArea.data;
 </script>
 
+<svelte:head>
+	<title>IGAD - {priorityArea?.attributes.Title || ''}</title>
+	<meta name="description" content={priorityArea?.attributes.ShortDescription || ''} />
+</svelte:head>
+
 <div class="md:p-4">
 	<section class="relative flex min-h-[674px] items-center rounded-lg bg-primary">
 		<div class="mx-auto flex h-full max-w-7xl items-center gap-28">

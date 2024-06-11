@@ -111,6 +111,14 @@
 	let transformedRemittancePerCountryData = transformRemittancePerCountryData(remittancePerCountry);
 </script>
 
+<svelte:head>
+	<title>IGAD - Statistics</title>
+	<meta
+		name="description"
+		content={`Explore the latest data and statistics on population, migrants, refugees, 
+		and remittance in the IGAD region. Gain insights into demographic trends, migration patterns, and economic indicators.`}
+	/>
+</svelte:head>
 {#if browser}
 	<PageHeader
 		imgSrc={Hero}

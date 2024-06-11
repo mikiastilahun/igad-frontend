@@ -10,41 +10,45 @@
 	const publication = data.data?.publication.data.attributes;
 </script>
 
+<svelte:head>
+	<title>{publication?.title || 'IGAD Publication detail'}</title>
+	<meta name="description" content={publication?.title || ''} />
+</svelte:head>
 <PageHeader
 	imgSrc={`${PUBLIC_STATIC_URL}${publication?.coverImage.data.attributes.url}`}
 	imgAlt={'IGAD projects'}
 	title={publication?.title}
 />
 
-<section class="max-w-5xl flex mx-auto gap-16 p-4">
+<section class="mx-auto flex max-w-5xl gap-16 p-4">
 	<div class="w-full">
-		<h1 class="text-3xl font-bold mb-2">{publication?.title}</h1>
+		<h1 class="mb-2 text-3xl font-bold">{publication?.title}</h1>
 
 		<!-- date and publicationType -->
 
-		<div class="flex gap-6 items-center">
+		<div class="flex items-center gap-6">
 			<span class="text-sm text-zinc-500"
 				>{dayjs(publication?.publicationDate).format('DD MMMM YYYY')}</span
 			>
 			<div
-				class=" h-3.5 px-2 bg-zinc-700 rounded-[100px] justify-start items-center gap-2.5 inline-flex"
+				class=" inline-flex h-3.5 items-center justify-start gap-2.5 rounded-[100px] bg-zinc-700 px-2"
 			>
-				<div class="text-white text-[10px] font-normal font-['Open Sans']">
+				<div class="font-['Open Sans'] text-[10px] font-normal text-white">
 					{publication?.publication_type.data.attributes.type}
 				</div>
 			</div>
 		</div>
 
 		<!-- content -->
-		<p class="max-w-5xl mx-auto prose">
+		<p class="prose mx-auto max-w-5xl">
 			<SvelteMarkdown source={publication?.mainContent} />
 		</p>
 	</div>
 
-	<div class="flex items-center gap-4 flex-col max-w-72 mt-12">
+	<div class="mt-12 flex max-w-72 flex-col items-center gap-4">
 		<ul class="w-full">
 			{#each publication?.files.data || [] as file}
-				<li class="list-disc p-2 w-full">
+				<li class="w-full list-disc p-2">
 					<a
 						href={`${PUBLIC_STATIC_URL}${file.attributes.url}`}
 						target="_blank"

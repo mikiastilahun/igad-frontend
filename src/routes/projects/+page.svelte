@@ -21,6 +21,14 @@
 	let isOpen = true;
 </script>
 
+<svelte:head>
+	<title>IGAD - Projects</title>
+	<meta
+		name="description"
+		content={`Explore IGAD projects and learn about their background, objectives, key outcomes, and major activities and achievements.`}
+	/>
+</svelte:head>
+
 <PageHeader
 	imgSrc={Hero}
 	imgAlt={'IGAD projects'}

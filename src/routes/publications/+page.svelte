@@ -37,10 +37,6 @@
 
 	const publicationTypes = data.data?.publicationTypes;
 
-	$: {
-		console.log(data);
-	}
-
 	let searchValue = '';
 	const search = async () => {
 		console.log('searching');
@@ -154,6 +150,11 @@
 			});
 	};
 </script>
+
+<svelte:head>
+	<title>IGAD-Publications</title>
+	<meta name="description" content={`IGAD publications`} />
+</svelte:head>
 
 <PageHeader
 	imgSrc={Hero}
