@@ -5,6 +5,7 @@
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
 	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
+	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
 
 	export let data;
 
@@ -16,7 +17,8 @@
 
 	$: coverImage = selectedProject?.attributes?.cover_image.data?.attributes.url;
 
-	$: console.log({ selectedProject });
+	// mobile
+	let isOpen = true;
 </script>
 
 <PageHeader
@@ -28,9 +30,11 @@
 	aliquam. Sodales pulvinar facilisi donec facilisis`}
 />
 
-<div class="relative mx-auto flex max-w-[1136px] items-start gap-8 p-4">
+<div
+	class="relative mx-auto flex max-w-[1136px] flex-col-reverse items-start gap-8 p-4 md:flex-row"
+>
 	<!-- Main Content -->
-	<div class="w-3/4 pl-8">
+	<div class="w-full md:w-3/4 md:pl-4 lg:pl-8">
 		<div id={`Background`} class="mb-8 scroll-mt-[136px]">
 			<h2 class="mb-4 text-2xl font-bold text-primary-500">
 				{selectedProject.attributes.name}
@@ -192,7 +196,7 @@
 	</div>
 
 	<!-- Sidebar Navigation -->
-	<div class="sticky top-10 w-1/4">
+	<div class="sticky top-10 hidden w-1/4 md:block">
 		<h2 class="mb-4 text-xl font-bold text-stone-900">Projects</h2>
 		{#each projects as project, i}
 			<div class="border-l-2 pb-4">
@@ -243,5 +247,81 @@
 				</div>
 			</div>
 		{/each}
+	</div>
+
+	<div class="sticky top-0 w-full bg-white py-4 md:hidden">
+		<h2 class="mb-4 pl-2 text-xl font-bold text-stone-900">Projects</h2>
+
+		<button
+			on:click={() => (isOpen = !isOpen)}
+			class="h-[48px] w-full rounded-md {!isOpen ? 'border' : ''} bg-white px-4 shadow-sm"
+		>
+			<p class="flex w-full items-center justify-between gap-4 text-primary-500">
+				<span class="line-clamp-1 text-left text-sm font-medium leading-5 tracking-[0.4px]"
+					>{selectedProject.attributes.name}</span
+				>
+				<ChevronDown
+					class="h-5 w-5 transition-transform {isOpen ? 'rotate-90' : '-rotate-90'} fill-black"
+				/>
+			</p>
+		</button>
+
+		{#if isOpen}
+			<div
+				transition:slide={{
+					duration: 500,
+					easing: quintOut
+				}}
+				class="absolute left-0 right-0 grid rounded-b-md bg-white px-4 py-4 shadow-2xl"
+			>
+				{#each projects as project, i}
+					<div class="w-full">
+						<button
+							on:click={() => {
+								selectedProject = project;
+								activeProjectId = project.id;
+							}}
+							class="{activeProjectId === project.id
+								? 'border-l-primary-500 font-medium text-primary'
+								: ''} w-full border-l-2 px-4 text-left text-sm leading-normal tracking-[0.4px] transition-all hover:cursor-pointer hover:border-l-primary-500 hover:text-primary"
+						>
+							<span class="">{project.attributes.name}</span>
+						</button>
+
+						{#if activeProjectId === project.id}
+							<div
+								class=" my-2 ml-4 flex flex-col gap-2 border-l-2"
+								transition:slide={{
+									delay: 100,
+									duration: 300,
+									easing: quintOut
+								}}
+							>
+								{#each ['Background', 'Objectives', 'Key_Outcomes', 'Major_Activities_and_Achievements'] || [] as subTitles}
+									<button
+										class="-m-[2px] list-none border-l-2 px-4 text-left hover:cursor-pointer hover:border-l-primary-500 {activeSubmenuId ===
+										subTitles
+											? 'border-l-primary-500'
+											: ''}"
+										on:click={() => {
+											activeSubmenuId = subTitles;
+											isOpen = false;
+										}}
+									>
+										<a
+											href="#{subTitles}"
+											class="text-left text-sm transition-colors duration-300 ease-in-out hover:text-primary {activeSubmenuId ===
+											subTitles
+												? 'text-primary'
+												: ''}">{subTitles.replaceAll('_', ' ')}</a
+										>
+									</button>
+								{/each}
+							</div>
+						{/if}
+					</div>
+				{/each}
+			</div>
+		{/if}
 	</div>
 </div>
