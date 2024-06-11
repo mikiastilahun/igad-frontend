@@ -12,6 +12,7 @@
 	import PopulationPerCountryChart, {
 		type PopulationType
 	} from '$lib/components/charts/population-per-country-chart.svelte';
+	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
 
 	export let data;
 	export const ssr = false;
@@ -111,28 +112,13 @@
 </script>
 
 {#if browser}
-	<div class="md:p-4">
-		<section class="relative flex min-h-[674px] items-center rounded-lg">
-			<img
-				class="absolute inset-0 h-full w-full rounded-lg object-cover"
-				alt={`publications hero image`}
-				src={Hero}
-			/>
-			<div
-				class="absolute left-0 top-0 h-full w-full rounded-lg bg-gradient-to-r from-black/80 to-transparent"
-			></div>
-			<div class="relative mx-auto w-full max-w-[1136px] px-4 md:px-8">
-				<div class="max-w-2xl text-white">
-					<h1 class="mb-2 text-3xl font-bold">Data and Statistics</h1>
-					<p class=" text-base font-normal leading-normal">
-						Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh
-						sapien vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin
-						sapien aliquam. Sodales pulvinar facilisi donec facilisis
-					</p>
-				</div>
-			</div>
-		</section>
-	</div>
+	<PageHeader
+		imgSrc={Hero}
+		title={'Data and Statistics'}
+		description={`Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien
+	vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien
+	aliquam. Sodales pulvinar facilisi donec facilisis`}
+	/>
 
 	<section class="mx-auto flex max-w-[1136px] flex-col gap-3 px-4 py-10">
 		<h2 class="text-2xl font-bold leading-normal">Population</h2>
