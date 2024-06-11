@@ -113,20 +113,20 @@
 </script>
 
 <div class="">
-	<header class=" bg-white shadow-2xl rounded-full w-fit max-w-6xl mx-auto hidden lg:flex gap-8">
+	<header class=" mx-auto hidden w-fit max-w-6xl gap-8 rounded-full bg-white shadow-2xl lg:flex">
 		<a href="/">
-			<img src={IGAD_LOGO} alt="Logo" class="h-20 w-20 m-1" />
+			<img src={IGAD_LOGO} alt="Logo" class="m-1 h-20 w-20" />
 		</a>
-		<div class="flex py-4 flex-row justify-between gap-4 xl:gap-8">
+		<div class="flex flex-row justify-between gap-4 py-4 xl:gap-8">
 			<!-- logo and links -->
 			<div class="  flex items-center gap-8">
-				<nav class="h-full flex gap-5 xl:gap-8 items-center text-primary text-sm font-bold">
+				<nav class="flex h-full items-center gap-5 text-sm font-bold text-primary xl:gap-8">
 					{#each navItems as nav, index}
 						<div use:clickOutside={{ callback: () => (activeIndex = null) }}>
 							{#if nav.subMenu}
 								<a
 									href={`${nav.href || '#'}`}
-									class=" h-full flex gap-2 items-center relative group/dropdown"
+									class=" group/dropdown relative flex h-full items-center gap-2"
 									on:mouseenter={() => {
 										activeIndex = index;
 									}}
@@ -137,14 +137,14 @@
 										class=" {activeIndex === index ? 'inline-flex' : 'hidden'} {index >=
 										navItems.length - 2
 											? 'right-0'
-											: ''}  animate-slide transform-gpu absolute w-[400px] top-16 shadow-md border-gray-200 border bg-white p-4 rounded-lg flex-col items-center gap-3"
+											: ''}  animate-slide absolute top-16 w-[400px] transform-gpu flex-col items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md"
 									>
 										{#each nav?.subMenu || [] as item}
 											<MenuDropdownItem href={item.href}>
 												<span slot="icon">
 													<svelte:component
 														this={item.icon}
-														class="w-6 h-6 fill-current group-hover:text-white"
+														class="h-6 w-6 fill-current group-hover:text-white"
 													/>
 												</span>
 												<span slot="title">{item.title}</span>
@@ -156,7 +156,7 @@
 							{:else}
 								<a
 									href={`${nav.href || '#'}`}
-									class=" flex gap-2 items-center relative group/dropdown"
+									class=" group/dropdown relative flex items-center gap-2"
 								>
 									{nav.title}
 								</a>
@@ -167,7 +167,7 @@
 			</div>
 
 			<!-- search -->
-			<div class="mr-10 xl:mr-20 flex-shrink-0 relative flex items-center gap-4">
+			<div class="relative mr-10 flex flex-shrink-0 items-center gap-4 xl:mr-20">
 				<button class="">
 					<SearchIcon />
 				</button>
@@ -176,9 +176,9 @@
 	</header>
 
 	<!-- Hamburger menu -->
-	<div class="lg:hidden flex justify-end pr-8 relative z-50">
+	<div class="relative z-50 flex justify-end pr-8 lg:hidden">
 		<div
-			class="lg:hidden flex justify-center items-center w-11 h-11 bg-white rounded-full text-right"
+			class="flex h-11 w-11 items-center justify-center rounded-full bg-white text-right shadow-lg lg:hidden"
 		>
 			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<span
@@ -189,41 +189,41 @@
 				class=""
 			>
 				<div>
-					<button class=" relative group">
+					<button class=" group relative">
 						<div
-							class="relative flex overflow-hidden items-center justify-center rounded-full w-[50px] h-[50px] transform transition-all duration-200"
+							class="relative flex h-[50px] w-[50px] transform items-center justify-center overflow-hidden rounded-full transition-all duration-200"
 						>
 							<div
-								class="flex flex-col justify-between w-[20px] h-[20px] transform transition-all duration-300 origin-center overflow-hidden"
+								class="flex h-[20px] w-[20px] origin-center transform flex-col justify-between overflow-hidden transition-all duration-300"
 							>
 								<div
-									class="bg-primary h-[2px] w-7 transform transition-all duration-300 origin-left {isMobileOpen
+									class="h-[2px] w-7 origin-left transform bg-primary transition-all duration-300 {isMobileOpen
 										? 'translate-x-10'
 										: ''}"
 								/>
 								<div
-									class="bg-primary h-[2px] w-7 rounded transform transition-all duration-300 {isMobileOpen
+									class="h-[2px] w-7 transform rounded bg-primary transition-all duration-300 {isMobileOpen
 										? 'translate-x-10'
 										: ''} delay-75"
 								/>
 								<div
-									class="bg-primary h-[2px] w-7 transform transition-all duration-300 origin-left {isMobileOpen
+									class="h-[2px] w-7 origin-left transform bg-primary transition-all duration-300 {isMobileOpen
 										? 'translate-x-10'
 										: ''} delay-150"
 								/>
 
 								<div
-									class="absolute items-center justify-between transform transition-all duration-500 top-2.5 -translate-x-10 {isMobileOpen
-										? 'translate-x-0 w-12'
+									class="absolute top-2.5 -translate-x-10 transform items-center justify-between transition-all duration-500 {isMobileOpen
+										? 'w-12 translate-x-0'
 										: ''} flex w-0"
 								>
 									<div
-										class="absolute bg-primary h-[2px] w-5 transform transition-all duration-500 {isMobileOpen
+										class="absolute h-[2px] w-5 transform bg-primary transition-all duration-500 {isMobileOpen
 											? 'rotate-45'
 											: 'rotate-0'} delay-300"
 									/>
 									<div
-										class="absolute bg-primary h-[2px] w-5 transform transition-all duration-500 delay-300 {isMobileOpen
+										class="absolute h-[2px] w-5 transform bg-primary transition-all delay-300 duration-500 {isMobileOpen
 											? '-rotate-45'
 											: '-rotate-0'}"
 									/>
@@ -238,19 +238,19 @@
 
 	{#if isMobileOpen}
 		<div
-			class=" block lg:hidden fixed overflow-y-auto top-0 bottom-0 w-full h-auto bg-primary/90 backdrop-blur backdrop-saturate-200 shadow-lg rounded-md"
+			class=" fixed bottom-0 top-0 block h-auto w-full overflow-y-auto rounded-md bg-primary/90 shadow-lg backdrop-blur backdrop-saturate-200 lg:hidden"
 		>
-			<nav class=" h-full flex justify-center items-center">
-				<ul class="grid justify-items-start min-w-48">
+			<nav class=" flex h-full items-center justify-center">
+				<ul class="grid min-w-48 justify-items-start">
 					{#each navItems as nav, index}
 						<div class="w-full">
 							{#if nav.subMenu}
-								<li class="pt-6 w-full">
+								<li class="w-full pt-6">
 									<button
 										on:click={() => {
 											mobileActiveIndex ? (mobileActiveIndex = null) : (mobileActiveIndex = index);
 										}}
-										class="flex justify-between w-full items-center"
+										class="flex w-full items-center justify-between"
 									>
 										<span class="text-lg font-semibold text-white">
 											{nav.title}
@@ -262,7 +262,7 @@
 									<ul
 										class="{mobileActiveIndex === index
 											? 'inline-flex'
-											: 'hidden'} animate-slide transform-gpu p-4 rounded-lg flex-col gap-3"
+											: 'hidden'} animate-slide transform-gpu flex-col gap-3 rounded-lg p-4"
 									>
 										{#each nav.subMenu || [] as subItem}
 											<li class=" hover:scale-105 hover:transition">
