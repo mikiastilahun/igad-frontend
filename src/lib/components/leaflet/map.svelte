@@ -262,7 +262,7 @@
 </script>
 
 <div class="relative">
-	<div class="absolute left-2 top-2 max-w-[180px] rounded-lg shadow-lg">
+	<div class="absolute left-2 top-2 z-[9999] max-w-[180px] rounded-lg shadow-lg">
 		<Select
 			placeholder="Select year"
 			bind:selectedOption={selectedYear}
