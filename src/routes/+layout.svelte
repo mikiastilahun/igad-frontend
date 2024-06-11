@@ -4,7 +4,7 @@
 	import Header from '$lib/components/_shared/header/header.svelte';
 	import '../app.postcss';
 	import { bindCssVarToScrollDirection } from '$lib/actions/scroll-up';
-
+	import Nprogress from '$lib/components/_shared/nprogress/nprogress.svelte';
 	export let data;
 
 	const quickLinks =
@@ -16,6 +16,7 @@
 	$: currentUrl = $page.url;
 </script>
 
+<Nprogress />
 <div
 	class="  z-30 w-full bg-primary transition-all duration-300 {currentUrl.pathname === '/'
 		? ''
