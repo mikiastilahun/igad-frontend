@@ -3,18 +3,16 @@
 	import SvelteMarkdown from 'svelte-markdown';
 
 	import NewsImg2 from '$lib/assets/temp/news-2.png?enhanced';
-	import ChartsImg from '$lib/assets/temp/charts.png?enhanced';
 	import FeaturedNewsCard from '$lib/components/_shared/featured-news-card/featured-news-card.svelte';
 	import Card from '$lib/components/_shared/card/card.svelte';
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
-
-	import { fly } from 'svelte/transition';
-	import { sineOut } from 'svelte/easing';
-	import { onMount } from 'svelte';
 	import CaretDown from '$lib/assets/icons/caret-down.svg.svelte';
 	import Registration from '$lib/components/registration/registration.svelte';
 	import { goto } from '$app/navigation';
 	import Map from '$lib/components/leaflet/map.svelte';
+
+	import { fly } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
 
 	export let data;
 
@@ -26,29 +24,8 @@
 
 	let selectedPriorityArea = 0;
 	let lastSelectedPriorityArea = 0;
+	let scrollContainer: HTMLDivElement;
 
-	console.log({ news, learningLinks, home, priorityAreas, populationStats });
-
-	let scrollContainer: HTMLElement;
-	let direction = 1;
-
-	onMount(() => {
-		// if (scrollContainer && scrollContainer.firstChild) {
-		// 	const imageWidth = (scrollContainer.firstChild as HTMLElement).offsetWidth;
-		// 	setInterval(() => {
-		// 		if (
-		// 			scrollContainer.scrollLeft + scrollContainer.offsetWidth >=
-		// 			scrollContainer.scrollWidth
-		// 		) {
-		// 			direction = -1;
-		// 		} else if (scrollContainer.scrollLeft === 0) {
-		// 			direction = 1;
-		// 		}
-		// 		scrollContainer.scrollBy({ left: imageWidth * direction, behavior: 'smooth' });
-		// 	}, 5000);
-		// }
-	});
-	const scrollAmount = 500;
 	function scrollLeft() {
 		if (priorityAreas && selectedPriorityArea === 0) {
 			selectedPriorityArea = priorityAreas.length - 1;
@@ -70,105 +47,113 @@
 
 <div class="">
 	<!-- hero section -->
-	<section class="relative flex h-[1000px] w-full items-center md:h-screen md:max-h-[890px]">
-		<div class=" absolute bottom-0 left-0 top-0 w-full">
-			<div
-				bind:this={scrollContainer}
-				class="hide-scroll flex h-full w-full transform-gpu snap-x snap-mandatory overflow-x-scroll scroll-smooth"
-			>
+	<section
+		class="relative flex h-[1000px] w-full max-w-full items-center md:h-screen md:max-h-[890px]"
+	>
+		<div class="relative h-full w-full">
+			<div class=" relative flex h-full w-full transform-gpu">
+				<div class="z-50 flex w-full items-center md:px-4">
+					<div class="-mt-64 flex w-full md:mt-0">
+						<button
+							on:click={() => {
+								scrollLeft();
+							}}
+							class="group relative self-center p-2"
+						>
+							<span
+								class="absolute inset-0 block h-full w-full rounded-full bg-gray-50/25 opacity-0 transition-all duration-150 group-hover:animate-pulse group-hover:opacity-100"
+							></span>
+							<CaretDown class="h-6 w-6 rotate-90 scale-150 fill-white" />
+						</button>
+						<div class=" mx-auto flex w-full max-w-[1136px]">
+							<div
+								bind:this={scrollContainer}
+								class="hide-scroll flex w-full max-w-3xl snap-x snap-mandatory overflow-x-scroll"
+							>
+								{#each priorityAreas as area, i}
+									{#if selectedPriorityArea === i}
+										<div data-index={i} class=" w-full min-w-full snap-start px-4 text-white">
+											<div
+												class="transition-container max-w-2xl"
+												in:fly={{ duration: 500, easing: quintOut, x: 100 }}
+												out:fly={{ duration: 500, easing: quintOut, x: -100 }}
+											>
+												<h1 class="text-2xl font-bold md:text-4xl">
+													{area.attributes.Title ?? ''}
+												</h1>
+												<p class=" mt-4 text-lg leading-normal opacity-80">
+													{area.attributes.ShortDescription ?? ''}
+												</p>
+
+												<button
+													on:click={() => {
+														goto(`/priority-area/${area.id}`);
+													}}
+													class="mt-8 block rounded-md bg-secondary px-6 py-2 font-semibold text-black"
+													>Read More</button
+												>
+											</div>
+										</div>
+									{/if}
+								{/each}
+							</div>
+						</div>
+						<button
+							on:click={() => {
+								scrollRight();
+							}}
+							class=" group relative self-center p-2"
+						>
+							<span
+								class="absolute inset-0 block h-full w-full rounded-full bg-gray-50/25 opacity-0 transition-all duration-150 group-hover:animate-pulse group-hover:opacity-100"
+							></span>
+							<CaretDown class="h-6 w-6 -rotate-90 scale-150 fill-white " /></button
+						>
+					</div>
+				</div>
 				{#if home?.BackgroundImage}
 					{@const imageUrl = home.BackgroundImage.data?.attributes?.url}
-					<div class="relative min-w-full snap-center">
-						<img
-							class="h-full w-full object-cover"
-							alt={'this is the alt text'}
-							src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
-						/>
-						<div
-							class=" absolute left-0 top-0 h-full w-full bg-gradient-to-t from-black/80 from-55% to-transparent md:bg-gradient-to-r md:from-50%"
-						></div>
-
-						<div
-							class=" absolute left-1/2 top-[40%] mx-auto flex w-full max-w-[1136px] -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-4 px-8 sm:top-1/2 md:justify-start md:px-4"
-						>
-							{#each priorityAreas as area, i}
-								{#if i === selectedPriorityArea}
-									<div
-										class="absolute max-w-2xl text-white"
-										transition:fly={{
-											duration: 300,
-											easing: sineOut,
-											x: lastSelectedPriorityArea < selectedPriorityArea ? -100 : 100
-										}}
-									>
-										<h1 class="text-2xl font-bold md:text-4xl">
-											{area.attributes.Title ?? ''}
-										</h1>
-										<p class=" mt-4 text-lg leading-normal opacity-80">
-											{area.attributes.ShortDescription ?? ''}
-										</p>
-
-										<button
-											on:click={() => {
-												goto(`/priority-area/${area.id}`);
-											}}
-											class="mt-8 block rounded-md bg-secondary px-6 py-2 font-semibold text-black"
-											>Read More</button
-										>
-									</div>
-								{/if}
-							{/each}
-						</div>
-					</div>
+					<img
+						class="absolute inset-0 h-full w-full object-cover"
+						alt={'this is the alt text'}
+						src={imageUrl ? `${PUBLIC_STATIC_URL}${imageUrl}` : HeroImg}
+					/>
+					<div
+						class=" absolute inset-0 h-full w-full transform-gpu bg-gradient-to-t from-black/75 from-55% to-transparent md:bg-gradient-to-r md:from-50%"
+					></div>
 				{/if}
 			</div>
-			<button
-				on:click={scrollLeft}
-				class="group absolute left-0 top-[30%] -translate-y-1/2 transform p-2 sm:top-1/2 md:left-8"
-			>
-				<span
-					class="absolute inset-0 block h-full w-full rounded-full bg-gray-50/25 opacity-0 transition-all duration-150 group-hover:animate-pulse group-hover:opacity-100"
-				></span>
-				<CaretDown class="h-6 w-6 rotate-90 scale-150 fill-white" />
-			</button>
-			<button
-				on:click={scrollRight}
-				class=" group absolute right-0 top-[30%] -translate-y-1/2 transform p-2 sm:top-1/2 md:right-8"
-			>
-				<span
-					class="absolute inset-0 block h-full w-full rounded-full bg-gray-50/25 opacity-0 transition-all duration-150 group-hover:animate-pulse group-hover:opacity-100"
-				></span>
-				<CaretDown class="h-6 w-6 -rotate-90 scale-150 fill-white " /></button
-			>
 		</div>
 
 		<div class=" absolute bottom-0 w-full">
 			<div
-				class="mx-auto grid max-w-[1136px] grid-cols-2 items-start justify-between justify-items-center gap-8 rounded-lg px-8 pb-8 text-white sm:grid-cols-3 sm:pb-16 md:flex md:px-4 md:pb-10"
+				class="mx-auto grid max-w-[1136px] grid-cols-2 items-start justify-between justify-items-center gap-8 rounded-lg px-8 pb-8 text-white sm:grid-cols-3 sm:pb-16 md:flex md:justify-start md:px-4 md:pb-10"
 			>
 				{#if priorityAreas?.length !== 0}
 					{#each priorityAreas ?? [] as area, i}
-						<!-- svelte-ignore a11y-click-events-have-key-events -->
-						<!-- svelte-ignore a11y-no-static-element-interactions -->
-						<div
+						<button
 							class="group relative flex w-36 flex-col items-center justify-center gap-1 text-center transition-all hover:scale-125 hover:cursor-pointer {i ===
 							selectedPriorityArea
-								? 'scale-125 text-primary'
+								? '  text-primary'
 								: 'text-white'} "
 							on:click={() => {
+								scrollContainer.scrollTo({
+									left: i * scrollContainer.clientWidth,
+									behavior: 'smooth'
+								});
 								lastSelectedPriorityArea = selectedPriorityArea;
 								selectedPriorityArea = i;
 							}}
 						>
 							<img
-								class=""
+								class=" h-8 w-8 object-contain"
 								src={`${PUBLIC_STATIC_URL}${area.attributes.icon.data.attributes.url}`}
 								alt="alt text"
-								width="50"
-								height="50"
+								width="32"
+								height="32"
 							/>
 							<span class="text-center text-xs md:text-sm">{area.attributes.Title} </span>
-						</div>
+						</button>
 					{/each}
 				{/if}
 			</div>
@@ -179,11 +164,11 @@
 	<!-- stats -->
 	<section class=" bg-primary">
 		<div
-			class="mx-auto grid max-w-[1136px] grid-cols-1 items-center justify-items-center gap-16 px-4 py-8 text-center md:grid-cols-2 lg:grid-cols-4 lg:px-0"
+			class="mx-auto grid max-w-[1136px] grid-cols-1 items-center justify-items-center gap-4 px-4 py-8 text-center md:grid-cols-2 lg:grid-cols-4 lg:gap-16 lg:px-0"
 		>
 			{#if home?.firstStat}
-				<div class="flex flex-col items-center gap-1 text-white">
-					<h2 class=" text-3xl font-bold">{home.firstStat.value}</h2>
+				<div class="items-cente gap-4r flex flex-col text-white lg:gap-1">
+					<h2 class="text-2xl font-bold md:text-3xl">{home.firstStat.value}</h2>
 					<p class="flex flex-col items-center text-base font-semibold leading-normal md:text-lg">
 						<span>{home.firstStat.label}</span>
 					</p>
@@ -191,7 +176,7 @@
 			{/if}
 			{#if home?.secondStat}
 				<div class="flex flex-col items-center gap-1 text-white">
-					<h2 class=" text-3xl font-bold">{home.secondStat.value}</h2>
+					<h2 class="text-2xl font-bold md:text-3xl">{home.secondStat.value}</h2>
 					<p class="flex flex-col items-center text-base font-semibold leading-normal md:text-lg">
 						<span>{home.secondStat.label}</span>
 					</p>
@@ -199,7 +184,7 @@
 			{/if}
 			{#if home?.thirdStat}
 				<div class="flex flex-col items-center gap-1 text-white">
-					<h2 class=" text-3xl font-bold">{home.thirdStat.value}</h2>
+					<h2 class="text-2xl font-bold md:text-3xl">{home.thirdStat.value}</h2>
 					<p class="flex flex-col items-center text-base font-semibold leading-normal md:text-lg">
 						<span>{home.thirdStat?.label}</span>
 					</p>
@@ -207,7 +192,7 @@
 			{/if}
 			{#if home?.forthStat}
 				<div class="flex flex-col items-center gap-1 text-white">
-					<h2 class=" text-3xl font-bold">{home.forthStat.value}</h2>
+					<h2 class="text-2xl font-bold md:text-3xl">{home.forthStat.value}</h2>
 					<p class="flex flex-col items-center text-base font-semibold leading-normal md:text-lg">
 						<span>{home.forthStat.label}</span>
 					</p>
@@ -359,5 +344,8 @@
 	.hide-scroll {
 		scrollbar-width: none;
 		-ms-overflow-style: none;
+	}
+	.transition-container {
+		transition: opacity 0.5s ease;
 	}
 </style>

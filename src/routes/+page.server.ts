@@ -86,8 +86,8 @@ type Attributes = {
 	};
 	firstStat: Stat;
 	secondStat: Stat;
-	thirdStat: Stat[];
-	forthStat: Stat[];
+	thirdStat: Stat;
+	forthStat: Stat;
 	regionalStatisticsTitle: string;
 	regionalStatisticsDescription: string;
 	SupportplatformTitle: string;

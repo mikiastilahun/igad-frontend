@@ -68,15 +68,15 @@
 		duration: 150,
 		easing: linear
 	}}
-	class="fixed top-0 z-50 left-0 w-full h-full flex items-center justify-center"
+	class="fixed left-0 top-0 z-[999999] flex h-full w-full items-center justify-center"
 >
-	<div class="bg-primary/80 backdrop-blur-sm -z-10 absolute inset-0"></div>
+	<div class="absolute inset-0 -z-10 bg-primary/80 backdrop-blur-sm"></div>
 
 	<button
-		class="absolute top-0 right-0 m-4 p-2 bg-white rounded-full"
+		class="absolute right-0 top-0 z-[999999] m-4 rounded-full bg-white p-2 hover:cursor-pointer hover:bg-white/90"
 		on:click={() => (show = false)}
 	>
-		<span class="w-6 h-6">
+		<span class="h-6 w-6">
 			<!-- svg close icon -->
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -96,31 +96,31 @@
 	</button>
 	{#if !showCongrats}
 		<div
-			class="p-8 rounded-md bg-transparent w-full md:w-1/2 flex justify-center flex-col items-center"
+			class="flex w-full flex-col items-center justify-center rounded-md bg-transparent p-8 md:w-1/2"
 		>
-			<img src={IGAD_LOGO} class="w-16 h-w-16 m-4" alt="IGAD Logo" />
-			<h2 class="mb-4 text-white font-bold text-2xl">Register for Quick Links!</h2>
+			<img src={IGAD_LOGO} class="h-w-16 m-4 w-16" alt="IGAD Logo" />
+			<h2 class="mb-4 text-2xl font-bold text-white">Register for Quick Links!</h2>
 			<input
 				bind:value={name}
-				class="block w-full mb-4 p-3 border placeholder:text-white border-white rounded-md bg-white/20 text-white"
+				class="mb-4 block w-full rounded-md border border-white bg-white/20 p-3 text-white placeholder:text-white"
 				type="text"
 				placeholder="Full Name"
 			/>
 			<input
 				bind:value={email}
-				class="block w-full mb-4 p-3 border placeholder:text-white border-white rounded-md bg-white/20 text-white"
+				class="mb-4 block w-full rounded-md border border-white bg-white/20 p-3 text-white placeholder:text-white"
 				type="email"
 				placeholder="Email"
 			/>
 			<div class="g-recaptcha p-4" data-sitekey="6LdMtewpAAAAAO3YQbhgzR0Ksan-aVhIwUgAHt4E"></div>
 
-			<button on:click={register} class="block w-full p-2 bg-secondary text-black rounded-md"
+			<button on:click={register} class="block w-full rounded-md bg-secondary p-2 text-black"
 				>Register</button
 			>
 		</div>
 	{:else}
-		<div class="bg-white p-8 rounded-md shadow-lg">
-			<h2 class="mb-4 text-primary font-bold text-2xl">Congratulations!</h2>
+		<div class="rounded-md bg-white p-8 shadow-lg">
+			<h2 class="mb-4 text-2xl font-bold text-primary">Congratulations!</h2>
 			<p class="text-zinc-600">You have successfully registered.</p>
 		</div>
 	{/if}

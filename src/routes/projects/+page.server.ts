@@ -51,7 +51,7 @@ type ProjectType = {
                     url: string;
                 };
             };
-        }[];
+        };
     };
 };
 
@@ -83,6 +83,7 @@ export const load: Load = async ({ fetch }) => {
 
         const
             projects = await response.json()
+
 
 
 
