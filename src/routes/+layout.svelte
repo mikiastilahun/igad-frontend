@@ -30,7 +30,7 @@
 			{#each quickLinks as link}
 				<a
 					href={link.href}
-					class="hover-underline-animation relative transition-all duration-300 hover:border-transparent"
+					class="hover-underline-quick-links relative transition-all duration-300 hover:border-transparent"
 					>{link.label}</a
 				>
 			{/each}
@@ -52,44 +52,8 @@
 </main>
 <Footer />
 
-<style>
-	.link {
-		position: relative;
-		overflow: hidden;
-	}
-
-	.link::after {
-		content: '';
-		position: absolute;
-		width: 100%;
-		transform: scaleX(0);
-		height: 2px;
-		bottom: 0;
-		left: 0;
-		background-color: #fff;
-		transform-origin: bottom right;
-		transition: transform 0.3s ease-out;
-	}
-
-	.link:hover::after {
-		transform: scaleX(1);
-		transform-origin: bottom left;
-	}
-
-	.header-hidden {
-		transform: translateY(-100%);
-	}
-	.hover-underline-animation:after {
-		content: '';
-		display: block;
-		height: 2px;
-		background: #ff9e00; /* Change this to your desired color */
-		transition:
-			width 0.3s ease,
-			background-color 0.3s ease;
-		width: 0;
-	}
-	.hover-underline-animation:hover:after {
-		width: 100%;
+<style lang="postcss">
+	.hover-underline-quick-links {
+		@apply after:block after:h-[2px] after:w-0 after:bg-secondary-500 after:transition-[width] after:duration-300 after:content-[''] after:hover:w-full;
 	}
 </style>

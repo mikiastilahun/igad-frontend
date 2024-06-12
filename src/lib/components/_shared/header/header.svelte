@@ -135,7 +135,7 @@
 										activeIndex = index;
 									}}
 								>
-									{nav.title}
+									<span class="hover-underline-animation relative">{nav.title}</span>
 									<CaretDownIcon class="fill-primary" />
 									<div
 										class=" {activeIndex === index ? 'inline-flex' : 'hidden'} {index >=
@@ -160,7 +160,7 @@
 							{:else}
 								<a
 									href={`${nav.href || '#'}`}
-									class=" group/dropdown relative flex items-center gap-2"
+									class="hover-underline-animation group/dropdown relative flex items-center gap-2"
 								>
 									{nav.title}
 								</a>
@@ -249,7 +249,7 @@
 					{#each navItems as nav, index}
 						<div class="w-full">
 							{#if nav.subMenu}
-								<li class="w-full pt-6">
+								<li class="hover-underline-animation w-full pt-6">
 									<button
 										on:click={() => {
 											mobileActiveIndex ? (mobileActiveIndex = null) : (mobileActiveIndex = index);
@@ -295,3 +295,24 @@
 		</div>
 	{/if}
 </div>
+
+<style>
+	@keyframes animate-slide {
+		0% {
+			transform: translateY(-64px);
+			opacity: 0;
+		}
+		100% {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+
+	.animate-slide {
+		animation: animate-slide 300ms ease-out;
+	}
+
+	.hover-underline-animation {
+		@apply after:absolute after:-bottom-1 after:block after:h-[2px] after:w-0 after:bg-secondary-500 after:transition-[width] after:duration-300 after:content-[''] after:hover:w-full;
+	}
+</style>
