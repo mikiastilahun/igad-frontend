@@ -62,8 +62,6 @@
 	};
 
 	let currentDate = new Date();
-
-	$: console.log({ currentDate });
 </script>
 
 <svelte:head>
