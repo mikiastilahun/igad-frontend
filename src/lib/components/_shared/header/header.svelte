@@ -17,6 +17,8 @@
 	import { clickOutside } from '$lib/actions/click-outside';
 	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
 	import { bindCssVarToScrollDirection } from '$lib/actions/scroll-up.js';
+	import { fly, scale } from 'svelte/transition';
+	import { page } from '$app/stores';
 
 	type NavType = {
 		title: string;
@@ -119,7 +121,7 @@
 
 <div class="">
 	<header
-		class=" relative mx-auto hidden w-fit max-w-7xl gap-6 rounded-full bg-white transition-shadow duration-500 ease-in [box-shadow:var(--header-shadow)] lg:flex"
+		class=" relative mx-auto hidden w-fit max-w-7xl transform-gpu gap-6 rounded-full bg-white transition-shadow duration-500 ease-in [box-shadow:var(--header-shadow)] lg:flex"
 	>
 		<a href="/">
 			<img
@@ -134,6 +136,9 @@
 			<div class="  flex items-center gap-8">
 				<nav class="flex h-full items-center gap-2 text-sm font-bold text-primary xl:gap-6">
 					{#each navItems as nav, index}
+						{@const isActive =
+							nav.href === $page.url.pathname ||
+							nav.subMenu?.some((item) => item.href === $page.url.pathname)}
 						<div use:clickOutside={{ callback: () => (activeIndex = null) }}>
 							{#if nav.subMenu}
 								<a
@@ -250,21 +255,28 @@
 
 	{#if isMobileOpen}
 		<div
-			class=" fixed bottom-0 top-0 block h-auto w-full overflow-y-auto overflow-x-hidden rounded-md bg-primary/90 shadow-lg backdrop-blur backdrop-saturate-200 lg:hidden"
+			class=" fixed inset-0 block h-screen w-full transform-gpu overflow-y-auto overflow-x-hidden rounded-md bg-primary/90 px-8 shadow-lg backdrop-blur-lg backdrop-saturate-200 lg:hidden"
 		>
 			<nav class=" flex h-full items-center justify-center">
-				<ul class="grid min-w-48 justify-items-start">
+				<ul class="grid w-full justify-items-start sm:max-w-48">
 					{#each navItems as nav, index}
+						{@const isActive =
+							nav.href === $page.url.pathname ||
+							nav.subMenu?.some((item) => item.href === $page.url.pathname)}
 						<div class="w-full">
 							{#if nav.subMenu}
-								<li class="hover-underline-animation w-full pt-6">
+								<li class=" w-full pt-6">
 									<button
 										on:click={() => {
 											mobileActiveIndex ? (mobileActiveIndex = null) : (mobileActiveIndex = index);
 										}}
 										class="flex w-full items-center justify-between"
 									>
-										<span class="text-lg font-semibold text-white">
+										<span
+											class="hover-underline-animation relative text-xl font-semibold {isActive
+												? 'text-secondary-500'
+												: 'text-white'}"
+										>
 											{nav.title}
 										</span>
 										<ChevronDown
@@ -274,23 +286,29 @@
 									<ul
 										class="{mobileActiveIndex === index
 											? 'inline-flex'
-											: 'hidden'} animate-slide transform-gpu flex-col gap-3 rounded-lg p-4"
+											: 'hidden'}  transform-gpu flex-col gap-3 rounded-lg pl-4 pt-4"
 									>
 										{#each nav.subMenu || [] as subItem}
-											<li class=" hover:scale-105 hover:transition">
-												<a href={subItem.href || '#'} class="link text-sm font-semibold text-white"
-													>{subItem.title}</a
+											<li class=" ">
+												<a
+													href={subItem.href || '#'}
+													class="hover-underline-animation relative text-sm font-semibold {$page.url
+														.pathname === subItem.href
+														? 'text-secondary-500'
+														: 'text-white'}">{subItem.title}</a
 												>
 											</li>
 										{/each}
 									</ul>
 								</li>
 							{:else}
-								<li class="pt-6 hover:scale-105 hover:transition">
+								<li class=" pt-6">
 									<a
 										href={nav.href || '#'}
 										title={nav.title || ''}
-										class="link text-lg font-semibold text-white"
+										class=" hover-underline-animation relative text-xl font-semibold {isActive
+											? 'text-secondary-500'
+											: 'text-white'}"
 									>
 										{nav.title}
 									</a>

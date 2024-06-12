@@ -18,7 +18,7 @@
 	$: coverImage = selectedProject?.attributes?.cover_image.data?.attributes.url;
 
 	// mobile
-	let isOpen = true;
+	let isOpen = false;
 </script>
 
 <svelte:head>
@@ -62,7 +62,7 @@
 						: 'object-contain'} h-full max-h-[400px] w-full rounded-lg bg-primary-500"
 				/>
 				<div
-					class="absolute bottom-0 top-0 flex w-full items-end justify-between gap-4 bg-gradient-to-b from-transparent to-black p-4 text-white"
+					class="absolute bottom-0 top-0 flex w-full flex-wrap items-end justify-between gap-4 bg-gradient-to-b from-transparent to-black p-4 text-white"
 				>
 					<div class=" mb-2 flex max-w-prose flex-col flex-wrap gap-2 text-sm">
 						<p class="flex gap-2">
