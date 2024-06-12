@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
-	import Hero from '$lib/assets/publications/hero.jpg';
+	import Hero from '$lib/assets/igad-logo.png';
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
 	import Share from '$lib/components/_shared/share/share.svelte';
-	import SvelteMarkdown from 'svelte-markdown';
 
 	export let data;
 
@@ -20,7 +19,7 @@
 </svelte:head>
 
 <PageHeader
-	imgSrc={news?.attributes.thumbnail.data.attributes.url
+	imgSrc={news?.attributes?.thumbnail?.data?.attributes.url
 		? `${PUBLIC_STATIC_URL}${news.attributes.thumbnail.data.attributes.url}`
 		: Hero}
 	title={news?.attributes.title ?? 'News'}
