@@ -118,7 +118,7 @@
 								<p
 									class="line-clamp-2 font-semibold leading-5 transition-colors duration-150 group-hover/evt:text-primary"
 								>
-									{event.description}
+									{@html event.description}
 								</p>
 								<div class="flex items-center gap-2">
 									<img class="h-4 w-4" src={Time} alt="time" />
@@ -170,7 +170,7 @@
 
 						<div class="flex w-full flex-col gap-2 p-2">
 							<p class="line-clamp-1 font-semibold">{event.title}</p>
-							<p class="line-clamp-2 text-sm">{event.description}</p>
+							<p class="line-clamp-2 text-sm">{@html event.description}</p>
 							<div class="flex items-center gap-2">
 								<img class="h-4 w-4" src={Time} alt="time" />
 								<span class="text-primary">{event.time}</span>

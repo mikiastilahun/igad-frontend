@@ -77,6 +77,7 @@
 					description={newsItem.attributes.article}
 					imageUrl={`${PUBLIC_STATIC_URL}${newsItem.attributes.thumbnail.data.attributes.url}`}
 					link={`news/${newsItem.id}`}
+					isRichtext={true}
 				/>
 			{:else}
 				<Card

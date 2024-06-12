@@ -10,6 +10,9 @@
 	import dayjs from 'dayjs';
 	import { goto } from '$app/navigation';
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
+	import CaretDown from '$lib/assets/icons/caret-down.svg.svelte';
+	import { slide } from 'svelte/transition';
+	import { quintIn, linear, quadInOut } from 'svelte/easing';
 
 	export let data;
 
@@ -149,6 +152,8 @@
 				console.error('Error:', error);
 			});
 	};
+
+	let isMobileFilterOpen = true;
 </script>
 
 <svelte:head>
@@ -172,9 +177,10 @@
 		{#each featuredPublications || [] as publication}
 			<Card
 				title={publication.title}
-				description={publication.content.slice(0, 100) + '...'}
+				description={publication.content}
 				imageUrl={`${PUBLIC_STATIC_URL}${publication.coverImage?.data.attributes.url}`}
 				link={`/publications/${publication.id}`}
+				isRichtext={true}
 			/>
 		{/each}
 	</div>
@@ -187,7 +193,7 @@
 			<div class="relative flex items-center justify-center">
 				<input
 					type="text"
-					class="w-full rounded-md border bg-gray-300/30 px-4 py-2 pr-10 text-lg font-normal text-gray-800 focus:outline-none focus:ring-1 focus:ring-primary"
+					class="bg-white- w-full rounded-md border border-primary px-4 py-2 pr-10 text-lg font-normal text-gray-800 focus:border-secondary-500 focus:ring-secondary-500"
 					placeholder="Search for publications"
 					bind:value={searchValue}
 				/>
@@ -200,74 +206,87 @@
 </section>
 
 <!-- All Publications -->
-<section class="mx-auto flex max-w-[1136px] flex-col gap-8 px-4 py-10">
+<section class=" mx-auto flex max-w-[1136px] flex-col gap-8 px-4 py-10">
 	<h2 class="text-2xl font-bold leading-normal">All Publications</h2>
-	<div class="flex flex-col gap-8 p-4 md:flex-row">
+	<div class="relative flex flex-col gap-8 p-4 md:flex-row">
 		<!-- filter -->
-		<div class=" grid h-full w-full gap-4 border border-black/5 p-6">
+		<div
+			class="sticky top-0 grid h-full w-full gap-4 rounded-md bg-white p-6 shadow md:max-w-[250px]"
+		>
 			<h2 class="text-2xl font-bold">Filters</h2>
 
-			<div class="flex flex-col gap-3">
-				<h3 class="text-base font-bold">Publication Type</h3>
-				<!-- list of check boxes -->
+			{#if isMobileFilterOpen}
+				<div
+					transition:slide={{
+						axis: 'y',
+						duration: 300,
+						easing: quadInOut
+					}}
+					class="flex flex-col gap-4"
+				>
+					<div class="flex flex-col gap-3">
+						<h3 class="text-base font-bold">Publication Type</h3>
+						<!-- list of check boxes -->
 
-				<div class="flex flex-col gap-2">
-					{#each publicationTypes || [] as type}
-						<div class="flex items-center gap-2">
-							<input
-								type="checkbox"
-								id={type}
-								name={type}
-								on:change={async (e) => {
-									console.log({ e });
-									if (e.target?.checked) {
-										selectedPublicationTypes.push(type);
-									} else {
-										selectedPublicationTypes = selectedPublicationTypes.filter(
-											(item) => item !== type
-										);
-									}
-									await applyPublicationType();
-								}}
-							/>
-							<label for={type} class="text-gray-500">{type}</label>
+						<div class="flex flex-row gap-2 md:flex-col">
+							{#each publicationTypes || [] as type}
+								<div class="flex items-center gap-2">
+									<input
+										type="checkbox"
+										id={type}
+										name={type}
+										on:change={async (e) => {
+											console.log({ e });
+											if (e.target?.checked) {
+												selectedPublicationTypes.push(type);
+											} else {
+												selectedPublicationTypes = selectedPublicationTypes.filter(
+													(item) => item !== type
+												);
+											}
+											await applyPublicationType();
+										}}
+										class="checked:!bg-primary focus:border-secondary-500 focus:ring-secondary-500"
+									/>
+									<label
+										for={type}
+										class="text-lg capitalize text-stone-500 hover:cursor-pointer hover:text-stone-700"
+										>{type}</label
+									>
+								</div>
+							{/each}
 						</div>
-					{/each}
-
-					<!-- <div class="flex items-center gap-2">
-						<input type="checkbox" id="report" name="report" class=" checked:bg-primary" />
-						<label for="report" class="text-gray-500">Report</label>
 					</div>
-					<div class="flex items-center gap-2">
-						<input type="checkbox" id="communique" name="communique " />
-						<label for="communique" class="text-gray-500">Communique</label>
+					<!-- publication year check boxes -->
+					<div class="flex flex-col gap-3">
+						<h3 class="bg-se text-base font-bold">Publication Year</h3>
+						<!-- Year dropdown -->
+						<Select
+							--item-hover-bg="#e6f3ec"
+							--item-is-active-bg="#00833F"
+							--border-focused="2px solid #f4be49"
+							--border-hover="1px solid #006932"
+							--border="1px solid #00833F"
+							showChevron={true}
+							items={getListOfYears(2000)}
+							bind:value={selectedYear}
+							on:select={applyYear}
+						/>
 					</div>
-					<div class="flex items-center gap-2">
-						<input type="checkbox" id="Lorem" name="Lorem " />
-						<label for="Lorem" class="text-gray-500">Lorem</label>
-					</div>
-					<div class="flex items-center gap-2">
-						<input type="checkbox" id="Lorem" name="Lorem " />
-						<label for="Lorem" class="text-gray-500">Lorem</label>
-					</div>
-					<div class="flex items-center gap-2">
-						<input type="checkbox" id="Lorem" name="Lorem " />
-						<label for="Lorem" class="text-gray-500">Lorem</label>
-					</div> -->
 				</div>
-			</div>
-			<!-- publication year check boxes -->
-			<div class="flex flex-col gap-3">
-				<h3 class="text-base font-bold">Publication Year</h3>
-				<!-- Year dropdown -->
-				<Select
-					--item-hover-bg="#e6f3ec"
-					--item-is-active-bg="#00833F"
-					showChevron={true}
-					items={getListOfYears(2000)}
-					bind:value={selectedYear}
-					on:select={applyYear}
-				/>
+			{/if}
+
+			<div class=" flex w-full justify-end md:hidden">
+				<button
+					on:click={() => (isMobileFilterOpen = !isMobileFilterOpen)}
+					class="group flex h-6 w-6 items-center justify-center rounded-full transition-colors hover:bg-primary-500"
+				>
+					<CaretDown
+						class="{isMobileFilterOpen
+							? 'rotate-180'
+							: ''} h-10 w-10 fill-primary-500 transition-colors group-hover:fill-gray-100"
+					/>
+				</button>
 			</div>
 		</div>
 		<!-- list of cards with pagination -->
@@ -277,7 +296,7 @@
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-static-element-interactions -->
 				<div
-					class="mx-auto flex w-full flex-col gap-4 overflow-hidden rounded-lg bg-white p-4 shadow transition-all hover:cursor-pointer hover:shadow-md md:gap-5 md:p-6 lg:flex-row"
+					class="mx-auto flex w-full flex-col gap-4 place-self-start overflow-hidden rounded-lg bg-white p-4 shadow transition-all hover:cursor-pointer hover:shadow-md md:gap-5 md:p-6 lg:flex-row"
 					on:click={() => {
 						goto(`/publications/${publication.id}`);
 					}}
@@ -308,31 +327,11 @@
 							{publication?.title}
 						</h2>
 						<p class=" line-clamp-5 text-sm text-zinc-500">
-							{publication?.content}
+							{@html publication?.content}
 						</p>
 					</div>
 				</div>
 			{/each}
-
-			<!-- <div class="justify-center items-center gap-1 md:gap-4 inline-flex pt-10">
-				<button
-					class=" px-4 py-2 bg-white rounded-lg border border-neutral-900 border-opacity-10 justify-center items-center gap-1 inline-flex"
-				>
-					<ChevronDown class=" fill-primary" />
-				</button>
-				{#each Array(5) as _, index}
-					<button
-						class="w-10 h-10 px-4 py-2 bg-white rounded-lg border border-neutral-900 border-opacity-10 justify-center items-center gap-1 inline-flex"
-					>
-						<span class="text-stone-500">{index + 1}</span>
-					</button>
-				{/each}
-				<button
-					class=" px-4 py-2 bg-white rounded-lg border border-neutral-900 border-opacity-10 justify-center items-center gap-1 inline-flex"
-				>
-					<ChevronDown class="rotate-180 fill-primary" />
-				</button>
-			</div> -->
 		</div>
 	</div>
 </section>
