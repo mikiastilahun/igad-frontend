@@ -97,7 +97,7 @@
 													on:click={() => {
 														goto(`/priority-area/${area.id}`);
 													}}
-													class="mt-8 block rounded-md bg-secondary px-6 py-2 font-semibold text-black"
+													class="mt-8 block rounded-md bg-secondary px-6 py-2 font-semibold text-black transition-all duration-300 hover:scale-95"
 													>Read More</button
 												>
 											</div>
