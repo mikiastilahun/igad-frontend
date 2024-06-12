@@ -41,12 +41,26 @@
 <div
 	use:bindCssVarToScrollDirection={{
 		downVars: () => ({ '--top': '-120px' }),
-		upVars: () => ({ '--top': '0' })
+		upVars: () => ({ '--top': '0' }),
+		onScroll: ({ direction, node, scrollY }) => {
+			if (direction === 'down') {
+				node.style.setProperty('--header-shadow', '0 0 #0000');
+			} else {
+				node.style.setProperty('--header-shadow', '0 25px 50px -12px rgb(0 0 0 / 0.25)');
+			}
+
+			if (scrollY < 120) {
+				node.style.setProperty('--img-h', '80px');
+			} else {
+				node.style.setProperty('--img-h', '64px');
+			}
+		}
 	}}
-	class="sticky top-[var(--top)] z-50 -mb-[78px] w-full pt-8 transition-all duration-300 lg:-mb-[120px]"
+	class="sticky top-[var(--top)] z-50 -mb-[78px] h-[112px] w-full pt-8 transition-all duration-500 lg:-mb-[120px]"
 >
 	<Header />
 </div>
+
 <main class="bg-darkscale-100 relative z-0 min-h-screen">
 	<slot />
 </main>

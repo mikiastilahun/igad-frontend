@@ -16,6 +16,7 @@
 	import Badge from '$lib/assets/icons/badge.svg.svelte';
 	import { clickOutside } from '$lib/actions/click-outside';
 	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
+	import { bindCssVarToScrollDirection } from '$lib/actions/scroll-up.js';
 
 	type NavType = {
 		title: string;
@@ -117,10 +118,17 @@
 </script>
 
 <div class="">
-	<header class=" mx-auto hidden w-fit max-w-7xl gap-6 rounded-full bg-white shadow-2xl lg:flex">
+	<header
+		class=" relative mx-auto hidden w-fit max-w-7xl gap-6 rounded-full bg-white transition-shadow duration-500 ease-in [box-shadow:var(--header-shadow)] lg:flex"
+	>
 		<a href="/">
-			<img src={IGAD_LOGO} alt="Logo" class="m-1 h-20 w-20" />
+			<img
+				src={IGAD_LOGO}
+				alt="Logo"
+				class=" aspect-square h-[var(--img-h)] w-auto p-1 transition-all duration-500"
+			/>
 		</a>
+
 		<div class="flex flex-row justify-between gap-4 py-4 xl:gap-8">
 			<!-- logo and links -->
 			<div class="  flex items-center gap-8">
@@ -242,7 +250,7 @@
 
 	{#if isMobileOpen}
 		<div
-			class=" fixed bottom-0 top-0 block h-auto w-full overflow-y-auto rounded-md bg-primary/90 shadow-lg backdrop-blur backdrop-saturate-200 lg:hidden"
+			class=" fixed bottom-0 top-0 block h-auto w-full overflow-y-auto overflow-x-hidden rounded-md bg-primary/90 shadow-lg backdrop-blur backdrop-saturate-200 lg:hidden"
 		>
 			<nav class=" flex h-full items-center justify-center">
 				<ul class="grid min-w-48 justify-items-start">
