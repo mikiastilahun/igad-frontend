@@ -11,6 +11,12 @@ type EventsData = {
 			date: string;
 			createdAt: string;
 			updatedAt: string;
+			organizer: string;
+			contact: {
+				phone: string;
+				email: string;
+				website: string;
+			};
 			thumbnail: {
 				data: {
 					id: number;
@@ -34,13 +40,10 @@ type ApiResponse = {
 export const load: Load = async ({ fetch, params }) => {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-	console.log('in the load function');
-	console.log({ PUBLIC_STRAPI_URL });
 
 	try {
 		const eventResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/events/${params.id}?populate=*`);
 
-		console.log({ eventResponse });
 		if (!eventResponse.ok) {
 			throw new Error(`HTTP error! status: ${eventResponse.status}`);
 		}

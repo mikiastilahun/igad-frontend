@@ -1,6 +1,10 @@
 <script>
+	import { PUBLIC_STATIC_URL } from '$env/static/public';
+
 	import Location from '$lib/assets/icons/location.svg.svelte';
 	import Time from '$lib/assets/icons/time.svg.svelte';
+
+	import Hero from '$lib/assets/igad-logo.png';
 
 	import Home from '$lib/assets/icons/home.svg.svelte';
 	import MailEvent from '$lib/assets/icons/mail-event.svg.svelte';
@@ -25,7 +29,13 @@
 	<meta name="description" content={event?.title || ''} />
 </svelte:head>
 
-<PageHeader title={event?.title} class="!items-end pb-8">
+<PageHeader
+	imgSrc={event?.thumbnail?.data?.attributes.url
+		? `${PUBLIC_STATIC_URL}${event?.thumbnail.data.attributes.url}`
+		: Hero}
+	title={event?.title}
+	class="!items-end pb-8 "
+>
 	<div class="flex items-center gap-2">
 		<Location class="h-4 w-4 fill-secondary-500" />
 		<span class="text-secondary">{event?.location}</span>
@@ -43,39 +53,70 @@
 	<div class="mx-auto w-full max-w-[1136px] px-0 md:px-8 lg:px-4">
 		<!-- content -->
 		<div class="flex flex-col gap-3">
-			<h5 class="text-xl font-bold">Organizers</h5>
+			<h5 class="text-xl font-bold">Organizer</h5>
 			<div class="flex flex-col gap-2">
 				<div class="flex items-center gap-2">
 					<Home class="h-4 w-4 text-primary-400" />
-					<span class=" text-gray-700">IGAD Health & Social Development Divistion</span>
+					<span class=" text-gray-700">{event?.organizer}</span>
 				</div>
-				<div class="flex items-center gap-2">
-					<Phone class="h-4 w-4 text-primary-400" />
-					<span class=" text-gray-700">+253-213-54050</span>
-				</div>
-				<div class="flex items-center gap-2">
-					<MailEvent class="h-4 w-4 text-primary-400" />
-					<span class=" text-gray-700">communication@igad.int</span>
-				</div>
-				<div class="flex items-center gap-2">
-					<Web class="h-4 w-4 text-primary-400" />
-					<span class=" text-gray-700">https://igad.int</span>
-				</div>
+				{#if event?.contact.phone}
+					<a
+						href={`tel:${event.contact.phone}`}
+						class=" relative flex w-fit items-center gap-2 hover:text-primary"
+					>
+						<Phone class="h-4 w-4 text-primary-400" />
+						<span class=" group"
+							>{event.contact.phone}
+							<span
+								class=" bottom-0 block h-[2px] w-0 bg-secondary-500 transition-all duration-300 ease-in-out group-hover:w-full"
+							></span>
+						</span>
+					</a>
+				{/if}
+				{#if event?.contact.email}
+					<a
+						href={`tel:${event.contact.email}`}
+						class=" relative flex w-fit items-center gap-2 hover:text-primary"
+					>
+						<MailEvent class="h-4 w-4 text-primary-400" />
+						<span class=" group"
+							>{event.contact.email}
+							<span
+								class=" bottom-0 block h-[2px] w-0 bg-secondary-500 transition-all duration-300 ease-in-out group-hover:w-full"
+							></span>
+						</span>
+					</a>
+				{/if}
+
+				{#if event?.contact.website}
+					<a
+						href={`tel:${event.contact.website}`}
+						class=" relative flex w-fit items-center gap-2 hover:text-primary"
+					>
+						<Web class="h-4 w-4 text-primary-400" />
+						<span class=" group"
+							>{event.contact.website}
+							<span
+								class=" bottom-0 block h-[2px] w-0 bg-secondary-500 transition-all duration-300 ease-in-out group-hover:w-full"
+							></span>
+						</span>
+					</a>
+				{/if}
 			</div>
 		</div>
 		<div class="flex flex-col gap-3 pt-12">
 			<h5 class="text-xl font-bold">About the event</h5>
 
 			<!-- MARKDOWN -->
-			<p class="prose max-w-full">
-				{event?.description}
+			<p class="ck-content prose max-w-full">
+				{@html event?.description}
 			</p>
 		</div>
-		<div class="flex gap-3 pt-12">
+		<div class="flex flex-col gap-3 pt-12 sm:flex-row">
 			<a
 				target="_blank"
 				href={`https://www.google.com/calendar/render?action=TEMPLATE&text=${event?.title}&dates=${start}/${start}&location=${event?.location}&details=${event?.description}`}
-				class="flex items-center gap-2 rounded-full border-2 border-transparent bg-white px-6 py-3 font-semibold text-black shadow-[0px_3px_10px_0px_rgba(0,_0,_0,_0.25)] transition-all hover:border-green-500"
+				class="flex items-center justify-center gap-2 rounded-full border-2 border-transparent bg-white px-6 py-3 text-sm font-semibold text-black shadow-[0px_3px_10px_0px_rgba(0,_0,_0,_0.25)] transition-all hover:border-green-500 md:text-base"
 			>
 				<span class="rounded-full bg-white">
 					<Google />
@@ -84,8 +125,8 @@
 			>
 			<a
 				target="_blank"
-				href={`https://outlook.live.com/owa/?path=/calendar/action/compose&rru=addevent&subject=${event?.title}&startdt=${event?.date}&enddt=${event?.date}&location=${location}&body=${event?.description}`}
-				class="flex items-center gap-2 rounded-full border-2 border-transparent bg-white px-6 py-3 font-semibold text-black shadow-[0px_3px_10px_0px_rgba(0,_0,_0,_0.25)] transition-all hover:border-green-500"
+				href={`https://outlook.live.com/owa/?path=/calendar/action/compose&rru=addevent&subject=${event?.title}&startdt=${event?.date}&enddt=${event?.date}&location=${event?.location}&body=${event?.description}`}
+				class="flex items-center justify-center gap-2 rounded-full border-2 border-transparent bg-white px-6 py-3 text-sm font-semibold text-black shadow-[0px_3px_10px_0px_rgba(0,_0,_0,_0.25)] transition-all hover:border-green-500 md:text-base"
 			>
 				<Outlook />
 				Add To Outlook Calendar</a
