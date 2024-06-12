@@ -43,7 +43,6 @@ export const load: Load = async ({ fetch }) => {
 			`${PUBLIC_STRAPI_URL}/api/policy?populate=section.subSection,section.files`
 		);
 
-		console.log({ response });
 		if (!response.ok) {
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
