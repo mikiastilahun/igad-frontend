@@ -115,24 +115,60 @@
 	const transformDataForBar = () => {
 		let transformedData: any[] = [];
 
-		const selectedCountryData = externalData?.[selectedCountry];
+		if (selectedCountry === 'All' || selectedCountry === '') {
+			let ageGroups: any = {};
 
-		selectedCountryData
-			?.filter((d: PopulationType) => d.year.split('-')[0] === selectedYear)
-			.map((d: PopulationType) => {
+			for (let country in externalData) {
+				if (Array.isArray(externalData[country])) {
+					externalData[country]
+						.filter((d: PopulationType) => d.year.split('-')[0] === selectedYear)
+						.map((d: PopulationType) => {
+							if (!ageGroups[d.age_group]) {
+								ageGroups[d.age_group] = {
+									male: 0,
+									female: 0
+								};
+							}
+
+							ageGroups[d.age_group].male += d.male;
+							ageGroups[d.age_group].female += d.female;
+						});
+				}
+			}
+			for (let ageGroup in ageGroups) {
 				transformedData.push({
 					group: 'Male',
-					key: d.age_group.split(' ')[1],
-					value: d.male,
-					country: selectedCountry
+					key: ageGroup.split(' ')[1],
+					value: ageGroups[ageGroup].male,
+					country: 'All'
 				});
 				transformedData.push({
 					group: 'Female',
-					key: d.age_group.split(' ')[1],
-					value: d.female,
-					country: selectedCountry
+					key: ageGroup.split(' ')[1],
+					value: ageGroups[ageGroup].female,
+					country: 'All'
 				});
-			});
+			}
+		} else {
+			const selectedCountryData = externalData?.[selectedCountry];
+
+			selectedCountryData
+				?.filter((d: PopulationType) => d.year.split('-')[0] === selectedYear)
+				.map((d: PopulationType) => {
+					transformedData.push({
+						group: 'Male',
+						key: d.age_group.split(' ')[1],
+						value: d.male,
+						country: selectedCountry
+					});
+					transformedData.push({
+						group: 'Female',
+						key: d.age_group.split(' ')[1],
+						value: d.female,
+						country: selectedCountry
+					});
+				});
+		}
 
 		transformedData.push({
 			group: 'Male',
@@ -173,21 +209,46 @@
 	const transformPieChartData = (data: PopulationType[]) => {
 		let transformedData: { group: string; value: number }[] = [];
 
-		data
-			.filter((d) => d.year === selectedYear && d.country === selectedCountry)
-			.map((d) => {
-				let ageCategory = mapAgeGroupToCategory(d.age_group as AgeGroup);
+		// If selectedCountry is 'All' or '', then show all countries data
+		if (selectedCountry === 'All' || selectedCountry === '') {
+			let ageGroups: any = {};
 
-				const existingData = transformedData.find((item) => item.group === ageCategory);
-				if (existingData) {
-					existingData.value += d.male + d.female;
-				} else {
-					transformedData.push({
-						group: ageCategory,
-						value: d.male + d.female
-					});
-				}
-			});
+			data
+				.filter((d) => d.year === selectedYear)
+				.map((d) => {
+					let ageCategory = mapAgeGroupToCategory(d.age_group as AgeGroup);
+
+					if (!ageGroups[ageCategory]) {
+						ageGroups[ageCategory] = 0;
+					}
+
+					ageGroups[ageCategory] += d.male + d.female;
+				});
+
+			for (let ageGroup in ageGroups) {
+				transformedData.push({
+					group: ageGroup,
+					value: ageGroups[ageGroup]
+				});
+			}
+		} else {
+			// If selectedCountry is a specific country, then show the data for that country
+			data
+				.filter((d) => d.year === selectedYear && d.country === selectedCountry)
+				.map((d) => {
+					let ageCategory = mapAgeGroupToCategory(d.age_group as AgeGroup);
+
+					const existingData = transformedData.find((item) => item.group === ageCategory);
+					if (existingData) {
+						existingData.value += d.male + d.female;
+					} else {
+						transformedData.push({
+							group: ageCategory,
+							value: d.male + d.female
+						});
+					}
+				});
+		}
 
 		return transformedData;
 	};
@@ -205,37 +266,38 @@
 	let selectedCountry = uniqueCountries[0];
 </script>
 
-<div class="bg-white shadow grid gap-6 p-2 md:p-6 rounded bg-zin">
+<div class="bg-zin grid gap-6 rounded bg-white p-2 shadow md:p-6">
 	<!-- toolbar -->
 	<div
-		class=" flex lg:items-end justify-between gap-4 flex-col lg:flex-row
+		class=" flex flex-col justify-between gap-4 lg:flex-row lg:items-end
 			"
 	>
-		<div class="flex items-start flex-col">
-			<span class="text-zinc-400 text-base leading-tight">Statistics</span>
-			<div class="flex gap-6 justify-center items-baseline">
-				<h4 class="text-stone-900 text-lg font-bold leading-7">{title}</h4>
+		<div class="flex flex-col items-start">
+			<span class="text-base leading-tight text-zinc-400">Statistics</span>
+			<div class="flex items-baseline justify-center gap-6">
+				<h4 class="text-lg font-bold leading-7 text-stone-900">{title}</h4>
 				<div class="flex gap-3 {chartType === 'bar' ? '' : 'hidden'}">
 					<div class="flex items-center">
-						<div class="h-2.5 w-2.5 rounded-full bg-primary-500 mr-2"></div>
-						<span class="text-neutral-400 text-xs font-normal leading-none">Male</span>
+						<div class="mr-2 h-2.5 w-2.5 rounded-full bg-primary-500"></div>
+						<span class="text-xs font-normal leading-none text-neutral-400">Male</span>
 					</div>
 					<div class="flex items-center">
-						<div class="h-2.5 w-2.5 rounded-full bg-secondary-500 mr-2"></div>
-						<span class="text-neutral-400 text-xs font-normal leading-none">Female</span>
+						<div class="mr-2 h-2.5 w-2.5 rounded-full bg-secondary-500"></div>
+						<span class="text-xs font-normal leading-none text-neutral-400">Female</span>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class=" flex gap-3 flex-col md:flex-row">
-			<div class=" flex gap-3 flex-col md:flex-row">
+		<div class=" flex flex-col gap-3 md:flex-row">
+			<div class=" flex flex-col gap-3 md:flex-row">
 				<!-- select migrant type -->
 				{#if chartType === 'bar' || chartType === 'pie'}
 					<Select
 						placeholder="Select country"
 						bind:selectedOption={selectedCountry}
 						options={[
+							{ value: 'All', label: 'All' },
 							...uniqueCountries.map((country) => {
 								return {
 									value: country,
@@ -260,18 +322,18 @@
 			</div>
 			{#if isSwappable}
 				<div
-					class=" h-10 px-3 py-1.5 bg-neutral-100 rounded-lg justify-center items-center gap-6 inline-flex"
+					class=" inline-flex h-10 items-center justify-center gap-6 rounded-lg bg-neutral-100 px-3 py-1.5"
 				>
 					{#each chartTypes as type (type)}
 						<label
-							class="transition-colors cursor-pointer group hover:bg-primary-200 px-[15px] py-2 {chartType ===
+							class="group cursor-pointer px-[15px] py-2 transition-colors hover:bg-primary-200 {chartType ===
 							type
 								? 'bg-primary-500 hover:bg-primary-600'
-								: ''} rounded justify-end items-center gap-2.5 flex"
+								: ''} flex items-center justify-end gap-2.5 rounded"
 						>
 							<input type="radio" bind:group={chartType} value={type} class="hidden" />
 							<span
-								class="transition-colors text-center group-hover:text-black {chartType === type
+								class="text-center transition-colors group-hover:text-black {chartType === type
 									? 'text-white group-hover:!text-white'
 									: 'text-neutral-400'} text-sm font-medium leading-none"
 							>
@@ -283,7 +345,7 @@
 			{/if}
 		</div>
 	</div>
-	<div class="w-full h-[0px] border border-stone-200"></div>
+	<div class="h-[0px] w-full border border-stone-200"></div>
 	<div class="mt-4">
 		{#if chartType === 'line'}
 			<svelte:component
@@ -341,7 +403,7 @@
 				}}
 			/>
 		{:else if chartType === 'pie'}
-			<div class="flex gap-8 flex-col-reverse md:flex-row">
+			<div class="flex flex-col-reverse gap-8 md:flex-row">
 				<div class="flex-1">
 					<svelte:component
 						this={pieChart}
@@ -366,11 +428,11 @@
 				</div>
 				<div class=" flex-1">
 					<div class="flex flex-col gap-8">
-						<div class="flex justify-between items-end">
-							<span class="text-stone-500 text-base font-bold">Age Group</span>
-							<div class="flex gap-1 flex-col justify-end items-end">
+						<div class="flex items-end justify-between">
+							<span class="text-base font-bold text-stone-500">Age Group</span>
+							<div class="flex flex-col items-end justify-end gap-1">
 								<span class="leading-tight text-stone-500">Total:</span>
-								<span class="text-stone-900 text-xl font-bold">
+								<span class="text-xl font-bold text-stone-900">
 									{populationPieData.reduce((acc, curr) => acc + curr.value, 0)}
 								</span>
 							</div>
@@ -381,21 +443,21 @@
 									populationPieData.find((d) => d.group === ageGroup)?.value || 0}
 								{@const total = populationPieData.reduce((acc, curr) => acc + curr.value, 0)}
 								<div class="flex flex-col gap-1">
-									<div class="flex justify-between text-stone-500 text-xs">
+									<div class="flex justify-between text-xs text-stone-500">
 										<span>{ageGroup}</span>
 										<span>{formatNumber(totalForSingleAgeGroup)}</span>
 									</div>
 									<div class="relative">
 										<div
 											style="width: {((totalForSingleAgeGroup / total) * 100).toFixed(2)}%"
-											class="absolute top-0 left-0 z-10 h-4 bg-green-700
-												 rounded"
+											class="absolute left-0 top-0 z-10 h-4 rounded
+												 bg-green-700"
 										></div>
-										<div class="absolute top-0 left-0 w-full h-4 bg-neutral-100 rounded"></div>
+										<div class="absolute left-0 top-0 h-4 w-full rounded bg-neutral-100"></div>
 									</div>
 								</div>
 							{/each}
-							<div class="flex justify-between text-stone-500 text-xs">
+							<div class="flex justify-between text-xs text-stone-500">
 								{#each Array.from({ length: 5 }).map((_, i) => i) as section}
 									{@const total = populationPieData.reduce((acc, curr) => acc + curr.value, 0)}
 									{@const diff = total / 5}
