@@ -121,20 +121,20 @@
 
 <div class="">
 	<header
-		class=" relative mx-auto hidden w-fit max-w-7xl transform-gpu gap-6 rounded-full bg-white transition-shadow duration-500 ease-in [box-shadow:var(--header-shadow)] lg:flex"
+		class=" relative mx-auto hidden w-fit max-w-7xl transform-gpu gap-[var(--img-gap)] rounded-full bg-white transition-shadow duration-500 ease-in [box-shadow:var(--header-shadow)] lg:flex"
 	>
 		<a href="/">
 			<img
 				src={IGAD_LOGO}
 				alt="Logo"
-				class=" aspect-square h-[var(--img-h)] w-auto p-1 transition-all duration-500"
+				class=" aspect-square h-[var(--img-h)] w-20 p-1 transition-all duration-500"
 			/>
 		</a>
 
 		<div class="flex flex-row justify-between gap-4 py-4 xl:gap-8">
 			<!-- logo and links -->
 			<div class="  flex items-center gap-8">
-				<nav class="flex h-full items-center gap-2 text-sm font-bold text-primary xl:gap-6">
+				<nav class="flex h-full items-center gap-3 text-sm font-bold text-primary xl:gap-6">
 					{#each navItems as nav, index}
 						{@const isActive =
 							nav.href === $page.url.pathname ||

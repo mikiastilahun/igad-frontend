@@ -51,8 +51,10 @@
 
 			if (scrollY < 120) {
 				node.style.setProperty('--img-h', '80px');
+				node.style.setProperty('--img-gap', '24px');
 			} else {
 				node.style.setProperty('--img-h', '64px');
+				node.style.setProperty('--img-gap', '16px');
 			}
 		}
 	}}
