@@ -44,20 +44,20 @@
 			<h5 class="text-xl font-bold">Organizers</h5>
 			<div class="flex flex-col gap-2">
 				<div class="flex items-center gap-2">
-					<Home />
-					<span class="text-sm text-gray-700">IGAD Health & Social Development Divistion</span>
+					<Home class="h-4 w-4 text-primary-400" />
+					<span class=" text-gray-700">IGAD Health & Social Development Divistion</span>
 				</div>
 				<div class="flex items-center gap-2">
-					<Phone />
-					<span class="text-sm text-gray-700">+253-213-54050</span>
+					<Phone class="h-4 w-4 text-primary-400" />
+					<span class=" text-gray-700">+253-213-54050</span>
 				</div>
 				<div class="flex items-center gap-2">
-					<MailEvent />
-					<span class="text-sm text-gray-700">communication@igad.int</span>
+					<MailEvent class="h-4 w-4 text-primary-400" />
+					<span class=" text-gray-700">communication@igad.int</span>
 				</div>
 				<div class="flex items-center gap-2">
-					<Web />
-					<span class="text-sm text-gray-700">https://igad.int</span>
+					<Web class="h-4 w-4 text-primary-400" />
+					<span class=" text-gray-700">https://igad.int</span>
 				</div>
 			</div>
 		</div>
