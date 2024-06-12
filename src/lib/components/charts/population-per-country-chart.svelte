@@ -22,7 +22,7 @@
 		AgeGroup,
 		PopulationPerCountryStats
 	} from '../../../routes/statistics/proxy+page.server.js';
-	import { formatNumber } from '$lib/utils/format-number.js';
+	import { formatNumber, formatNumberWithCommas } from '$lib/utils/format-number.js';
 
 	import { onMount, type ComponentType } from 'svelte';
 	import { ScaleTypes } from '@carbon/charts-svelte';
@@ -433,7 +433,9 @@
 							<div class="flex flex-col items-end justify-end gap-1">
 								<span class="leading-tight text-stone-500">Total:</span>
 								<span class="text-xl font-bold text-stone-900">
-									{populationPieData.reduce((acc, curr) => acc + curr.value, 0)}
+									{formatNumberWithCommas(
+										populationPieData.reduce((acc, curr) => acc + curr.value, 0)
+									)}
 								</span>
 							</div>
 						</div>
@@ -442,6 +444,7 @@
 								{@const totalForSingleAgeGroup =
 									populationPieData.find((d) => d.group === ageGroup)?.value || 0}
 								{@const total = populationPieData.reduce((acc, curr) => acc + curr.value, 0)}
+								{@const width = parseFloat(((totalForSingleAgeGroup / total) * 100).toFixed(2))}
 								<div class="flex flex-col gap-1">
 									<div class="flex justify-between text-xs text-stone-500">
 										<span>{ageGroup}</span>
@@ -449,7 +452,7 @@
 									</div>
 									<div class="relative">
 										<div
-											style="width: {((totalForSingleAgeGroup / total) * 100).toFixed(2)}%"
+											style="width: {isNaN(width) ? 0 : width}%"
 											class="absolute left-0 top-0 z-10 h-4 rounded
 												 bg-green-700"
 										></div>

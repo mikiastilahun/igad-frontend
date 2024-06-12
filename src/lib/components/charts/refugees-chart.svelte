@@ -23,6 +23,7 @@
 	import { onMount, type ComponentType } from 'svelte';
 	import { ScaleTypes } from '@carbon/charts-svelte';
 	import { type LineChart, type PieChart, type BarChartGrouped } from '@carbon/charts-svelte';
+	import { formatNumber, formatNumberWithCommas } from '$lib/utils/format-number.js';
 
 	let lineChart: ComponentType<LineChart>;
 	let pieChart: ComponentType<PieChart>;
@@ -383,26 +384,76 @@
 				/>
 			{/key}
 		{:else if chartType === 'pie'}
-			<svelte:component
-				this={pieChart}
-				data={refugeesPieData}
-				options={{
-					...options,
-					color: {
-						scale: {
-							'age 0-4': '#6880FF',
-							'age 5-11': '#8BC34A',
-							'age 12-17': '#00833F',
-							'age 18-69': '#F4BE49',
-							'age 60+': '#C34AB7'
-						}
-					},
-					legend: { enabled: true, alignment: 'center' },
-					pie: {
-						alignment: 'center'
-					}
-				}}
-			/>
+			<div class="flex flex-col-reverse gap-8 md:flex-row">
+				<div class="flex-1">
+					<svelte:component
+						this={pieChart}
+						data={refugeesPieData}
+						options={{
+							...options,
+							color: {
+								scale: {
+									'age 0-4': '#6880FF',
+									'age 5-11': '#8BC34A',
+									'age 12-17': '#00833F',
+									'age 18-59': '#F4BE49',
+									'age 60+': '#C34AB7'
+								}
+							},
+							legend: { enabled: true, alignment: 'center' },
+							pie: {
+								alignment: 'center'
+							}
+						}}
+					/>
+				</div>
+				<div class=" flex-1">
+					<div class="flex flex-col gap-8">
+						<div class="flex items-end justify-between">
+							<span class="text-base font-bold text-stone-500">Age Group</span>
+							<div class="flex flex-col items-end justify-end gap-1">
+								<span class="leading-tight text-stone-500">Total:</span>
+								<span class="text-xl font-bold text-stone-900">
+									{formatNumberWithCommas(
+										refugeesPieData.reduce((acc, curr) => acc + curr.value, 0)
+									)}
+								</span>
+							</div>
+						</div>
+						<div class="flex flex-col gap-8">
+							{#each ['0-4', '5-11', '12-17', '18-59', '60+'] as ageGroup}
+								{@const totalForSingleAgeGroup =
+									refugeesPieData.find((d) => d.group.split(' ')[1] === ageGroup)?.value || 0}
+								{@const total = refugeesPieData.reduce((acc, curr) => acc + curr.value, 0)}
+								{@const width = parseFloat(((totalForSingleAgeGroup / total) * 100).toFixed(2))}
+								<div class="flex flex-col gap-1">
+									<div class="flex justify-between text-xs text-stone-500">
+										<span>{ageGroup}</span>
+										<span>{formatNumber(totalForSingleAgeGroup)}</span>
+									</div>
+									<div class="relative">
+										<div
+											style="width: {isNaN(width) ? 0 : width}%"
+											class=" absolute left-0 top-0 z-10 h-4 rounded
+												 bg-green-700"
+										></div>
+										<div class="absolute left-0 top-0 h-4 w-full rounded bg-neutral-100"></div>
+									</div>
+								</div>
+							{/each}
+							<div class="flex justify-between text-xs text-stone-500">
+								{#each Array.from({ length: 5 }).map((_, i) => i) as section}
+									{@const total = refugeesPieData.reduce((acc, curr) => acc + curr.value, 0)}
+									{@const diff = total / 5}
+									<span>
+										{formatNumber(section === 0 ? 0 : section === 4 ? total : section * diff)}
+									</span>
+								{/each}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		{:else}
 			<p>Invalid chart type</p>
 		{/if}

@@ -10,3 +10,9 @@ export const formatNumber = (num: number) => {
     }
     return num.toString();
 }
+
+// create a function to format number with commas
+
+export const formatNumberWithCommas = (num: number) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
