@@ -2,6 +2,7 @@
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
 	import Hero from '$lib/assets/publications/hero.jpg';
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
+	import Share from '$lib/components/_shared/share/share.svelte';
 	import SvelteMarkdown from 'svelte-markdown';
 
 	export let data;
@@ -31,32 +32,12 @@
 	</p>
 </PageHeader>
 
-<section class="relative flex flex-row gap-8 px-8 py-10">
-	<div class="sticky top-0">
-		<!-- share icons  -->
-		<span class="text-sm font-semibold">Share</span>
-		<div class="flex flex-col items-center justify-center gap-5 rounded-full bg-secondary py-4">
-			<a href="#" class="">
-				<img src="https://img.icons8.com/android/18/000000/facebook-new.png" alt="Facebook Icon" />
-			</a>
-			<a href="#" class="">
-				<img src="https://img.icons8.com/android/18/000000/instagram.png" alt="Instagram Icon" />
-			</a>
-			<a href="#" class="">
-				<img src="https://img.icons8.com/android/18/000000/linkedin.png" alt="Linkedin Icon" />
-			</a>
-			<a href="#" class="">
-				<img src="https://img.icons8.com/ios-filled/18/x.png" alt="Close Icon" />
-			</a>
-		</div>
+<section class="relative mx-auto flex max-w-7xl flex-col-reverse px-4 py-10 lg:flex-row">
+	<div class="sticky top-10 self-start">
+		<Share />
 	</div>
-	<div class="w-full">
-		<!-- content -->
-		<!-- <p class="max-w-5xl mx-auto prose">
-			<SvelteMarkdown source={news?.attributes.content} />
-		</p> -->
-
-		<p class="ck-content prose mx-auto max-w-5xl">
+	<div class="mx-auto w-full max-w-[1136px] px-0 md:px-8 lg:px-4">
+		<p class="ck-content prose max-w-full">
 			{@html news?.attributes.article}
 		</p>
 	</div>

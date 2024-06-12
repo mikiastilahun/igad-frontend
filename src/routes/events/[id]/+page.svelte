@@ -11,6 +11,8 @@
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
 	import dayjs from 'dayjs';
 
+	import Share from '$lib/components/_shared/share/share.svelte';
+
 	export let data;
 
 	const event = data.data?.eventData.data.attributes;
@@ -32,26 +34,11 @@
 	</div>
 </PageHeader>
 
-<section class="relative mx-auto flex max-w-7xl flex-row gap-8 px-8 py-10">
-	<div class="sticky top-0">
-		<!-- share icons  -->
-		<span class="text-sm font-semibold">Share</span>
-		<div class="flex flex-col items-center justify-center gap-5 rounded-full bg-secondary py-4">
-			<a href="#" class="">
-				<img src="https://img.icons8.com/android/18/000000/facebook-new.png" alt="Facebook Icon" />
-			</a>
-			<a href="#" class="">
-				<img src="https://img.icons8.com/android/18/000000/instagram.png" alt="Instagram Icon" />
-			</a>
-			<a href="#" class="">
-				<img src="https://img.icons8.com/android/18/000000/linkedin.png" alt="Linkedin Icon" />
-			</a>
-			<a href="#" class="">
-				<img src="https://img.icons8.com/ios-filled/18/x.png" alt="Close Icon" />
-			</a>
-		</div>
+<section class="relative mx-auto flex max-w-7xl flex-col-reverse px-4 py-10 lg:flex-row">
+	<div class="sticky top-10 self-start">
+		<Share />
 	</div>
-	<div class="pl-8">
+	<div class="mx-auto w-full max-w-[1136px] px-0 md:px-8 lg:px-4">
 		<!-- content -->
 		<div class="flex flex-col gap-3">
 			<h5 class="text-xl font-bold">Organizers</h5>
@@ -78,7 +65,7 @@
 			<h5 class="text-xl font-bold">About the event</h5>
 
 			<!-- MARKDOWN -->
-			<p>
+			<p class="prose max-w-full">
 				{event?.description}
 			</p>
 		</div>
