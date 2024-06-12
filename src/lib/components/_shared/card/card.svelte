@@ -5,6 +5,8 @@
 	export let description: string;
 	export let link: string;
 	export let imageUrl: string = '';
+
+	export let isRichtext: boolean = false;
 </script>
 
 <!-- cards -->
@@ -36,7 +38,11 @@
 		</h2>
 
 		<p class="... mt-2 line-clamp-3 text-sm text-zinc-500">
-			{description}
+			{#if isRichtext}
+				{@html description}
+			{:else}
+				{description}
+			{/if}
 		</p>
 	</div>
 </div>
