@@ -16,6 +16,8 @@
 	export let data;
 
 	const event = data.data?.eventData.data.attributes;
+
+	$: start = new Date(event?.date || '').toISOString().replace(/-|:|\.\d\d\d/g, '');
 </script>
 
 <svelte:head>
@@ -30,7 +32,7 @@
 	</div>
 	<div class="flex items-center gap-2">
 		<Time class="  h-4 w-4 fill-secondary-500" />
-		<span class="text-secondary">{dayjs(event?.date).format('ddd, MMM YYYY')} </span>
+		<span class="text-secondary">{dayjs(event?.date).format('ddd, MMM YYYY hh:mm')} </span>
 	</div>
 </PageHeader>
 
@@ -69,20 +71,24 @@
 				{event?.description}
 			</p>
 		</div>
-		<!-- box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.25);
- -->
 		<div class="flex gap-3 pt-12">
-			<button
-				class="flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-black shadow-[0px_3px_10px_0px_rgba(0,_0,_0,_0.25)]"
+			<a
+				target="_blank"
+				href={`https://www.google.com/calendar/render?action=TEMPLATE&text=${event?.title}&dates=${start}/${start}&location=${event?.location}&details=${event?.description}`}
+				class="flex items-center gap-2 rounded-full border-2 border-transparent bg-white px-6 py-3 font-semibold text-black shadow-[0px_3px_10px_0px_rgba(0,_0,_0,_0.25)] transition-all hover:border-green-500"
 			>
-				<Google />
-				Add To Google Calendar</button
+				<span class="rounded-full bg-white">
+					<Google />
+				</span>
+				Add To Google Calendar</a
 			>
-			<button
-				class="flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-black shadow-[0px_3px_10px_0px_rgba(0,_0,_0,_0.25)]"
+			<a
+				target="_blank"
+				href={`https://outlook.live.com/owa/?path=/calendar/action/compose&rru=addevent&subject=${event?.title}&startdt=${event?.date}&enddt=${event?.date}&location=${location}&body=${event?.description}`}
+				class="flex items-center gap-2 rounded-full border-2 border-transparent bg-white px-6 py-3 font-semibold text-black shadow-[0px_3px_10px_0px_rgba(0,_0,_0,_0.25)] transition-all hover:border-green-500"
 			>
 				<Outlook />
-				Add To Outlook Calendar</button
+				Add To Outlook Calendar</a
 			>
 		</div>
 	</div>
