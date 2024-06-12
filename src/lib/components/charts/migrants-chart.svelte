@@ -143,32 +143,32 @@
 	let selectedMigrantType = 'All';
 </script>
 
-<div class="bg-white shadow grid gap-6 p-2 md:p-6 rounded bg-zin">
+<div class="bg-zin grid gap-6 rounded bg-white p-2 shadow md:p-6">
 	<!-- toolbar -->
 	<div
-		class=" flex lg:items-end justify-between gap-4 flex-col lg:flex-row
+		class=" flex flex-col justify-between gap-4 lg:flex-row lg:items-end
 			"
 	>
-		<div class="flex items-start flex-col">
-			<span class="text-zinc-400 text-base leading-tight">Statistics</span>
-			<div class="flex gap-6 justify-center items-baseline">
-				<h4 class="text-stone-900 text-lg font-bold leading-7">{title}</h4>
+		<div class="flex flex-col items-start">
+			<span class="text-base leading-tight text-zinc-400">Statistics</span>
+			<div class="flex items-baseline justify-center gap-6">
+				<h4 class="text-lg font-bold leading-7 text-stone-900">{title}</h4>
 				<div class="flex gap-3 {chartType === 'bar' ? '' : 'hidden'}">
 					<div class="flex items-center">
-						<div class="h-2.5 w-2.5 rounded-full bg-primary-500 mr-2"></div>
-						<span class="text-neutral-400 text-xs font-normal leading-none">Male</span>
+						<div class="mr-2 h-2.5 w-2.5 rounded-full bg-primary-500"></div>
+						<span class="text-xs font-normal leading-none text-neutral-400">Male</span>
 					</div>
 					<div class="flex items-center">
-						<div class="h-2.5 w-2.5 rounded-full bg-secondary-500 mr-2"></div>
-						<span class="text-neutral-400 text-xs font-normal leading-none">Female</span>
+						<div class="mr-2 h-2.5 w-2.5 rounded-full bg-secondary-500"></div>
+						<span class="text-xs font-normal leading-none text-neutral-400">Female</span>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class=" flex gap-3 flex-col md:flex-row">
+		<div class=" flex flex-col gap-3 md:flex-row">
 			{#if chartType === 'bar'}
-				<div class=" flex gap-3 flex-col md:flex-row">
+				<div class=" flex flex-col gap-3 md:flex-row">
 					<!-- select migrant type -->
 					<Select
 						placeholder="Select Migrant type"
@@ -184,20 +184,20 @@
 			{/if}
 			{#if isSwappable}
 				<div
-					class=" h-10 px-3 py-1.5 bg-neutral-100 rounded-lg justify-center items-center gap-6 inline-flex"
+					class=" inline-flex h-10 items-center justify-center gap-3 rounded-lg bg-neutral-100 px-3 py-1.5"
 				>
 					{#each chartTypes as type (type)}
 						<label
-							class="transition-colors cursor-pointer group hover:bg-primary-200 px-[15px] py-2 {chartType ===
+							class="group cursor-pointer px-[15px] py-2 transition-colors hover:bg-neutral-200 {chartType ===
 							type
-								? 'bg-primary-500 hover:bg-primary-600'
-								: ''} rounded justify-end items-center gap-2.5 flex"
+								? 'bg-primary-500 hover:!bg-primary-600'
+								: ''} flex items-center justify-end gap-2.5 rounded"
 						>
 							<input type="radio" bind:group={chartType} value={type} class="hidden" />
 							<span
-								class="transition-colors text-center group-hover:text-black {chartType === type
+								class="text-center transition-colors group-hover:text-black {chartType === type
 									? 'text-white group-hover:!text-white'
-									: 'text-neutral-400'} text-sm font-medium leading-none"
+									: 'text-neutral-800'} text-sm font-medium leading-none"
 							>
 								{type[0].toUpperCase() + type.slice(1)}
 							</span>
@@ -207,7 +207,7 @@
 			{/if}
 		</div>
 	</div>
-	<div class="w-full h-[0px] border border-stone-200"></div>
+	<div class="h-[0px] w-full border border-stone-200"></div>
 	<div class="mt-4">
 		{#if chartType === 'line'}
 			<svelte:component

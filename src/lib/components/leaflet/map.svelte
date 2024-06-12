@@ -172,7 +172,7 @@
 		let legend = L.control({ position: 'bottomright' });
 
 		legend.onAdd = function (map) {
-			var div = L.DomUtil.create('div', ' legend'),
+			var div = L.DomUtil.create('div', ' map-legend'),
 				labels = [],
 				from,
 				to;
@@ -283,7 +283,7 @@
 	:global(.info) {
 		@apply hidden rounded-md bg-white/80 px-[6px] py-2 text-xs text-black shadow-md sm:block;
 	}
-	:global(.legend) {
+	:global(.map-legend) {
 		@apply !-mb-3 rounded-md bg-white/80 px-[6px] py-2 text-xs text-black shadow-md sm:!mb-0;
 	}
 </style>

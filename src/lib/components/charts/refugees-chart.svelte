@@ -237,7 +237,7 @@
 	const uniqueYears = data.map((d) => d.year).filter((v, i, a) => a.indexOf(v) === i);
 	const uniqueCountries = data.map((d) => d.country).filter((v, i, a) => a.indexOf(v) === i);
 	let selectedYear = uniqueYears[0];
-	let selectedCountry = uniqueCountries[0];
+	let selectedCountry = '';
 </script>
 
 <div class="bg-zin grid gap-6 rounded bg-white p-2 shadow md:p-6">
@@ -297,20 +297,20 @@
 			{/if}
 			{#if isSwappable}
 				<div
-					class=" inline-flex h-10 items-center justify-center gap-6 rounded-lg bg-neutral-100 px-3 py-1.5"
+					class=" inline-flex h-10 items-center justify-center gap-3 rounded-lg bg-neutral-100 px-3 py-1.5"
 				>
 					{#each chartTypes as type (type)}
 						<label
-							class="group cursor-pointer px-[15px] py-2 transition-colors hover:bg-primary-200 {chartType ===
+							class="group cursor-pointer px-[15px] py-2 transition-colors hover:bg-neutral-200 {chartType ===
 							type
-								? 'bg-primary-500 hover:bg-primary-600'
+								? 'bg-primary-500 hover:!bg-primary-600'
 								: ''} flex items-center justify-end gap-2.5 rounded"
 						>
 							<input type="radio" bind:group={chartType} value={type} class="hidden" />
 							<span
 								class="text-center transition-colors group-hover:text-black {chartType === type
 									? 'text-white group-hover:!text-white'
-									: 'text-neutral-400'} text-sm font-medium leading-none"
+									: 'text-neutral-800'} text-sm font-medium leading-none"
 							>
 								{type[0].toUpperCase() + type.slice(1)}
 							</span>
