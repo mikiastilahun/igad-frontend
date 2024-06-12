@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
 	import Download from '$lib/assets/icons/download.svg.svelte';
-	import IGADLogo from '$lib/assets/igad-logo.svg';
+	import IGADLogo from '$lib/assets/igad-logo.png';
 
 	import SvelteMarkdown from 'svelte-markdown';
 

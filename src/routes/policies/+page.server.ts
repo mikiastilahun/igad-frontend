@@ -36,8 +36,7 @@ type ApiResponse = {
 export const load: Load = async ({ fetch }) => {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-	console.log('in the load function');
-	console.log({ PUBLIC_STRAPI_URL });
+
 
 	try {
 		const response = await fetch(
@@ -53,9 +52,6 @@ export const load: Load = async ({ fetch }) => {
 			policy: await response.json()
 		};
 
-		console.log({
-			policy: JSON.stringify({ data })
-		});
 
 		return { data };
 	} catch (e: unknown) {
