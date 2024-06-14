@@ -15,7 +15,6 @@
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
 
 	export let data;
-	export const ssr = false;
 
 	const populationStats = data.data?.populationStats.data.attributes;
 	const populationPerCountry = data.data?.populationPerCountry.data.attributes;
@@ -130,22 +129,14 @@
 
 	<section class="mx-auto flex max-w-[1136px] flex-col gap-3 px-4 py-10">
 		<h2 class="text-2xl font-bold leading-normal">Population</h2>
-		<p class="text-base leading-normal">
-			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
-			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
-			Sodales pulvinar facilisi donec facilisis.Lorem ipsum dolor sit amet consectetur. Egestas
-			nulla ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui
-			ridiculus. Sit ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
+		<p class="ck-content prose max-w-full text-base leading-normal">
+			{@html populationStats?.content}
 		</p>
 		<div class="pt-8">
 			<Map data={populationStats} />
 		</div>
-		<p class="text-base leading-normal">
-			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
-			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
-			Sodales pulvinar facilisi donec facilisis.Lorem ipsum dolor sit amet consectetur. Egestas
-			nulla ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui
-			ridiculus. Sit ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
+		<p class="ck-content prose max-w-full text-base leading-normal">
+			{@html populationPerCountry?.content}
 		</p>
 		<PopulationPerCountryChart
 			data={transformPopulationPerCountryData(populationPerCountry)}
@@ -158,12 +149,8 @@
 
 	<section class="mx-auto flex max-w-[1136px] flex-col gap-3 px-4 py-10">
 		<h2 class="text-2xl font-bold leading-normal">Migrants</h2>
-		<p class="text-base leading-normal">
-			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
-			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
-			Sodales pulvinar facilisi donec facilisis.Lorem ipsum dolor sit amet consectetur. Egestas
-			nulla ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui
-			ridiculus. Sit ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
+		<p class="ck-content prose max-w-full text-base leading-normal">
+			{@html igadRegionMigration?.content}
 		</p>
 		<MigrantsChart
 			data={igadRegionMigration?.migrant}
@@ -171,12 +158,8 @@
 			isSwappable={true}
 			chartType="line"
 		/>
-		<p class="text-base leading-normal">
-			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
-			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
-			Sodales pulvinar facilisi donec facilisis.Lorem ipsum dolor sit amet consectetur. Egestas
-			nulla ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui
-			ridiculus. Sit ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
+		<p class="ck-content prose max-w-full text-base leading-normal">
+			{@html migrantsPerCountry?.content}
 		</p>
 		<MigrantsPerCountryChart
 			data={transformMigrantsPerCountry(migrantsPerCountry)}
@@ -188,12 +171,8 @@
 
 	<section class="mx-auto flex max-w-[1136px] flex-col gap-3 px-4 py-10">
 		<h2 class="text-2xl font-bold leading-normal">Refugees</h2>
-		<p class="text-base leading-normal">
-			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
-			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
-			Sodales pulvinar facilisi donec facilisis.Lorem ipsum dolor sit amet consectetur. Egestas
-			nulla ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui
-			ridiculus. Sit ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
+		<p class="ck-content prose max-w-full text-base leading-normal">
+			{@html refugeesPerCountry?.content}
 		</p>
 		<RefugeesChart
 			data={transformedRefugeesPerCountryData}
@@ -201,23 +180,12 @@
 			title="Refugees"
 			chartType="line"
 		/>
-		<p class="text-base leading-normal">
-			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
-			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
-			Sodales pulvinar facilisi donec facilisis.Lorem ipsum dolor sit amet consectetur. Egestas
-			nulla ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui
-			ridiculus. Sit ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
-		</p>
 	</section>
 
 	<section class="mx-auto flex max-w-[1136px] flex-col gap-3 px-4 py-10">
 		<h2 class="text-2xl font-bold leading-normal">Remittance</h2>
-		<p class="text-base leading-normal">
-			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
-			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
-			Sodales pulvinar facilisi donec facilisis.Lorem ipsum dolor sit amet consectetur. Egestas
-			nulla ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui
-			ridiculus. Sit ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
+		<p class="ck-content prose max-w-full text-base leading-normal">
+			{@html remittancePerCountry?.content}
 		</p>
 		<RemittanceChart
 			isSwappable={true}
@@ -225,12 +193,5 @@
 			title="Remittance"
 			chartType="line"
 		/>
-		<p class="text-base leading-normal">
-			Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien vel
-			phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien aliquam.
-			Sodales pulvinar facilisi donec facilisis.Lorem ipsum dolor sit amet consectetur. Egestas
-			nulla ullamcorper pretium sit nibh sapien vel phasellus eu. Aliquet facilisis enim dui
-			ridiculus. Sit ipsum sollicitudin sapien aliquam. Sodales pulvinar facilisi donec facilisis
-		</p>
 	</section>
 {/if}

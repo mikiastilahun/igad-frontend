@@ -1,6 +1,8 @@
 import type { Load } from '@sveltejs/kit';
 import { PUBLIC_STRAPI_URL } from '$env/static/public';
 import type { PopulationStats } from '../+page.server.js';
+export const ssr = false;
+
 
 export type AgeGroup =
 	| 'age 0-4'
@@ -72,6 +74,7 @@ export type PopulationPerCountryStats = {
 				female: number;
 				age_group: AgeGroup;
 			}[];
+			content: string;
 			createdAt: string;
 			updatedAt: string;
 			publishedAt: string;
@@ -141,6 +144,7 @@ export type MigrantsPerCountry = {
 				labor_force_migrants: Migrant;
 				youth_labor_force_migrants: Migrant;
 			}[];
+			content: string;
 			createdAt: string;
 			updatedAt: string;
 			publishedAt: string;
@@ -202,6 +206,7 @@ export type RemittancePerCountry = {
 				amount: number;
 				region: string;
 			}[];
+			content: string;
 			createdAt: string;
 			updatedAt: string;
 			publishedAt: string;
@@ -222,6 +227,7 @@ export type IGADRegionMigrants = {
 			createdAt: string;
 			updatedAt: string;
 			publishedAt: string;
+			content: string;
 			migrant: {
 				id: number;
 				year: string;
@@ -261,7 +267,7 @@ export const load: Load = async ({ fetch }) => {
 		}
 
 		const igadRegionMigrantsResponse = await fetch(
-			`${PUBLIC_STRAPI_URL}/api/igad-region-migrant?populate=migrant.total,migrant.migrants_15_plus,migrant.labor_force_migrants,migrant.youth_labor_force_migrants`
+			`${PUBLIC_STRAPI_URL}/api/igad-region-migrant?populate=migrant.total,migrant.migrants_15_plus,migrant.labor_force_migrants,migrant.youth_labor_force_migrants,migrant.content`
 		);
 
 		if (!igadRegionMigrantsResponse.ok) {
@@ -269,7 +275,7 @@ export const load: Load = async ({ fetch }) => {
 		}
 
 		const migrantsPerCountryResponse = await fetch(
-			`${PUBLIC_STRAPI_URL}/api/migrants-per-country?populate=Ethiopia.total,Ethiopia.migrants_15_plus,Ethiopia.labor_force_migrants,Ethiopia.youth_labor_force_migrants,Kenya.total,Kenya.migrants_15_plus,Kenya.labor_force_migrants,Kenya.youth_labor_force_migrants,SouthSudan.total,SouthSudan.migrants_15_plus,SouthSudan.labor_force_migrants,SouthSudan.youth_labor_force_migrants,Eritrea.total,Eritrea.migrants_15_plus,Eritrea.labor_force_migrants,Eritrea.youth_labor_force_migrants,Somalia.total,Somalia.migrants_15_plus,Somalia.labor_force_migrants,Somalia.youth_labor_force_migrants,Uganda.total,Uganda.migrants_15_plus,Uganda.labor_force_migrants,Uganda.youth_labor_force_migrants,Sudan.total,Sudan.migrants_15_plus,Sudan.labor_force_migrants,Sudan.youth_labor_force_migrants,Djibouti.total,Djibouti.migrants_15_plus,Djibouti.labor_force_migrants,Djibouti.youth_labor_force_migrants`
+			`${PUBLIC_STRAPI_URL}/api/migrants-per-country?populate=content,Ethiopia.total,Ethiopia.migrants_15_plus,Ethiopia.labor_force_migrants,Ethiopia.youth_labor_force_migrants,Kenya.total,Kenya.migrants_15_plus,Kenya.labor_force_migrants,Kenya.youth_labor_force_migrants,SouthSudan.total,SouthSudan.migrants_15_plus,SouthSudan.labor_force_migrants,SouthSudan.youth_labor_force_migrants,Eritrea.total,Eritrea.migrants_15_plus,Eritrea.labor_force_migrants,Eritrea.youth_labor_force_migrants,Somalia.total,Somalia.migrants_15_plus,Somalia.labor_force_migrants,Somalia.youth_labor_force_migrants,Uganda.total,Uganda.migrants_15_plus,Uganda.labor_force_migrants,Uganda.youth_labor_force_migrants,Sudan.total,Sudan.migrants_15_plus,Sudan.labor_force_migrants,Sudan.youth_labor_force_migrants,Djibouti.total,Djibouti.migrants_15_plus,Djibouti.labor_force_migrants,Djibouti.youth_labor_force_migrants`
 		);
 
 		if (!migrantsPerCountryResponse.ok) {

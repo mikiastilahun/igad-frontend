@@ -197,6 +197,7 @@ export type PopulationStats = {
 				male: number;
 				female: number;
 			}[],
+			content: string;
 			createdAt: string;
 			updatedAt: string;
 			publishedAt: string;
