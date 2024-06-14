@@ -121,71 +121,71 @@
 
 <div class="">
 	<header
-		class=" relative mx-auto hidden w-fit max-w-7xl transform-gpu gap-[var(--img-gap)] rounded-full bg-white transition-shadow duration-500 ease-in [box-shadow:var(--header-shadow)] lg:flex"
+		class=" relative mx-auto hidden w-full max-w-[calc(1024px-144px)] transform-gpu gap-4 rounded-full bg-white transition-shadow duration-500 ease-in [box-shadow:var(--header-shadow)] lg:flex xl:max-w-[1136px]"
 	>
 		<a href="/">
 			<img
 				src={IGAD_LOGO}
 				alt="Logo"
-				class=" aspect-square h-[var(--img-h)] w-20 p-1 transition-all duration-500"
+				class=" h-[var(--img-h)] w-20 object-contain object-left p-1 transition-all duration-500 ease-out"
 			/>
 		</a>
 
-		<div class="flex flex-row justify-between gap-4 py-4 xl:gap-8">
-			<!-- logo and links -->
-			<div class="  flex items-center gap-8">
-				<nav class="flex h-full items-center gap-3 text-sm font-bold text-primary xl:gap-6">
-					{#each navItems as nav, index}
-						{@const isActive =
-							nav.href === $page.url.pathname ||
-							nav.subMenu?.some((item) => item.href === $page.url.pathname)}
-						<div use:clickOutside={{ callback: () => (activeIndex = null) }}>
-							{#if nav.subMenu}
-								<a
-									href={`${nav.href || '#'}`}
-									class=" group/dropdown relative flex h-full items-center gap-2"
-									on:mouseenter={() => {
-										activeIndex = index;
-									}}
+		<div class="flex flex-1 flex-row justify-between py-4">
+			<!-- links -->
+			<nav
+				class=" flex h-full flex-1 items-center justify-between gap-3 text-xs font-semibold text-primary xl:gap-6 xl:text-sm"
+			>
+				{#each navItems as nav, index}
+					{@const isActive =
+						nav.href === $page.url.pathname ||
+						nav.subMenu?.some((item) => item.href === $page.url.pathname)}
+					<div use:clickOutside={{ callback: () => (activeIndex = null) }}>
+						{#if nav.subMenu}
+							<a
+								href={`${nav.href || '#'}`}
+								class=" group/dropdown relative flex h-full items-center gap-1"
+								on:mouseenter={() => {
+									activeIndex = index;
+								}}
+							>
+								<span class="hover-underline-animation relative">{nav.title}</span>
+								<CaretDownIcon class="fill-primary" />
+								<div
+									class=" {activeIndex === index ? 'inline-flex' : 'hidden'} {index >=
+									navItems.length - 2
+										? 'right-0'
+										: ''}  animate-slide absolute top-16 w-[400px] transform-gpu flex-col items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md"
 								>
-									<span class="hover-underline-animation relative">{nav.title}</span>
-									<CaretDownIcon class="fill-primary" />
-									<div
-										class=" {activeIndex === index ? 'inline-flex' : 'hidden'} {index >=
-										navItems.length - 2
-											? 'right-0'
-											: ''}  animate-slide absolute top-16 w-[400px] transform-gpu flex-col items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md"
-									>
-										{#each nav?.subMenu || [] as item}
-											<MenuDropdownItem href={item.href}>
-												<span slot="icon">
-													<svelte:component
-														this={item.icon}
-														class="h-6 w-6 fill-current group-hover:text-white"
-													/>
-												</span>
-												<span slot="title">{item.title}</span>
-												<span slot="description">{item.description}</span>
-											</MenuDropdownItem>
-										{/each}
-									</div>
-								</a>
-							{:else}
-								<a
-									href={`${nav.href || '#'}`}
-									class="hover-underline-animation group/dropdown relative flex items-center gap-2"
-								>
-									{nav.title}
-								</a>
-							{/if}
-						</div>
-					{/each}
-				</nav>
-			</div>
+									{#each nav?.subMenu || [] as item}
+										<MenuDropdownItem href={item.href}>
+											<span slot="icon">
+												<svelte:component
+													this={item.icon}
+													class="h-6 w-6 fill-current group-hover:text-white"
+												/>
+											</span>
+											<span slot="title">{item.title}</span>
+											<span slot="description">{item.description}</span>
+										</MenuDropdownItem>
+									{/each}
+								</div>
+							</a>
+						{:else}
+							<a
+								href={`${nav.href || '#'}`}
+								class="hover-underline-animation group/dropdown relative flex items-center gap-2"
+							>
+								{nav.title}
+							</a>
+						{/if}
+					</div>
+				{/each}
+			</nav>
 
 			<!-- search -->
-			<div class="relative mr-10 flex flex-shrink-0 items-center gap-4 xl:mr-20">
-				<button class="">
+			<div class="relative flex flex-shrink-0 items-center gap-4">
+				<button class="flex w-20 items-center justify-center">
 					<SearchIcon />
 				</button>
 			</div>

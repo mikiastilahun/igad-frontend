@@ -12,16 +12,10 @@
 			label: item.label,
 			href: item.url
 		})) || [];
-
-	$: currentUrl = $page.url;
 </script>
 
 <Nprogress />
-<div
-	class="  z-30 w-full bg-primary transition-all duration-300 {currentUrl.pathname === '/'
-		? ''
-		: 'md:rounded-b-lg'}"
->
+<div class="  } z-30 w-full bg-primary transition-all duration-300">
 	<div class="mx-auto flex max-w-6xl items-center gap-2 py-2 text-sm font-semibold text-white">
 		<div
 			class="top-0 z-10 mx-auto flex w-full max-w-6xl flex-row flex-wrap items-center justify-center gap-4 overflow-x-auto overflow-y-hidden whitespace-nowrap bg-primary px-4 text-white"
@@ -40,7 +34,7 @@
 
 <div
 	use:bindCssVarToScrollDirection={{
-		downVars: () => ({ '--top': '-120px' }),
+		downVars: () => ({ '--top': '-112px' }),
 		upVars: () => ({ '--top': '0' }),
 		onScroll: ({ direction, node, scrollY }) => {
 			if (direction === 'down') {
@@ -49,16 +43,14 @@
 				node.style.setProperty('--header-shadow', '0 25px 50px -12px rgb(0 0 0 / 0.25)');
 			}
 
-			if (scrollY < 120) {
+			if (scrollY < 70) {
 				node.style.setProperty('--img-h', '80px');
-				node.style.setProperty('--img-gap', '24px');
 			} else {
 				node.style.setProperty('--img-h', '64px');
-				node.style.setProperty('--img-gap', '16px');
 			}
 		}
 	}}
-	class="sticky top-[var(--top)] z-50 -mb-[78px] h-[112px] w-full pt-8 transition-all duration-500 lg:-mb-[120px]"
+	class="sticky top-[var(--top)] z-50 -mb-[112px] h-[112px] w-full pt-8 transition-all duration-500"
 >
 	<Header />
 </div>
