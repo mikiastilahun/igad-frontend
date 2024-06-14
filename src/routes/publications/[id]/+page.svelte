@@ -20,12 +20,11 @@
 	title={publication?.title}
 />
 
-<section class="mx-auto flex max-w-5xl gap-16 p-4">
-	<div class="w-full">
+<section class="mx-auto grid max-w-5xl grid-cols-3 gap-16 p-4">
+	<div class="col-span-2 grid max-w-full">
 		<h1 class="mb-2 text-3xl font-bold">{publication?.title}</h1>
 
 		<!-- date and publicationType -->
-
 		<div class="flex items-center gap-6">
 			<span class="text-sm text-zinc-500"
 				>{dayjs(publication?.publicationDate).format('DD MMMM YYYY')}</span
@@ -40,22 +39,22 @@
 		</div>
 
 		<!-- content -->
-		<p class="prose mx-auto max-w-5xl">
+		<p class="prose mx-auto max-w-full">
 			<SvelteMarkdown source={publication?.mainContent} />
 		</p>
 	</div>
 
-	<div class="mt-12 flex max-w-72 flex-col items-center gap-4">
-		<ul class="w-full">
+	<div class="col-span-1 mt-12 flex max-w-72 flex-col items-center gap-4">
+		<ul class="w-full break-all">
 			{#each publication?.files.data || [] as file}
-				<li class="w-full list-disc p-2">
+				<li class=" list-disc p-2">
 					<a
 						href={`${PUBLIC_STATIC_URL}${file.attributes.url}`}
 						target="_blank"
 						rel="noopener noreferrer"
 						class="flex items-center gap-2"
 					>
-						<span class="text-primary">{file.attributes.name}</span>
+						<span class="  text-primary">{file.attributes.name}</span>
 					</a>
 				</li>
 			{/each}

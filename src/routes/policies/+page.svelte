@@ -96,7 +96,7 @@
 						class="text-xl font-bold text-primary hover:cursor-pointer"
 						href={`${PUBLIC_STATIC_URL}${file.attributes.url}`}
 					>
-						Read Full Document ({file.attributes.name})
+						Read Full Document ({section.title})
 					</a>
 				</div>
 			{/each}

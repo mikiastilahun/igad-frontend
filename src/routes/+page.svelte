@@ -95,7 +95,7 @@
 
 												<button
 													on:click={() => {
-														goto(`/priority-area/${area.id}`);
+														goto(`/priority-area/${area.attributes.Title}`);
 													}}
 													class="mt-8 block rounded-md bg-secondary px-6 py-2 font-semibold text-black transition-all duration-300 hover:scale-95"
 													>Read More</button

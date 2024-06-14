@@ -8,7 +8,7 @@
 
 	export let data;
 
-	const priorityArea = data.data?.priorityArea.data;
+	const priorityArea = data.data?.priorityArea;
 	const priorityAreas = data.data?.priorityAreas.data;
 
 	$: filteredPriorityAreas = priorityAreas?.filter((item) => item.id !== parseInt($page.params.id));

@@ -64,7 +64,7 @@
 		},
 		{
 			title: 'Support Areas',
-			href: '/priority-area/1'
+			href: '/priority-area/Migration Governance'
 		},
 		{
 			title: 'Support Platforms',

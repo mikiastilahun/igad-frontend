@@ -108,23 +108,20 @@ export const load: Load = async ({ fetch, params }) => {
 	console.log({ PUBLIC_STRAPI_URL });
 
 	try {
-		const priorityAreaResponse = await fetch(
-			`${PUBLIC_STRAPI_URL}/api/priority-areas/${params.id}?populate=*,IgadActions.actionItemList,icon,expectedOutcomes,,stackholders,partners,memberStateActions.actionItemList`
+		const priorityAreasResponse = await fetch(
+			`${PUBLIC_STRAPI_URL}/api/priority-areas?populate=*,IgadActions.actionItemList,icon,expectedOutcomes,,stackholders,partners,memberStateActions.actionItemList`
 		);
-
-		console.log({ priorityAreaResponse });
-		if (!priorityAreaResponse.ok) {
-			throw new Error(`HTTP error! status: ${priorityAreaResponse.status}`);
-		}
-
-		const priorityAreasResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/priority-areas?populate=*`);
 
 		if (!priorityAreasResponse.ok) {
 			throw new Error(`HTTP error! status: ${priorityAreasResponse.status}`);
 		}
 
-		const priorityArea = await priorityAreaResponse.json();
 		const priorityAreas = await priorityAreasResponse.json();
+		const priorityArea = priorityAreas.data.find(
+			(area: any) => area.attributes.Title === params.title
+		);
+
+		console.log({ priorityArea });
 
 		const data: ApiResponse = {
 			priorityArea: priorityArea,
