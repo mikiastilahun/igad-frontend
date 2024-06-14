@@ -13,6 +13,10 @@
 	import CaretDown from '$lib/assets/icons/caret-down.svg.svelte';
 	import { slide } from 'svelte/transition';
 	import { quintIn, linear, quadInOut } from 'svelte/easing';
+	import { flip } from 'svelte/animate';
+
+	import { crossfade } from 'svelte/transition';
+	const [send, receive] = crossfade({});
 
 	export let data;
 
@@ -154,6 +158,21 @@
 	};
 
 	let isMobileFilterOpen = true;
+
+	let top: number[] = [];
+	let bottom: number[] = [1];
+
+	const move = (item: number, from: number[], to: number[]) => {
+		to.push(1);
+		return [from.filter((i) => i !== item), to];
+	};
+
+	const moveTop = () => {
+		[bottom, top] = move(1, bottom, top);
+	};
+	const moveBottom = () => {
+		[top, bottom] = move(1, top, bottom);
+	};
 </script>
 
 <svelte:head>
@@ -187,7 +206,7 @@
 </section>
 
 <!-- Full width search bar -->
-<section class=" px-4 py-10">
+<section class=" px-4 pt-10">
 	<div class="mx-auto max-w-[1136px]">
 		<form on:submit|preventDefault={search}>
 			<div class="relative flex items-center justify-center">
@@ -211,9 +230,32 @@
 	<div class="relative flex flex-col gap-8 p-4 md:flex-row">
 		<!-- filter -->
 		<div
-			class="sticky top-0 grid h-full w-full gap-4 rounded-md bg-white p-6 shadow md:max-w-[250px]"
+			class="sticky top-0 grid h-full w-full gap-4 rounded-md bg-white/90 p-6 shadow backdrop-blur-lg md:max-w-[250px]"
 		>
-			<h2 class="text-2xl font-bold">Filters</h2>
+			<div class="flex items-center justify-between">
+				<h2 class="text-2xl font-bold">Filters</h2>
+
+				{#each top as top (top)}
+					<div
+						animate:flip
+						in:receive={{ key: top }}
+						out:send={{ key: top }}
+						class=" flex w-full justify-end md:hidden"
+					>
+						<button
+							on:click={() => {
+								isMobileFilterOpen = !isMobileFilterOpen;
+								moveBottom();
+							}}
+							class="group flex h-6 w-6 items-center justify-center rounded-full transition-colors hover:bg-primary-500"
+						>
+							<CaretDown
+								class="h-10 w-10  fill-primary-500 transition-all group-hover:fill-gray-100"
+							/>
+						</button>
+					</div>
+				{/each}
+			</div>
 
 			{#if isMobileFilterOpen}
 				<div
@@ -228,7 +270,7 @@
 						<h3 class="text-base font-bold">Publication Type</h3>
 						<!-- list of check boxes -->
 
-						<div class="flex flex-row gap-2 md:flex-col">
+						<div class="flex flex-row flex-wrap gap-2 md:flex-col md:flex-nowrap">
 							{#each publicationTypes || [] as type}
 								<div class="flex items-center gap-2">
 									<input
@@ -276,18 +318,26 @@
 				</div>
 			{/if}
 
-			<div class=" flex w-full justify-end md:hidden">
-				<button
-					on:click={() => (isMobileFilterOpen = !isMobileFilterOpen)}
-					class="group flex h-6 w-6 items-center justify-center rounded-full transition-colors hover:bg-primary-500"
+			{#each bottom as bottom (bottom)}
+				<div
+					animate:flip
+					in:receive={{ key: bottom }}
+					out:send={{ key: bottom }}
+					class=" flex w-full justify-end md:hidden"
 				>
-					<CaretDown
-						class="{isMobileFilterOpen
-							? 'rotate-180'
-							: ''} h-10 w-10 fill-primary-500 transition-colors group-hover:fill-gray-100"
-					/>
-				</button>
-			</div>
+					<button
+						on:click={() => {
+							isMobileFilterOpen = !isMobileFilterOpen;
+							moveTop();
+						}}
+						class="group flex h-6 w-6 items-center justify-center rounded-full transition-colors hover:bg-primary-500"
+					>
+						<CaretDown
+							class="h-10 w-10 rotate-180 fill-primary-500 transition-all group-hover:fill-gray-100"
+						/>
+					</button>
+				</div>
+			{/each}
 		</div>
 		<!-- list of cards with pagination -->
 		<div class="grid gap-5">
@@ -304,7 +354,7 @@
 					<div class="h-[200px] w-full flex-none rounded-lg lg:h-[150px] lg:w-[245px]">
 						<img
 							height="150px"
-							class="h-full w-full flex-1 rounded-lg rounded-b-none bg-primary object-contain md:rounded-b-lg"
+							class="h-full w-full flex-1 rounded-lg rounded-b-none bg-primary object-cover md:rounded-b-lg"
 							src={`${PUBLIC_STATIC_URL}${publication?.coverImage.data.attributes.url}`}
 							alt="Card "
 						/>
