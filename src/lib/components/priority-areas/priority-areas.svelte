@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
 
 	import type { PageData } from '$routes/$types';
@@ -19,6 +20,7 @@
 						hover:cursor-pointer"
 					on:click={() => {
 						// redirect to the priority area page
+						goto(`/priority-areas/${area.attributes.Title}`);
 					}}
 				>
 					<img

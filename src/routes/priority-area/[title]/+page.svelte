@@ -11,7 +11,9 @@
 	const priorityArea = data.data?.priorityArea;
 	const priorityAreas = data.data?.priorityAreas.data;
 
-	$: filteredPriorityAreas = priorityAreas?.filter((item) => item.id !== parseInt($page.params.id));
+	$: filteredPriorityAreas = priorityAreas?.filter(
+		(item) => item.attributes.Title !== $page.params.title
+	);
 </script>
 
 <svelte:head>
