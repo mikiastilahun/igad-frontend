@@ -2,50 +2,48 @@ import type { Load } from '@sveltejs/kit';
 import { PUBLIC_STRAPI_URL } from '$env/static/public';
 
 type PriorityArea = {
-	data: {
-		id: number;
-		attributes: {
-			Title: string;
-			header: string;
-			ShortDescription: string;
-			mainContent: string;
-			IgadActions: {
+	attributes: {
+		Title: string;
+		header: string;
+		ShortDescription: string;
+		mainContent: string;
+		IgadActions: {
+			id: number;
+			ActionTitle: string;
+			actionItemList: { item: string }[];
+		}[];
+		memberStateActions: {
+			id: number;
+			ActionTitle: string;
+			actionItemList: { item: string }[];
+		}[];
+		expectedOutcomes: {
+			id: number;
+			item: string;
+		}[];
+		partners: {
+			id: number;
+			label: string;
+			url: string;
+		}[];
+		stackholders: {
+			id: number;
+			label: string;
+			url: string;
+		}[];
+		icon: {
+			data: {
 				id: number;
-				ActionTitle: string;
-				actionItemList: { item: string }[];
-			}[];
-			memberStateActions: {
-				id: number;
-				ActionTitle: string;
-				actionItemList: { item: string }[];
-			}[];
-			expectedOutcomes: {
-				id: number;
-				item: string;
-			}[];
-			partners: {
-				id: number;
-				label: string;
-				url: string;
-			}[];
-			stackholders: {
-				id: number;
-				label: string;
-				url: string;
-			}[];
-			icon: {
-				data: {
-					id: number;
-					attributes: {
-						name: string;
-						width: number;
-						height: number;
-						url: string;
-					};
+				attributes: {
+					name: string;
+					width: number;
+					height: number;
+					url: string;
 				};
 			};
 		};
 	};
+
 	meta: any;
 };
 type PriorityAreas = {

@@ -8,8 +8,8 @@
 
 	export let data;
 
-	const priorityArea = data.data?.priorityArea;
-	const priorityAreas = data.data?.priorityAreas.data;
+	$: priorityArea = data.data?.priorityArea;
+	$: priorityAreas = data.data?.priorityAreas.data;
 
 	$: filteredPriorityAreas = priorityAreas?.filter(
 		(item) => item.attributes.Title !== $page.params.title

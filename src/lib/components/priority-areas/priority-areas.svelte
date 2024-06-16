@@ -4,7 +4,9 @@
 
 	import type { PageData } from '$routes/$types';
 
-	export let priorityAreas: Exclude<PageData['data'], undefined>['priorityAreas']['data'];
+	export let priorityAreas:
+		| Exclude<PageData['data'], undefined>['priorityAreas']['data']
+		| undefined;
 </script>
 
 <div class="relative bottom-0 w-full">
@@ -20,7 +22,7 @@
 						hover:cursor-pointer"
 					on:click={() => {
 						// redirect to the priority area page
-						goto(`/priority-areas/${area.attributes.Title}`);
+						goto(`/priority-area/${area.attributes.Title}`);
 					}}
 				>
 					<img
