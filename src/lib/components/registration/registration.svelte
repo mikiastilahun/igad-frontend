@@ -68,12 +68,12 @@
 		duration: 150,
 		easing: linear
 	}}
-	class="fixed left-0 top-0 z-[999999] flex h-full w-full items-center justify-center"
+	class="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center"
 >
 	<div class="absolute inset-0 -z-10 bg-primary/80 backdrop-blur-sm"></div>
 
 	<button
-		class="absolute right-0 top-0 z-[999999] m-4 rounded-full bg-white p-2 hover:cursor-pointer hover:bg-white/90"
+		class="absolute right-0 top-0 z-50 m-4 rounded-full bg-white p-2 hover:cursor-pointer hover:bg-white/90"
 		on:click={() => (show = false)}
 	>
 		<span class="h-6 w-6">

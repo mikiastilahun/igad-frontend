@@ -260,7 +260,7 @@
 </script>
 
 <div class="relative">
-	<div class="absolute left-2 top-2 z-[9999] max-w-[180px] rounded-lg shadow-lg">
+	<div class="absolute left-2 top-2 z-30 max-w-[180px] rounded-lg shadow-lg">
 		<Select
 			placeholder="Select year"
 			bind:selectedOption={selectedYear}
@@ -274,7 +274,7 @@
 			]}
 		/>
 	</div>
-	<div id="IGAD_map" class="bg-red relative flex justify-center overflow-hidden rounded-md">
+	<div id="IGAD_map" class="bg-red relative z-10 flex justify-center overflow-hidden rounded-md">
 		<div class="h-[400px] w-[800px] max-w-full border-2 bg-green-100 md:h-[725px]"></div>
 	</div>
 </div>

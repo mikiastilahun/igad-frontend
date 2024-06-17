@@ -55,7 +55,7 @@
 	<Header />
 </div>
 
-<main class="bg-darkscale-100 relative z-0 min-h-screen">
+<main class="bg-darkscale-100 relative min-h-screen">
 	<slot />
 </main>
 <Footer />
