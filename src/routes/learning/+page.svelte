@@ -203,7 +203,7 @@
 								class=" inline-flex h-3.5 items-center justify-start gap-2.5 rounded-[100px] bg-zinc-700 px-2"
 							>
 								<div class="font-['Open Sans'] text-[10px] font-normal text-white">
-									{material.attributes.learning_material_type.data.attributes.type}
+									{material.attributes.learning_material_type.data?.attributes.type}
 								</div>
 							</div>
 						</div>
