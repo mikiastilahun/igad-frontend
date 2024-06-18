@@ -28,10 +28,10 @@
 	const applyLearningMaterialType = async () => {
 		console.log('searching');
 		await fetch(
-			`${PUBLIC_STRAPI_URL}/api/learning-links?populate=*${
+			`${PUBLIC_STATIC_URL}/api/learning-links?populate=*${
 				selectedMaterialType.length > 0
 					? selectedMaterialType.map(
-							(type, i) => `&filters[learning_material_type][type][$in][${i}]=${type}`
+							(type, i) => `&filters[learning_material_type][type][$in][${i}]=${type}&`
 						)
 					: ''
 			}`,

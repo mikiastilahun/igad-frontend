@@ -79,10 +79,10 @@
 	const applyPublicationType = async () => {
 		console.log('searching');
 		await fetch(
-			`${PUBLIC_STRAPI_URL}/api/publications?populate=*${
+			`${PUBLIC_STATIC_URL}/api/publications?populate=*${
 				selectedPublicationTypes.length > 0
 					? selectedPublicationTypes.map(
-							(type, i) => `&filters[publication_type][type][$in][${i}]=${type}`
+							(type, i) => `&filters[publication_type][type][$in][${i}]=${type}&`
 						)
 					: ''
 			}`,
