@@ -1,6 +1,10 @@
 <script lang="ts">
 	import algoliasearch from 'algoliasearch/lite.js';
-	import { PUBLIC_ALGOLIA_INDEX_PREFIX } from '$env/static/public';
+	import {
+		PUBLIC_ALGOLIA_INDEX_PREFIX,
+		PUBLIC_ALGOLIA_APP_ID,
+		PUBLIC_ALGOLIA_SEARCH_API_KEY
+	} from '$env/static/public';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
 	import { quadOut, quadIn } from 'svelte/easing';
@@ -17,7 +21,7 @@
 	let hits: any[] = [];
 	let error: string | null = null;
 
-	const searchClient = algoliasearch('2FXYHP1C8G', '71665131047a6d6325af6a58c2460ce0');
+	const searchClient = algoliasearch(PUBLIC_ALGOLIA_APP_ID, PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
 	const search = async () => {
 		if (!query) {
