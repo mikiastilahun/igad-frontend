@@ -49,12 +49,14 @@
 	"dependencies": {
 		"@carbon/charts-svelte": "^1.15.8",
 		"@sveltejs/enhanced-img": "^0.2.0",
+		"algoliasearch": "^4.23.3",
 		"d3": "^7.9.0",
 		"d3-cloud": "^1.2.7",
 		"d3-sankey": "^0.12.3",
 		"dayjs": "^1.11.11",
 		"leaflet": "^1.9.4",
 		"node-fetch": "^3.3.2",
+		"svelte-algolia-instantsearch": "^0.12.1",
 		"svelte-select": "^5.8.3"
 	}
 }
