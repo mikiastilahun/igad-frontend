@@ -19,6 +19,9 @@
 	import { bindCssVarToScrollDirection } from '$lib/actions/scroll-up.js';
 	import { fly, scale } from 'svelte/transition';
 	import { page } from '$app/stores';
+	import Search from '$lib/components/search.svelte';
+
+	let isSearchOpen = false;
 
 	type NavType = {
 		title: string;
@@ -117,7 +120,15 @@
 	let activeIndex: number | null = null;
 	let mobileActiveIndex: number | null = null;
 	let isMobileOpen = false;
+
+	const handleClose = () => {
+		isSearchOpen = false;
+	};
 </script>
+
+{#if isSearchOpen}
+	<Search on:close={handleClose} />
+{/if}
 
 <div class="">
 	<header
@@ -185,7 +196,10 @@
 
 			<!-- search -->
 			<div class="relative flex flex-shrink-0 items-center gap-4">
-				<button class="flex w-20 items-center justify-center">
+				<button
+					on:click={() => (isSearchOpen = true)}
+					class="flex w-20 items-center justify-center hover:cursor-pointer"
+				>
 					<SearchIcon />
 				</button>
 			</div>

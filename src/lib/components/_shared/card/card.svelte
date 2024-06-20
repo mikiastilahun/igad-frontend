@@ -29,7 +29,7 @@
 			<div
 				class="inline-flex h-3.5 w-[37px] items-center justify-start gap-2.5 rounded-[100px] bg-amber-300 px-2"
 			>
-				<div class="font-['Open Sans'] text-[10px] font-normal text-white">New</div>
+				<div class=" text-[10px] font-normal text-white">New</div>
 			</div>
 		</div>
 
