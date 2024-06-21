@@ -75,7 +75,7 @@
 			easing: quadIn
 		}}
 		on:click={() => handleClose()}
-		class="fixed inset-0 bg-primary/50 px-8 backdrop-blur-lg transition-opacity"
+		class="fixed inset-0 transform-gpu bg-primary/50 px-8 backdrop-blur-lg transition-opacity"
 		aria-hidden="true"
 	></div>
 
@@ -150,7 +150,7 @@
 					{@const index = hit.index.split('_')[1]}
 					{@const to = index === 'priority-area' ? `${index}/${hit.title}` : `${index}/${hit.id}`}
 					<li
-						class="group flex cursor-default select-none rounded-xl p-3 transition-colors hover:bg-gray-100"
+						class="group flex cursor-default select-none rounded-xl p-3 transition-colors hover:bg-secondary-100"
 						id="option-1"
 						role="option"
 						tabindex="-1"

@@ -16,8 +16,8 @@
 	import Badge from '$lib/assets/icons/badge.svg.svelte';
 	import { clickOutside } from '$lib/actions/click-outside';
 	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
-	import { bindCssVarToScrollDirection } from '$lib/actions/scroll-up.js';
-	import { fly, scale } from 'svelte/transition';
+	import { fade, scale } from 'svelte/transition';
+	import { quadOut, quadIn } from 'svelte/easing';
 	import { page } from '$app/stores';
 	import Search from '$lib/components/search.svelte';
 
@@ -269,6 +269,14 @@
 
 	{#if isMobileOpen}
 		<div
+			in:fade={{
+				duration: 300,
+				easing: quadOut
+			}}
+			out:fade={{
+				duration: 300,
+				easing: quadIn
+			}}
 			class=" fixed inset-0 block h-screen w-full transform-gpu overflow-y-auto overflow-x-hidden rounded-md bg-primary/90 px-8 shadow-lg backdrop-blur-lg backdrop-saturate-200 lg:hidden"
 		>
 			<nav class=" flex h-full items-center justify-center">
@@ -306,11 +314,13 @@
 											<li class=" ">
 												<a
 													href={subItem.href || '#'}
+													on:click={() => (isMobileOpen = false)}
 													class="hover-underline-animation relative text-sm font-semibold {$page.url
 														.pathname === subItem.href
 														? 'text-secondary-500'
-														: 'text-white'}">{subItem.title}</a
-												>
+														: 'text-white'}"
+													>{subItem.title}
+												</a>
 											</li>
 										{/each}
 									</ul>
@@ -323,6 +333,7 @@
 										class=" hover-underline-animation relative text-xl font-semibold {isActive
 											? 'text-secondary-500'
 											: 'text-white'}"
+										on:click={() => (isMobileOpen = false)}
 									>
 										{nav.title}
 									</a>
