@@ -56,7 +56,6 @@
 		"dayjs": "^1.11.11",
 		"leaflet": "^1.9.4",
 		"node-fetch": "^3.3.2",
-		"svelte-algolia-instantsearch": "^0.12.1",
 		"svelte-select": "^5.8.3"
 	}
 }
