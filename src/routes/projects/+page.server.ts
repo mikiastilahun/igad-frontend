@@ -1,7 +1,7 @@
 import type { Load } from '@sveltejs/kit';
 import { PUBLIC_STRAPI_URL } from '$env/static/public';
 
-type ProjectType = {
+export type ProjectType = {
     id: number;
     attributes: {
         name: string;

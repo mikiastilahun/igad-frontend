@@ -175,7 +175,7 @@
 								/>
 							</svg>
 						</div> -->
-						<a href={to} class=" flex-auto">
+						<a href={to} on:click={() => handleClose()} class=" flex-auto">
 							<p
 								class="text-sm font-medium text-gray-700 group-hover:text-primary-500 group-hover:underline"
 							>
