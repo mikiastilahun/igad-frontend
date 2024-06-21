@@ -6,9 +6,7 @@
 	import TreeStructureIcon from '$lib/assets/icons/tree-structure.svg.svelte';
 	import MenuDropdownItem from '../menu-dropdown-item/menu-dropdown-item.svelte';
 	import { type ComponentType } from 'svelte';
-	import { onMount } from 'svelte';
 	import Team from '$lib/assets/nav/team.svg.svelte';
-	import Partner from '$lib/assets/nav/partner.svg.svelte';
 	import Mail from '$lib/assets/icons/mail.svg.svelte';
 	import BookIcon from '$lib/assets/nav/book-search.svg.svelte';
 	import EventIcon from '$lib/assets/nav/event.svg.svelte';
@@ -16,9 +14,12 @@
 	import Badge from '$lib/assets/icons/badge.svg.svelte';
 	import { clickOutside } from '$lib/actions/click-outside';
 	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
-	import { bindCssVarToScrollDirection } from '$lib/actions/scroll-up.js';
-	import { fly, scale } from 'svelte/transition';
+	import { fade, scale } from 'svelte/transition';
+	import { quadOut, quadIn } from 'svelte/easing';
 	import { page } from '$app/stores';
+	import Search from '$lib/components/search.svelte';
+
+	let isSearchOpen = false;
 
 	type NavType = {
 		title: string;
@@ -117,7 +118,15 @@
 	let activeIndex: number | null = null;
 	let mobileActiveIndex: number | null = null;
 	let isMobileOpen = false;
+
+	const handleClose = () => {
+		isSearchOpen = false;
+	};
 </script>
+
+{#if isSearchOpen}
+	<Search on:close={handleClose} />
+{/if}
 
 <div class="">
 	<header
@@ -185,7 +194,10 @@
 
 			<!-- search -->
 			<div class="relative flex flex-shrink-0 items-center gap-4">
-				<button class="flex w-20 items-center justify-center">
+				<button
+					on:click={() => (isSearchOpen = true)}
+					class="flex w-20 items-center justify-center hover:cursor-pointer"
+				>
 					<SearchIcon />
 				</button>
 			</div>
@@ -255,6 +267,14 @@
 
 	{#if isMobileOpen}
 		<div
+			in:fade={{
+				duration: 300,
+				easing: quadOut
+			}}
+			out:fade={{
+				duration: 300,
+				easing: quadIn
+			}}
 			class=" fixed inset-0 block h-screen w-full transform-gpu overflow-y-auto overflow-x-hidden rounded-md bg-primary/90 px-8 shadow-lg backdrop-blur-lg backdrop-saturate-200 lg:hidden"
 		>
 			<nav class=" flex h-full items-center justify-center">
@@ -292,11 +312,13 @@
 											<li class=" ">
 												<a
 													href={subItem.href || '#'}
+													on:click={() => (isMobileOpen = false)}
 													class="hover-underline-animation relative text-sm font-semibold {$page.url
 														.pathname === subItem.href
 														? 'text-secondary-500'
-														: 'text-white'}">{subItem.title}</a
-												>
+														: 'text-white'}"
+													>{subItem.title}
+												</a>
 											</li>
 										{/each}
 									</ul>
@@ -309,6 +331,7 @@
 										class=" hover-underline-animation relative text-xl font-semibold {isActive
 											? 'text-secondary-500'
 											: 'text-white'}"
+										on:click={() => (isMobileOpen = false)}
 									>
 										{nav.title}
 									</a>

@@ -53,6 +53,7 @@
 		Explore priority areas, regional statistics, learning links, and more.`}
 	/>
 </svelte:head>
+
 <div class="">
 	<!-- hero section -->
 	<section
