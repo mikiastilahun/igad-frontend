@@ -7,7 +7,6 @@
 	import MenuDropdownItem from '../menu-dropdown-item/menu-dropdown-item.svelte';
 	import { type ComponentType } from 'svelte';
 	import Team from '$lib/assets/nav/team.svg.svelte';
-	import Partner from '$lib/assets/nav/partner.svg.svelte';
 	import Mail from '$lib/assets/icons/mail.svg.svelte';
 	import BookIcon from '$lib/assets/nav/book-search.svg.svelte';
 	import EventIcon from '$lib/assets/nav/event.svg.svelte';
