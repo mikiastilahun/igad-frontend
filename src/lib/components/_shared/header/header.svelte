@@ -184,6 +184,9 @@
 							<a
 								href={`${nav.href || '#'}`}
 								class="hover-underline-animation group/dropdown relative flex items-center gap-2"
+								target={nav.href && (nav.href.startsWith('https://') || nav.href.startsWith('www.'))
+									? '_blank'
+									: '_self'}
 							>
 								{nav.title}
 							</a>
