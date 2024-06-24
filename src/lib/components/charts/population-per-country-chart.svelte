@@ -207,14 +207,12 @@
 
 		if (age <= 14) {
 			return '0-14';
-		} else if (age <= 19) {
-			return '15-19';
-		} else if (age <= 29) {
-			return '20-29';
-		} else if (age <= 59) {
-			return '30-59';
+		} else if (age <= 34) {
+			return '15-34';
+		} else if (age <= 64) {
+			return '35-64';
 		} else {
-			return '60+';
+			return '65+';
 		}
 	};
 
@@ -442,10 +440,9 @@
 							color: {
 								scale: {
 									'0-14': '#F4BE49',
-									'15-19': '#8BC34A',
-									'20-29': '#6880FF',
-									'30-59': '#E74C3C',
-									'60+': '#ADFF2F'
+									'15-34': '#8BC34A',
+									'35-64': '#6880FF',
+									'65+': '#E74C3C'
 								}
 							},
 							legend: { enabled: true, alignment: 'center' },
@@ -469,7 +466,7 @@
 							</div>
 						</div>
 						<div class="flex flex-col gap-8">
-							{#each ['0-14', '15-19', '20-29', '30-59', '60+'] as ageGroup}
+							{#each ['0-14', '15-34', '35-64', '65+'] as ageGroup}
 								{@const totalForSingleAgeGroup =
 									populationPieData.find((d) => d.group === ageGroup)?.value || 0}
 								{@const total = populationPieData.reduce((acc, curr) => acc + curr.value, 0)}
