@@ -80,16 +80,27 @@
 	};
 
 	const transformDataForLine = (data: PopulationType[]): Record<string, any>[] => {
-		const countries = data.reduce((acc, curr) => {
+		let countries: Record<string, Record<string, number>> = {};
+		data.reduce((acc, curr) => {
 			if (!acc[curr.country]) {
 				acc[curr.country] = {};
 			}
 			if (!acc[curr.country][curr.year]) {
 				acc[curr.country][curr.year] = 0;
 			}
-			acc[curr.country][curr.year] += curr.male + curr.female;
+			switch (selectedGender) {
+				case 'All':
+					acc[curr.country][curr.year] += curr.male + curr.female;
+					break;
+				case 'Male':
+					acc[curr.country][curr.year] += curr.male;
+					break;
+				case 'Female':
+					acc[curr.country][curr.year] += curr.female;
+					break;
+			}
 			return acc;
-		});
+		}, countries);
 
 		return Object.keys(countries)
 			.map((country) => {
@@ -111,6 +122,7 @@
 
 	let populationBarData: TransformedBarType[] = [];
 	let populationPieData: { group: string; value: number }[] = [];
+	let populationLineData: Record<string, any>[] = [];
 
 	const transformDataForBar = () => {
 		let transformedData: any[] = [];
@@ -170,22 +182,22 @@
 				});
 		}
 
-		transformedData.push({
-			group: 'Male',
-			key: 'Total',
-			value: transformedData
-				.filter((p) => p.group === 'Male')
-				.reduce((acc, curr) => acc + curr.value, 0),
-			country: selectedCountry
-		});
-		transformedData.push({
-			group: 'Female',
-			key: 'Total',
-			value: transformedData
-				.filter((p) => p.group === 'Female')
-				.reduce((acc, curr) => acc + curr.value, 0),
-			country: selectedCountry
-		});
+		// transformedData.push({
+		// 	group: 'Male',
+		// 	key: 'Total',
+		// 	value: transformedData
+		// 		.filter((p) => p.group === 'Male')
+		// 		.reduce((acc, curr) => acc + curr.value, 0),
+		// 	country: selectedCountry
+		// });
+		// transformedData.push({
+		// 	group: 'Female',
+		// 	key: 'Total',
+		// 	value: transformedData
+		// 		.filter((p) => p.group === 'Female')
+		// 		.reduce((acc, curr) => acc + curr.value, 0),
+		// 	country: selectedCountry
+		// });
 
 		return transformedData;
 	};
@@ -260,10 +272,16 @@
 		populationPieData = transformPieChartData(data);
 	}
 
+	$: {
+		selectedGender;
+		populationLineData = transformDataForLine(data);
+	}
+
 	const uniqueYears = data.map((d) => d.year).filter((v, i, a) => a.indexOf(v) === i);
 	const uniqueCountries = data.map((d) => d.country).filter((v, i, a) => a.indexOf(v) === i);
 	let selectedYear = uniqueYears[0];
 	let selectedCountry = '';
+	let selectedGender: 'All' | 'Female' | 'Male' = 'All';
 </script>
 
 <div class="bg-zin grid gap-6 rounded bg-white p-2 shadow md:p-6">
@@ -319,6 +337,17 @@
 						]}
 					/>
 				{/if}
+				{#if chartType === 'line'}
+					<Select
+						placeholder="Select Gender"
+						bind:selectedOption={selectedGender}
+						options={[
+							{ value: 'All', label: 'All' },
+							{ value: 'Female', label: 'Female' },
+							{ value: 'Male', label: 'Male' }
+						]}
+					/>
+				{/if}
 			</div>
 			{#if isSwappable}
 				<div
@@ -350,7 +379,7 @@
 		{#if chartType === 'line'}
 			<svelte:component
 				this={lineChart}
-				data={transformDataForLine(data)}
+				data={populationLineData}
 				options={{
 					...options,
 					axes: {

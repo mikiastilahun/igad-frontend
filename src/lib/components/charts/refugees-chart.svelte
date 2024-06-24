@@ -76,17 +76,28 @@
 	};
 
 	const transformDataForLine = (data: RefugeesType[]): any[] => {
-		// calculate the total amount for each country with all age_groups  over the years and return an array of objects with country, year and total amount (male+female)
-		const countries = data.reduce((acc, curr) => {
+		let countries: any = {};
+		data.reduce((acc, curr) => {
 			if (!acc[curr.country]) {
 				acc[curr.country] = {};
 			}
 			if (!acc[curr.country][curr.year]) {
 				acc[curr.country][curr.year] = 0;
 			}
-			acc[curr.country][curr.year] += curr.male + curr.female;
+
+			switch (selectedGender) {
+				case 'All':
+					acc[curr.country][curr.year] += curr.male + curr.female;
+					break;
+				case 'Male':
+					acc[curr.country][curr.year] += curr.male;
+					break;
+				case 'Female':
+					acc[curr.country][curr.year] += curr.female;
+					break;
+			}
 			return acc;
-		});
+		}, countries);
 
 		return Object.keys(countries)
 			.map((country) => {
@@ -108,6 +119,7 @@
 
 	let refugeesBarData: TransformedBarType[] = [];
 	let refugeesPieData: { group: string; value: number }[] = [];
+	let refugeesLineData: any[] = [];
 
 	const transformDataForBar = (data: RefugeesType[]) => {
 		let transformedData: TransformedBarType[] = [];
@@ -233,11 +245,16 @@
 		refugeesBarData = transformDataForBar(data);
 		refugeesPieData = transformPieChartData(data);
 	}
+	$: {
+		selectedGender;
+		refugeesLineData = transformDataForLine(data);
+	}
 
 	const uniqueYears = data.map((d) => d.year).filter((v, i, a) => a.indexOf(v) === i);
 	const uniqueCountries = data.map((d) => d.country).filter((v, i, a) => a.indexOf(v) === i);
 	let selectedYear = uniqueYears[0];
 	let selectedCountry = '';
+	let selectedGender: 'All' | 'Female' | 'Male' = 'All';
 </script>
 
 <div class="bg-zin grid gap-6 rounded bg-white p-2 shadow md:p-6">
@@ -295,6 +312,17 @@
 					/>
 				</div>
 			{/if}
+			{#if chartType === 'line'}
+				<Select
+					placeholder="Select Gender"
+					bind:selectedOption={selectedGender}
+					options={[
+						{ value: 'All', label: 'All' },
+						{ value: 'Female', label: 'Female' },
+						{ value: 'Male', label: 'Male' }
+					]}
+				/>
+			{/if}
 			{#if isSwappable}
 				<div
 					class=" inline-flex h-10 items-center justify-center gap-3 rounded-lg bg-neutral-100 px-3 py-1.5"
@@ -325,7 +353,7 @@
 		{#if chartType === 'line'}
 			<svelte:component
 				this={lineChart}
-				data={transformDataForLine(data)}
+				data={refugeesLineData}
 				options={{
 					...options,
 					axes: {
@@ -400,7 +428,11 @@
 									'age 60+': '#C34AB7'
 								}
 							},
-							legend: { enabled: true, alignment: 'center' },
+							legend: {
+								enabled: true,
+								alignment: 'center',
+								order: ['age 0-4', 'age 5-11', 'age 12-17', 'age 18-59', 'age 60+']
+							},
 							pie: {
 								alignment: 'center'
 							}
