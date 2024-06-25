@@ -4,6 +4,7 @@
 		amount: number;
 		year: string;
 		region: string;
+		[key: string]: any;
 	};
 </script>
 
@@ -76,20 +77,18 @@
 
 	let remittanceBarData = [];
 
-	const transformDataForBar = (data: RemittanceType[]) => {
-		//calculate the total amount for each country over the years and return an array of objects with country and total amount
-		// filter the data by year if selectedYear is not 'All'
+	const transformDataForBar = (data: RemittanceType[]): Record<string, any>[] => {
 		if (selectedYear !== 'All') {
 			data = data.filter((d) => d.year === selectedYear);
 		}
-		const countries = data.reduce((acc, curr) => {
-			if (acc[curr.country]) {
-				acc[curr.country] += curr.amount;
+		let countries: Record<string, number> = {};
+		data.forEach((d) => {
+			if (countries[d.country]) {
+				countries[d.country] += d.amount;
 			} else {
-				acc[curr.country] = curr.amount;
+				countries[d.country] = d.amount;
 			}
-			return acc;
-		}, {});
+		});
 
 		return Object.keys(countries).map((country) => {
 			return {
