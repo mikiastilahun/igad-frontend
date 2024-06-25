@@ -167,7 +167,13 @@
 										: ''}  animate-slide absolute top-16 w-[400px] transform-gpu flex-col items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md"
 								>
 									{#each nav?.subMenu || [] as item}
-										<MenuDropdownItem href={item.href}>
+										<MenuDropdownItem
+											target={item.href &&
+											(item.href.startsWith('https://') || item.href.startsWith('www.'))
+												? '_blank'
+												: '_self'}
+											href={item.href}
+										>
 											<span slot="icon">
 												<svelte:component
 													this={item.icon}
@@ -314,6 +320,10 @@
 										{#each nav.subMenu || [] as subItem}
 											<li class=" ">
 												<a
+													target={subItem.href &&
+													(subItem.href.startsWith('https://') || subItem.href.startsWith('www.'))
+														? '_blank'
+														: '_self'}
 													href={subItem.href || '#'}
 													on:click={() => (isMobileOpen = false)}
 													class="hover-underline-animation relative text-sm font-semibold {$page.url
@@ -329,6 +339,10 @@
 							{:else}
 								<li class=" pt-6">
 									<a
+										target={nav.href &&
+										(nav.href.startsWith('https://') || nav.href.startsWith('www.'))
+											? '_blank'
+											: '_self'}
 										href={nav.href || '#'}
 										title={nav.title || ''}
 										class=" hover-underline-animation relative text-xl font-semibold {isActive

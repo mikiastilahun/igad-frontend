@@ -1,11 +1,13 @@
 <script lang="ts">
 	// define href as a prop
 	let to = '';
+	export let target = '_self';
 	export { to as href };
 </script>
 
 <a
 	href={to}
+	{target}
 	class="group flex items-start justify-start gap-3 rounded-lg p-2 transition-colors hover:bg-primary/80"
 >
 	<span>
