@@ -409,16 +409,18 @@
 				data={populationBarData}
 				options={{
 					...options,
+
 					axes: {
-						bottom: {
+						left: {
 							title: 'Age Group',
 							mapsTo: 'key',
 							scaleType: ScaleTypes.LABELS
 						},
-						left: {
+						bottom: {
 							title: 'Population',
 							mapsTo: 'value',
-							scaleType: ScaleTypes.LINEAR
+							scaleType: ScaleTypes.LINEAR,
+							stacked: true
 						}
 					},
 					color: {
