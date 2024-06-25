@@ -123,9 +123,7 @@
 	<PageHeader
 		imgSrc={Hero}
 		title={'Data and Statistics'}
-		description={`Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien
-	vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien
-	aliquam. Sodales pulvinar facilisi donec facilisis`}
+		description={`The Intergovernmental Authority on Development (IGAD) region, encompassing eight Member States in the Horn of Africa, experiences significant migration and displacement driven by conflict, climate change, and economic challenges. Accurate and comprehensive data on these movements are vital for effective policy-making and humanitarian response. `}
 	/>
 
 	<section class="mx-auto flex max-w-[1136px] flex-col gap-3 px-4 py-10">
@@ -133,45 +131,51 @@
 		<p class="ck-content prose max-w-full text-base leading-normal">
 			{@html populationStats?.content}
 		</p>
-		<div class="pt-8">
+		<div class="py-8">
 			<Map data={populationStats} />
 		</div>
 		<p class="ck-content prose max-w-full text-base leading-normal">
 			{@html populationPerCountry?.content}
 		</p>
-		<PopulationPerCountryChart
-			data={transformPopulationPerCountryData(populationPerCountry)}
-			externalData={populationPerCountry}
-			title="Population"
-			isSwappable={true}
-			chartType="line"
-		/>
+		<div class=" pt-8">
+			<PopulationPerCountryChart
+				data={transformPopulationPerCountryData(populationPerCountry)}
+				externalData={populationPerCountry}
+				title="Population"
+				isSwappable={true}
+				chartType="line"
+			/>
+		</div>
 	</section>
 
 	<section class="mx-auto flex max-w-[1136px] flex-col gap-3 px-4 py-10">
-		<h2 class="text-2xl font-bold leading-normal">Migrants</h2>
+		<h2 class="text-2xl font-bold leading-normal">Migrant Stock</h2>
 		<p class="ck-content prose max-w-full text-base leading-normal">
 			{@html igadRegionMigration?.content}
 		</p>
-		<MigrantsChart
-			data={igadRegionMigration?.migrant}
-			title="Migrants"
-			isSwappable={true}
-			chartType="line"
-		/>
+		<div class="py-8">
+			<MigrantsChart
+				data={igadRegionMigration?.migrant}
+				title="Migrants"
+				isSwappable={true}
+				chartType="line"
+			/>
+		</div>
 		<p class="ck-content prose max-w-full text-base leading-normal">
 			{@html migrantsPerCountry?.content}
 		</p>
-		<MigrantsPerCountryChart
-			data={transformMigrantsPerCountry(migrantsPerCountry)}
-			isSwappable={true}
-			chartType="bar"
-			title="Migrants per country"
-		/>
+		<div class="py-8">
+			<MigrantsPerCountryChart
+				data={transformMigrantsPerCountry(migrantsPerCountry)}
+				isSwappable={true}
+				chartType="bar"
+				title="Migrants per country"
+			/>
+		</div>
 	</section>
 
 	<section class="mx-auto flex max-w-[1136px] flex-col gap-3 px-4 py-10">
-		<h2 class="text-2xl font-bold leading-normal">Refugees</h2>
+		<h2 class="text-2xl font-bold leading-normal">Refugees Stock</h2>
 		<p class="ck-content prose max-w-full text-base leading-normal">
 			{@html refugeesPerCountry?.content}
 		</p>

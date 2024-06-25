@@ -282,7 +282,7 @@
 	let selectedGender: 'All' | 'Female' | 'Male' = 'All';
 </script>
 
-<div class="bg-zin grid gap-6 rounded bg-white p-2 shadow md:p-6">
+<div class="grid gap-6 rounded bg-white p-2 shadow md:p-6">
 	<!-- toolbar -->
 	<div
 		class=" flex flex-col justify-between gap-4 lg:flex-row lg:items-end

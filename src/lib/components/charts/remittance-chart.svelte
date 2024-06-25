@@ -67,12 +67,33 @@
 	};
 
 	const transformDataForLine = (data: RemittanceType[]) => {
-		return data.map((d) => {
-			return {
-				...d,
-				group: d.country
-			};
-		});
+		let totalRemittanceForEachYear: Record<string, number> = {};
+		data.reduce((acc, d) => {
+			if (acc[d.year]) {
+				acc[d.year] += d.amount;
+			} else {
+				acc[d.year] = d.amount;
+			}
+			return acc;
+		}, totalRemittanceForEachYear);
+
+		return [
+			...data.map((d) => {
+				return {
+					...d,
+					group: d.country
+				};
+			}),
+			...Object.keys(totalRemittanceForEachYear).map((year) => {
+				return {
+					year,
+					amount: totalRemittanceForEachYear[year],
+					region: 'Total',
+					country: 'Total',
+					group: 'Total'
+				};
+			})
+		];
 	};
 
 	let remittanceBarData = [];
