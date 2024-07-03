@@ -20,7 +20,6 @@
 
 	const populationStats = data.data?.populationStats.data.attributes;
 	const populationWithAgeGroup = data.data?.populationWithAgeGroup.data.attributes;
-	const igadRegionMigration = data.data?.igadRegionMigrants.data.attributes;
 	const migrantsPerCountry = data.data?.migrantsPerCountry.data.attributes;
 	const refugeesPerCountry = data.data?.refugeesPerCountry.data.attributes;
 	const remittancePerCountry = data.data?.remittancePerCountry.data.attributes;
@@ -212,17 +211,6 @@
 
 	<section class="mx-auto flex max-w-[1136px] flex-col gap-3 px-4 py-10">
 		<h2 class="text-2xl font-bold leading-normal">Migrant Stock</h2>
-		<p class="ck-content prose max-w-full text-base leading-normal">
-			{@html igadRegionMigration?.content}
-		</p>
-		<div class="py-8">
-			<MigrantsChart
-				data={igadRegionMigration?.migrant}
-				title="Migrants"
-				isSwappable={true}
-				chartType="line"
-			/>
-		</div>
 		<p class="ck-content prose max-w-full text-base leading-normal">
 			{@html migrantsPerCountry?.content}
 		</p>

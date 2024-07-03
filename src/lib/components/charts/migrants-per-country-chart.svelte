@@ -94,12 +94,6 @@
 						});
 					}
 				);
-
-				transformedData.push({
-					group: 'Total',
-					value: totalValue,
-					year: year.split('-')[0]
-				});
 			});
 		} else {
 			data

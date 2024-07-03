@@ -219,32 +219,11 @@ type Migrant = {
 	male: number;
 	female: number;
 };
-export type IGADRegionMigrants = {
-	data: {
-		id: number;
-		attributes: {
-			id: number;
-			createdAt: string;
-			updatedAt: string;
-			publishedAt: string;
-			content: string;
-			migrant: {
-				id: number;
-				year: string;
-				total: Migrant;
-				migrants_15_plus: Migrant;
-				labor_force_migrants: Migrant;
-				youth_labor_force_migrants: Migrant;
-			}[];
-		};
-	};
-	meta: any;
-};
+
 
 type ApiResponseStats = {
 	populationStats: PopulationStats;
 	populationWithAgeGroup: PopulationWithAgeGroupStats;
-	igadRegionMigrants: IGADRegionMigrants;
 	migrantsPerCountry: MigrantsPerCountry;
 	refugeesPerCountry: PopulationWithAgeGroupStats;
 	remittancePerCountry: RemittancePerCountry;
@@ -266,13 +245,6 @@ export const load: Load = async ({ fetch }) => {
 			throw new Error(`HTTP error! status: ${PopulationWithAgeGroupStatsResponse.status}`);
 		}
 
-		const igadRegionMigrantsResponse = await fetch(
-			`${PUBLIC_STRAPI_URL}/api/igad-region-migrant?populate=migrant.total,migrant.migrants_15_plus,migrant.labor_force_migrants,migrant.youth_labor_force_migrants,migrant.content`
-		);
-
-		if (!igadRegionMigrantsResponse.ok) {
-			throw new Error(`HTTP error! status: ${igadRegionMigrantsResponse.status}`);
-		}
 
 		const migrantsPerCountryResponse = await fetch(
 			`${PUBLIC_STRAPI_URL}/api/migrants-per-country?populate=content,Ethiopia.total,Ethiopia.migrants_15_plus,Ethiopia.labor_force_migrants,Ethiopia.youth_labor_force_migrants,Kenya.total,Kenya.migrants_15_plus,Kenya.labor_force_migrants,Kenya.youth_labor_force_migrants,SouthSudan.total,SouthSudan.migrants_15_plus,SouthSudan.labor_force_migrants,SouthSudan.youth_labor_force_migrants,Eritrea.total,Eritrea.migrants_15_plus,Eritrea.labor_force_migrants,Eritrea.youth_labor_force_migrants,Somalia.total,Somalia.migrants_15_plus,Somalia.labor_force_migrants,Somalia.youth_labor_force_migrants,Uganda.total,Uganda.migrants_15_plus,Uganda.labor_force_migrants,Uganda.youth_labor_force_migrants,Sudan.total,Sudan.migrants_15_plus,Sudan.labor_force_migrants,Sudan.youth_labor_force_migrants,Djibouti.total,Djibouti.migrants_15_plus,Djibouti.labor_force_migrants,Djibouti.youth_labor_force_migrants`
@@ -299,7 +271,6 @@ export const load: Load = async ({ fetch }) => {
 		const data: ApiResponseStats = {
 			populationStats: await populationStatsResponse.json(),
 			populationWithAgeGroup: await PopulationWithAgeGroupStatsResponse.json(),
-			igadRegionMigrants: await igadRegionMigrantsResponse.json(),
 			migrantsPerCountry: await migrantsPerCountryResponse.json(),
 			refugeesPerCountry: await refugeesPerCountryResponse.json(),
 			remittancePerCountry: await remittancePerCountryResponse.json()
