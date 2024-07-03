@@ -73,7 +73,7 @@
 			}
 		},
 		toolbar: {
-			enabled: false
+			enabled: true
 		},
 		legend: {
 			enabled: false
