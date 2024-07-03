@@ -20,7 +20,7 @@
 	import Select from '$lib/components/_shared/select/select.svelte';
 	import type {
 		AgeGroup,
-		PopulationPerCountryStats
+		PopulationWithAgeGroupStats
 	} from '../../../routes/statistics/proxy+page.server.js';
 	import { formatNumber, formatNumberWithCommas } from '$lib/utils/format-number.js';
 
@@ -45,7 +45,8 @@
 	export let isSwappable = false;
 
 	export let data: any[] = [];
-	export let externalData: PopulationPerCountryStats['data']['attributes'] | undefined = undefined;
+	export let externalData: PopulationWithAgeGroupStats['data']['attributes'] | undefined =
+		undefined;
 
 	export let options = {
 		axes: {
@@ -282,7 +283,7 @@
 	let selectedGender: 'All' | 'Female' | 'Male' = 'All';
 </script>
 
-<div class="grid gap-6 rounded bg-white p-2 shadow md:p-6">
+<div class="grid gap-6 rounded rounded-t-none bg-white p-2 shadow md:p-6">
 	<!-- toolbar -->
 	<div
 		class=" flex flex-col justify-between gap-4 lg:flex-row lg:items-end

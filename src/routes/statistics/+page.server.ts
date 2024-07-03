@@ -22,7 +22,7 @@ export type AgeGroup =
 	| 'age 70-74'
 	| 'age 75-79'
 	| 'age 80+';
-export type PopulationPerCountryStats = {
+export type PopulationWithAgeGroupStats = {
 	data: {
 		id: number;
 		attributes: {
@@ -243,10 +243,10 @@ export type IGADRegionMigrants = {
 
 type ApiResponseStats = {
 	populationStats: PopulationStats;
-	populationPerCountry: PopulationPerCountryStats;
+	populationWithAgeGroup: PopulationWithAgeGroupStats;
 	igadRegionMigrants: IGADRegionMigrants;
 	migrantsPerCountry: MigrantsPerCountry;
-	refugeesPerCountry: PopulationPerCountryStats;
+	refugeesPerCountry: PopulationWithAgeGroupStats;
 	remittancePerCountry: RemittancePerCountry;
 };
 export const load: Load = async ({ fetch }) => {
@@ -258,12 +258,12 @@ export const load: Load = async ({ fetch }) => {
 			throw new Error(`HTTP error! status: ${populationStatsResponse.status}`);
 		}
 
-		const populationPerCountryStatsResponse = await fetch(
-			`${PUBLIC_STRAPI_URL}/api/population-per-country?populate=*`
+		const PopulationWithAgeGroupStatsResponse = await fetch(
+			`${PUBLIC_STRAPI_URL}/api/population-with-age-group?populate=*`
 		);
 
-		if (!populationPerCountryStatsResponse.ok) {
-			throw new Error(`HTTP error! status: ${populationPerCountryStatsResponse.status}`);
+		if (!PopulationWithAgeGroupStatsResponse.ok) {
+			throw new Error(`HTTP error! status: ${PopulationWithAgeGroupStatsResponse.status}`);
 		}
 
 		const igadRegionMigrantsResponse = await fetch(
@@ -298,7 +298,7 @@ export const load: Load = async ({ fetch }) => {
 
 		const data: ApiResponseStats = {
 			populationStats: await populationStatsResponse.json(),
-			populationPerCountry: await populationPerCountryStatsResponse.json(),
+			populationWithAgeGroup: await PopulationWithAgeGroupStatsResponse.json(),
 			igadRegionMigrants: await igadRegionMigrantsResponse.json(),
 			migrantsPerCountry: await migrantsPerCountryResponse.json(),
 			refugeesPerCountry: await refugeesPerCountryResponse.json(),

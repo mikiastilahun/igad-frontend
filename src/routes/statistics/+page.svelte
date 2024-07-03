@@ -12,12 +12,14 @@
 	import PopulationPerCountryChart, {
 		type PopulationType
 	} from '$lib/components/charts/population-per-country-chart.svelte';
+	import type { PopulationType as WorkingAgePopulationType } from '$lib/components/charts/working-age-population.svelte';
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
+	import WorkingAgePopulation from '$lib/components/charts/working-age-population.svelte';
 
 	export let data;
 
 	const populationStats = data.data?.populationStats.data.attributes;
-	const populationPerCountry = data.data?.populationPerCountry.data.attributes;
+	const populationWithAgeGroup = data.data?.populationWithAgeGroup.data.attributes;
 	const igadRegionMigration = data.data?.igadRegionMigrants.data.attributes;
 	const migrantsPerCountry = data.data?.migrantsPerCountry.data.attributes;
 	const refugeesPerCountry = data.data?.refugeesPerCountry.data.attributes;
@@ -44,7 +46,7 @@
 		return t;
 	};
 
-	const transformPopulationPerCountryData = (data: typeof populationPerCountry) => {
+	const transformPopulationPerCountryData = (data: typeof populationWithAgeGroup) => {
 		let t: PopulationType[] = [];
 
 		for (let country in data) {
@@ -103,12 +105,36 @@
 		return transformedData;
 	};
 
+	const transformPopulationStats = (data: any) => {
+		let transformedData: WorkingAgePopulationType[] = [];
+		for (let country in data) {
+			if (Array.isArray(data[country])) {
+				data[country].forEach((item) => {
+					transformedData.push({
+						id: item.id,
+						country: country,
+						year: item.year.split('-')[0],
+						male: item.male,
+						female: item.female,
+						male15plus: item.male15plus,
+						female15plus: item.female15plus
+					});
+				});
+			}
+		}
+
+		return transformedData;
+	};
+
 	// refugees
 
 	let transformedRefugeesPerCountryData = transformRefugeesPerCountryData(refugeesPerCountry);
 
 	// Remittance
 	let transformedRemittancePerCountryData = transformRemittancePerCountryData(remittancePerCountry);
+
+	// selected tab
+	let selectedTab = 'TOTAL_POPULATION';
 </script>
 
 <svelte:head>
@@ -135,16 +161,52 @@
 			<Map data={populationStats} />
 		</div>
 		<p class="ck-content prose max-w-full text-base leading-normal">
-			{@html populationPerCountry?.content}
+			{@html populationWithAgeGroup?.content}
 		</p>
 		<div class=" pt-8">
-			<PopulationPerCountryChart
-				data={transformPopulationPerCountryData(populationPerCountry)}
-				externalData={populationPerCountry}
-				title="Population"
-				isSwappable={true}
-				chartType="line"
-			/>
+			<div>
+				<div class="">
+					<div class="rounded rounded-b-none border-gray-200 bg-white px-2 shadow">
+						<nav class="-mb-px flex space-x-8" aria-label="Tabs">
+							<button
+								on:click={() => (selectedTab = 'TOTAL_POPULATION')}
+								class="{selectedTab === 'TOTAL_POPULATION'
+									? 'border-secondary-500 text-primary-600'
+									: 'border-transparent hover:border-gray-200 hover:text-gray-700'} flex whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium text-gray-500"
+								aria-current="page"
+							>
+								Total Population
+							</button>
+
+							<button
+								on:click={() => (selectedTab = 'WORKING_AGE_POPULATION')}
+								class="{selectedTab === 'WORKING_AGE_POPULATION'
+									? 'border-secondary-500 text-primary-600'
+									: 'border-transparent hover:border-gray-200 hover:text-gray-700'} flex whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium"
+							>
+								Working Age Population
+							</button>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+			{#if selectedTab === 'TOTAL_POPULATION'}
+				<PopulationPerCountryChart
+					data={transformPopulationPerCountryData(populationWithAgeGroup)}
+					externalData={populationWithAgeGroup}
+					title="Population"
+					isSwappable={true}
+					chartType="line"
+				/>
+			{:else if selectedTab === 'WORKING_AGE_POPULATION'}
+				<WorkingAgePopulation
+					data={transformPopulationStats(populationStats)}
+					title="Working Age Population (15+)"
+					isSwappable={true}
+					chartType="line"
+				/>
+			{/if}
 		</div>
 	</section>
 
