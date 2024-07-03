@@ -61,8 +61,8 @@
 			...eastAfricaGeoJSON.features.map((country) => country.features[0].properties.TOTAL)
 		);
 
-		let step = (max - min) / 8;
-		for (let i = 0; i < 8; i++) {
+		let step = (max - min) / 5;
+		for (let i = 0; i < 5; i++) {
 			grades.push(min + step * i);
 		}
 	};
@@ -75,21 +75,17 @@
 
 		function getColor(d: number) {
 			// total number of density groups: 8
-			return d > grades[8]
+			return d > grades[5]
 				? '#00512d'
-				: d > grades[7]
+				: d > grades[4]
 					? '#005a32'
-					: d > grades[6]
+					: d > grades[3]
 						? '#238b45'
-						: d > grades[5]
+						: d > grades[2]
 							? '#41ab5d'
-							: d > grades[4]
+							: d > grades[1]
 								? '#74c476'
-								: d > grades[3]
-									? '#a1d99b'
-									: d > grades[2]
-										? '#c7e9c0'
-										: '#e5f5e0';
+								: '#a1d99b';
 		}
 
 		function style(feature: {
@@ -234,6 +230,14 @@
 		geojson = L.geoJson(eastAfricaGeoJSON, {
 			style: style,
 			onEachFeature: (feature, layer) => {
+				if (feature.properties && feature.properties.COUNTRY) {
+					L.marker(layer.getBounds().getCenter(), {
+						icon: L.divIcon({
+							className: 'country-name-tooltip',
+							html: `<div class=" ">${feature.properties.COUNTRY === 'SouthSudan' ? `South Sudan` : feature.properties.COUNTRY}</div>`
+						})
+					}).addTo(map);
+				}
 				layer.on({
 					mouseover: highlightFeature,
 					mouseout: resetHighlight,
@@ -285,5 +289,8 @@
 	}
 	:global(.map-legend) {
 		@apply !-mb-3 rounded-md bg-white/80 px-[6px] py-2 text-xs text-black shadow-md sm:!mb-0;
+	}
+	:global(.country-name-tooltip) {
+		@apply whitespace-nowrap text-sm font-medium text-stone-900;
 	}
 </style>
