@@ -1,10 +1,12 @@
 <script lang="ts">
 	import IGADLogo from '$lib/assets/igad-logo.svg';
+	import dayjs from 'dayjs';
 
 	export let title: string;
 	export let description: string;
 	export let link: string;
 	export let imageUrl: string = '';
+	export let date: string;
 
 	export let isRichtext: boolean = false;
 </script>
@@ -25,7 +27,7 @@
 
 	<div class="p-4">
 		<div class="flex justify-between">
-			<span class="text-sm text-zinc-500">03 June 2023</span>
+			<span class="text-sm text-zinc-500">{dayjs(date || '').format('DD MMMM YYYY')}</span>
 			<div
 				class="inline-flex h-3.5 w-[37px] items-center justify-start gap-2.5 rounded-[100px] bg-amber-300 px-2"
 			>

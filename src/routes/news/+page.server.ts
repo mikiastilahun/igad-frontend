@@ -8,6 +8,7 @@ type NewsData = {
 			title: string;
 			article: string;
 			date: string;
+			slug: string;
 			createdAt: string;
 			updatedAt: string;
 			thumbnail: {

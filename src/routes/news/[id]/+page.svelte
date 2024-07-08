@@ -3,30 +3,27 @@
 	import Hero from '$lib/assets/igad-logo.png';
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
 	import Share from '$lib/components/_shared/share/share.svelte';
+	import dayjs from 'dayjs';
 
 	export let data;
 
-	const news = data.data?.newsData.data;
-
-	$: {
-		console.log({ data });
-	}
+	const news = data.data?.newsData.attributes;
 </script>
 
 <svelte:head>
-	<title>IGAD - {news?.attributes.title}</title>
-	<meta name="description" content={news?.attributes.title} />
+	<title>IGAD - {news?.title}</title>
+	<meta name="description" content={news?.title} />
 </svelte:head>
 
 <PageHeader
-	imgSrc={news?.attributes?.thumbnail?.data?.attributes.url
-		? `${PUBLIC_STATIC_URL}${news.attributes.thumbnail.data.attributes.url}`
+	imgSrc={news?.thumbnail?.data?.attributes.url
+		? `${PUBLIC_STATIC_URL}${news.thumbnail.data.attributes.url}`
 		: Hero}
-	title={news?.attributes.title ?? 'News'}
+	title={news?.title ?? 'News'}
 	class="!items-end pb-8"
 >
 	<p class=" flex flex-col text-base font-normal leading-normal text-gray-300">
-		<span>{news?.attributes.date}</span>
+		<span>{dayjs(news?.date).format('DD MMMM YYYY')}</span>
 		<span>5min read</span>
 	</p>
 </PageHeader>
@@ -37,7 +34,7 @@
 	</div>
 	<div class="mx-auto w-full max-w-[1136px] px-0 md:px-8 lg:px-4">
 		<p class="ck-content prose max-w-full">
-			{@html news?.attributes.article}
+			{@html news?.article}
 		</p>
 	</div>
 </section>

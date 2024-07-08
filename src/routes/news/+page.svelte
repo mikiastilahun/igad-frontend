@@ -38,14 +38,15 @@
 							content={newsItem.attributes.article}
 							date={newsItem.attributes.date}
 							imgSrc={`${PUBLIC_STATIC_URL}${newsItem.attributes.thumbnail.data.attributes.url}`}
-							id={newsItem.id}
+							slug={newsItem.attributes.slug}
 						/>
 					{/each}
 				{/if}
 			</div>
 		</div>
 		<!-- featured -->
-		<div class="relative flex-1 hover:cursor-pointer">
+
+		<a href="news/{news?.[0].attributes.slug}" class="relative flex-1 hover:cursor-pointer">
 			<div class="absolute left-0 top-0 h-full w-full rounded-md bg-black opacity-60"></div>
 			<enhanced:img
 				class="h-full rounded-md object-cover"
@@ -60,7 +61,7 @@
 					{news?.[0].attributes.title}
 				</h3>
 			</div>
-		</div>
+		</a>
 		<h2 class="inline-block text-2xl font-bold lg:hidden">Latest News</h2>
 	</div>
 </section>
@@ -76,15 +77,18 @@
 					title={newsItem.attributes.title}
 					description={newsItem.attributes.article}
 					imageUrl={`${PUBLIC_STATIC_URL}${newsItem.attributes.thumbnail.data.attributes.url}`}
-					link={`news/${newsItem.id}`}
+					link={`news/${newsItem.attributes.slug}`}
 					isRichtext={true}
+					date={newsItem.attributes.date}
 				/>
 			{:else}
 				<Card
 					title={newsItem.attributes.title}
 					description={newsItem.attributes.article}
 					imageUrl={NewsImg2}
-					link={`news/${newsItem.id}`}
+					link={`news/${newsItem.attributes.slug}`}
+					isRichtext={true}
+					date={newsItem.attributes.date}
 				/>
 			{/if}
 		{/each}
