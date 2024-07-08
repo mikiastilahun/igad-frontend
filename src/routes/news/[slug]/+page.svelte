@@ -8,6 +8,15 @@
 	export let data;
 
 	const news = data.data?.newsData.attributes;
+
+	function countWordsInHTML(html: string) {
+		const text = html.replace(/<[^>]*>/g, '');
+		return text.split(/\s+/).filter(Boolean).length;
+	}
+
+	const wordsPerMinute = 200;
+	const wordCount = countWordsInHTML(news?.article ?? '');
+	const readingTimeMinutes = Math.ceil(wordCount / wordsPerMinute);
 </script>
 
 <svelte:head>
@@ -24,7 +33,7 @@
 >
 	<p class=" flex flex-col text-base font-normal leading-normal text-gray-300">
 		<span>{dayjs(news?.date).format('DD MMMM YYYY')}</span>
-		<span>5min read</span>
+		<span>{readingTimeMinutes} min read</span>
 	</p>
 </PageHeader>
 
