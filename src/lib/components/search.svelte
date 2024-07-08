@@ -37,7 +37,6 @@
 				})
 			);
 
-			console.log('Search result:', result);
 			hits = result.results.reduce(
 				(acc, curr) => [...acc, ...curr.hits.map((hit) => ({ ...hit, index: curr.index }))],
 				[]
@@ -148,33 +147,13 @@
 			<ul class="max-h-96 scroll-py-3 overflow-y-auto p-3" id="options" role="listbox">
 				{#each hits as hit}
 					{@const index = hit.index.split('_')[1]}
-					{@const to = index === 'priority-area' ? `${index}/${hit.title}` : `${index}/${hit.id}`}
+					{@const to = `/${index}/${hit.slug}`}
 					<li
 						class="group flex cursor-default select-none rounded-xl p-3 transition-colors hover:bg-secondary-100"
 						id="option-1"
 						role="option"
 						tabindex="-1"
 					>
-						<!-- TODO: show image here maybe -->
-						<!-- <div
-							class="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-indigo-500"
-						>
-							<svg
-								class="h-6 w-6 text-white"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-								/>
-							</svg>
-						</div> -->
 						<a href={to} on:click={() => handleClose()} class=" flex-auto">
 							<p
 								class="text-sm font-medium text-gray-700 group-hover:text-primary-500 group-hover:underline"
