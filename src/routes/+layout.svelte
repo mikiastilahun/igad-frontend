@@ -122,14 +122,16 @@
 		<div
 			class="top-0 z-10 mx-auto flex w-full max-w-6xl flex-row flex-wrap items-center justify-center gap-4 overflow-x-auto overflow-y-hidden whitespace-nowrap bg-primary px-4 text-white"
 		>
-			<p>Quick links:</p>
-			{#each quickLinks as link}
-				<a
-					href={link.href}
-					class="hover-underline-quick-links relative transition-all duration-300 hover:border-transparent"
-					>{link.label}</a
-				>
-			{/each}
+			<div class="hide-scroll flex snap-x snap-mandatory gap-4 overflow-x-scroll">
+				<p>Quick links:</p>
+				{#each quickLinks as link}
+					<a
+						href={link.href}
+						class="hover-underline-quick-links relative transition-all duration-300 hover:border-transparent"
+						>{link.label}</a
+					>
+				{/each}
+			</div>
 		</div>
 	</div>
 </div>
@@ -165,5 +167,9 @@
 <style lang="postcss">
 	.hover-underline-quick-links {
 		@apply after:block after:h-[2px] after:w-0 after:bg-secondary-500 after:transition-[width] after:duration-300 after:content-[''] after:hover:w-full;
+	}
+	.hide-scroll {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
 	}
 </style>
