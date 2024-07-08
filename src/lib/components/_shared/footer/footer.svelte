@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let priorityAreasLinks: { title: string }[];
+	export let priorityAreasLinks: { title: string; slug: string }[];
 	export let quickLinks: { label: string; href: string }[];
 </script>
 
@@ -66,7 +66,7 @@
 						<div class="flex flex-col">
 							<h6 class="text-bold">Priority Areas</h6>
 							{#each priorityAreasLinks as priority}
-								<a class="text-xs leading-9 text-[#AEB6C7]" href="/priority-area/${priority.title}">
+								<a class="text-xs leading-9 text-[#AEB6C7]" href="/priority-area/{priority.slug}">
 									{priority.title}
 								</a>
 							{/each}

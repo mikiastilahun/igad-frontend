@@ -5,6 +5,15 @@
 	import '../app.postcss';
 	import { bindCssVarToScrollDirection } from '$lib/actions/scroll-up';
 	import Nprogress from '$lib/components/_shared/nprogress/nprogress.svelte';
+
+	import Team from '$lib/assets/nav/team.svg.svelte';
+	import Mail from '$lib/assets/icons/mail.svg.svelte';
+	import BookIcon from '$lib/assets/nav/book-search.svg.svelte';
+	import EventIcon from '$lib/assets/nav/event.svg.svelte';
+	import NewsIcon from '$lib/assets/nav/news.svg.svelte';
+	import Badge from '$lib/assets/icons/badge.svg.svelte';
+	import TreeStructureIcon from '$lib/assets/icons/tree-structure.svg.svelte';
+
 	export let data;
 
 	const quickLinks =
@@ -15,8 +24,96 @@
 
 	const priorityAreasLinks =
 		data.data?.priorityAreasLinks.data.map((item) => ({
-			title: item.attributes.Title
+			title: item.attributes.title,
+			slug: item.attributes.slug
 		})) || [];
+
+	const navItems = [
+		{
+			title: 'Home',
+			href: '/'
+		},
+		{
+			title: 'About Us',
+			subMenu: [
+				{
+					title: 'The Team',
+					href: '/team',
+					icon: Team,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
+				},
+				{
+					title: 'Policies and Frameworks',
+					href: '/policies',
+					icon: Badge,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
+				},
+				{
+					title: 'Contact Us',
+					href: 'https://igad.int/contact-us/',
+					icon: Mail,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
+				}
+			]
+		},
+		{
+			title: 'Projects',
+			href: '/projects'
+		},
+		{
+			title: 'Support Areas',
+			href: `/priority-area/${priorityAreasLinks[0]?.slug}}`
+		},
+		{
+			title: 'Support Platforms',
+			href: 'https://igadsupportplatform.org/'
+		},
+		{
+			title: 'Data and Statistics',
+			href: '/statistics'
+		},
+		{
+			title: 'Resources',
+			subMenu: [
+				{
+					title: 'Report and Publications',
+					href: '/publications',
+					icon: TreeStructureIcon,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
+				},
+				{
+					title: 'Research and Learning',
+					href: '/learning',
+					icon: BookIcon,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
+				}
+			]
+		},
+		{
+			title: 'News and Events',
+			subMenu: [
+				{
+					title: 'News',
+					href: '/news',
+					icon: NewsIcon,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
+				},
+				{
+					title: 'Events',
+					href: '/events',
+					icon: EventIcon,
+					description:
+						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
+				}
+			]
+		}
+	];
 </script>
 
 <Nprogress />
@@ -57,7 +154,7 @@
 	}}
 	class="sticky top-[var(--top)] z-50 -mb-[112px] h-[112px] w-full pt-8 transition-all duration-500"
 >
-	<Header />
+	<Header {navItems} />
 </div>
 
 <main class="bg-darkscale-100 relative min-h-screen">

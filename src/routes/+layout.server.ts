@@ -21,7 +21,8 @@ type ApiResponse = {
 		data: {
 			id: number;
 			attributes: {
-				Title: string;
+				title: string;
+				slug: string;
 			};
 		}[];
 		meta: any;
@@ -42,7 +43,7 @@ export const load: Load = async ({ fetch }) => {
 		const quickLinks = await response.json();
 
 
-		const priorityAreasResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/priority-areas?fields[0]=title`);
+		const priorityAreasResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/priority-areas?fields[0]=title&fields[1]=slug`);
 
 		if (!priorityAreasResponse.ok) {
 			throw new Error(`HTTP error! status: ${priorityAreasResponse.status}`);

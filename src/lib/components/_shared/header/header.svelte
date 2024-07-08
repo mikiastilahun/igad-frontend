@@ -1,17 +1,11 @@
 <script lang="ts">
 	import IGAD_LOGO from '$lib/assets/igad-logo.svg';
 	import SearchIcon from '$lib/assets/icons/search.svg.svelte';
-	import CaretDownIcon from '$lib/assets/icons/caret-down.svg.svelte';
-	import BadgeIcon from '$lib/assets/icons/badge.svg.svelte';
-	import TreeStructureIcon from '$lib/assets/icons/tree-structure.svg.svelte';
 	import MenuDropdownItem from '../menu-dropdown-item/menu-dropdown-item.svelte';
 	import { type ComponentType } from 'svelte';
-	import Team from '$lib/assets/nav/team.svg.svelte';
-	import Mail from '$lib/assets/icons/mail.svg.svelte';
-	import BookIcon from '$lib/assets/nav/book-search.svg.svelte';
-	import EventIcon from '$lib/assets/nav/event.svg.svelte';
-	import NewsIcon from '$lib/assets/nav/news.svg.svelte';
-	import Badge from '$lib/assets/icons/badge.svg.svelte';
+
+	import CaretDownIcon from '$lib/assets/icons/caret-down.svg.svelte';
+
 	import { clickOutside } from '$lib/actions/click-outside';
 	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
 	import { fade, scale } from 'svelte/transition';
@@ -28,92 +22,7 @@
 		description?: string;
 	};
 
-	export let navItems: (NavType & { subMenu?: NavType[] })[] = [
-		{
-			title: 'Home',
-			href: '/'
-		},
-		{
-			title: 'About Us',
-			subMenu: [
-				{
-					title: 'The Team',
-					href: '/team',
-					icon: Team,
-					description:
-						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
-				},
-				{
-					title: 'Policies and Frameworks',
-					href: '/policies',
-					icon: Badge,
-					description:
-						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
-				},
-				{
-					title: 'Contact Us',
-					href: 'https://igad.int/contact-us/',
-					icon: Mail,
-					description:
-						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
-				}
-			]
-		},
-		{
-			title: 'Projects',
-			href: '/projects'
-		},
-		{
-			title: 'Support Areas',
-			href: '/priority-area/Migration Governance'
-		},
-		{
-			title: 'Support Platforms',
-			href: 'https://igadsupportplatform.org/'
-		},
-		{
-			title: 'Data and Statistics',
-			href: '/statistics'
-		},
-		{
-			title: 'Resources',
-			subMenu: [
-				{
-					title: 'Report and Publications',
-					href: '/publications',
-					icon: TreeStructureIcon,
-					description:
-						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
-				},
-				{
-					title: 'Research and Learning',
-					href: '/learning',
-					icon: BookIcon,
-					description:
-						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
-				}
-			]
-		},
-		{
-			title: 'News and Events',
-			subMenu: [
-				{
-					title: 'News',
-					href: '/news',
-					icon: NewsIcon,
-					description:
-						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
-				},
-				{
-					title: 'Events',
-					href: '/events',
-					icon: EventIcon,
-					description:
-						'Lorem ipsum dolor sit amet consectetur. Quis in nunc bibendum elit tristique risus vestibulum fermentum'
-				}
-			]
-		}
-	];
+	export let navItems: (NavType & { subMenu?: NavType[] })[];
 
 	let activeIndex: number | null = null;
 	let mobileActiveIndex: number | null = null;

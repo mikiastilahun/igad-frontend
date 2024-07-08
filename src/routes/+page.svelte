@@ -88,18 +88,16 @@
 												out:fly={{ duration: 500, easing: quintOut, x: -100 }}
 											>
 												<h1 class="text-2xl font-bold md:text-4xl">
-													{area.attributes.Title ?? ''}
+													{area.attributes.title ?? ''}
 												</h1>
 												<p class=" mt-4 text-lg leading-normal opacity-80">
-													{area.attributes.ShortDescription ?? ''}
+													{area.attributes.shortDescription ?? ''}
 												</p>
 
-												<button
-													on:click={() => {
-														goto(`/priority-area/${area.attributes.Title}`);
-													}}
-													class="mt-8 block rounded-md bg-secondary px-6 py-2 font-semibold text-black transition-all duration-300 hover:scale-95"
-													>Read More</button
+												<a
+													href="/priority-area/{area.attributes.slug}"
+													class="mt-8 inline-block rounded-md bg-secondary px-6 py-2 font-semibold text-black transition-all duration-300 hover:scale-95"
+													>Read More</a
 												>
 											</div>
 										</div>
@@ -161,7 +159,7 @@
 								width="32"
 								height="32"
 							/>
-							<span class="text-center text-xs md:text-sm">{area.attributes.Title} </span>
+							<span class="text-center text-xs md:text-sm">{area.attributes.title} </span>
 						</button>
 					{/each}
 				{/if}
@@ -241,6 +239,7 @@
 						description={link.attributes.description}
 						imageUrl={`${PUBLIC_STATIC_URL}${link.attributes.thumbnail.data.attributes.url}`}
 						link={link.attributes.URL}
+						date={link.attributes.createdAt}
 					/>
 				{/each}
 			{/if}
@@ -287,7 +286,7 @@
 								content={newsItem.attributes.content}
 								date={newsItem.attributes.date}
 								imgSrc={`${PUBLIC_STATIC_URL}${newsItem.attributes.thumbnail.data.attributes.url}`}
-								id={newsItem.id}
+								slug={newsItem.attributes.slug}
 							/>
 						{/each}
 					{/if}

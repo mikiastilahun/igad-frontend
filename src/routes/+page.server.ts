@@ -12,8 +12,9 @@ export type PriorityAreas = {
 	data: {
 		id: number;
 		attributes: {
-			Title: string;
-			ShortDescription: string;
+			title: string;
+			shortDescription: string;
+			slug: string;
 			icon: {
 				data: {
 					id: number;
@@ -110,6 +111,7 @@ type NewsData = {
 			title: string;
 			content: string;
 			date: string;
+			slug: string;
 			createdAt: string;
 			updatedAt: string;
 			thumbnail: {
