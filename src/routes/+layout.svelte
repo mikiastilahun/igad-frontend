@@ -12,6 +12,11 @@
 			label: item.label,
 			href: item.url
 		})) || [];
+
+	const priorityAreasLinks =
+		data.data?.priorityAreasLinks.data.map((item) => ({
+			title: item.attributes.Title
+		})) || [];
 </script>
 
 <Nprogress />
@@ -58,7 +63,7 @@
 <main class="bg-darkscale-100 relative min-h-screen">
 	<slot />
 </main>
-<Footer />
+<Footer {priorityAreasLinks} {quickLinks} />
 
 <style lang="postcss">
 	.hover-underline-quick-links {
