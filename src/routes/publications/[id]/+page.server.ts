@@ -2,45 +2,44 @@ import type { Load } from '@sveltejs/kit';
 import { PUBLIC_STRAPI_URL } from '$env/static/public';
 
 type Publication = {
-	data: {
-		id: number;
-		attributes: {
-			title: string;
-			mainContent: string;
-			publicationDate: string;
-			featured: boolean;
-			publication_type: {
-				data: {
-					attributes: {
-						type: string;
-					};
+	id: number;
+	attributes: {
+		title: string;
+		mainContent: string;
+		publicationDate: string;
+		featured: boolean;
+		slug: string;
+		publication_type: {
+			data: {
+				attributes: {
+					type: string;
 				};
-			};
-			coverImage: {
-				data: {
-					id: number;
-					attributes: {
-						name: string;
-						width: number;
-						height: number;
-						url: string;
-					};
-				};
-			};
-			files: {
-				data: {
-					id: number;
-					attributes: {
-						name: string;
-						width: number;
-						height: number;
-						url: string;
-					};
-				}[];
 			};
 		};
+		coverImage: {
+			data: {
+				id: number;
+				attributes: {
+					name: string;
+					width: number;
+					height: number;
+					url: string;
+				};
+			};
+		};
+		files: {
+			data: {
+				id: number;
+				attributes: {
+					name: string;
+					width: number;
+					height: number;
+					url: string;
+				};
+			}[];
+		};
 	};
-	meta: any;
+
 };
 
 export type ApiResponse = {
@@ -50,12 +49,10 @@ export type ApiResponse = {
 export const load: Load = async ({ fetch, params }) => {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-	console.log('in the load function');
-	console.log({ PUBLIC_STRAPI_URL });
 
 	try {
 		const publicationResponse = await fetch(
-			`${PUBLIC_STRAPI_URL}/api/publications/${params.id}?populate=*`
+			`${PUBLIC_STRAPI_URL}/api/publications?slug=${params.slug}&populate=*`
 		);
 
 		console.log({ publicationResponse });
@@ -66,7 +63,7 @@ export const load: Load = async ({ fetch, params }) => {
 		const publication = await publicationResponse.json();
 
 		const data: ApiResponse = {
-			publication: publication
+			publication: publication?.data[0]
 		};
 		return { data };
 	} catch (e: unknown) {

@@ -27,7 +27,8 @@
 			content: item.attributes.mainContent || '',
 			coverImage: item.attributes.coverImage,
 			publicationDate: item.attributes.publicationDate,
-			publication_type: item.attributes.publication_type
+			publication_type: item.attributes.publication_type,
+			slug: item.attributes.slug
 		};
 	});
 
@@ -38,7 +39,8 @@
 			content: item.attributes.mainContent || '',
 			coverImage: item.attributes.coverImage,
 			publicationDate: item.attributes.publicationDate,
-			publication_type: item.attributes.publication_type
+			publication_type: item.attributes.publication_type,
+			slug: item.attributes.slug
 		};
 	});
 
@@ -46,7 +48,6 @@
 
 	let searchValue = '';
 	const search = async () => {
-		console.log('searching');
 		await fetch(
 			`${PUBLIC_STRAPI_URL}/api/publications?filters[title][$containsi]=${searchValue}&populate=*`,
 			{
@@ -58,7 +59,6 @@
 		)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
 				allPublications = data.data.map((item) => {
 					return {
 						id: item.id,
@@ -66,7 +66,8 @@
 						content: item.attributes.mainContent,
 						coverImage: item.attributes.coverImage,
 						publicationDate: item.attributes.publicationDate,
-						publication_type: item.attributes.publication_type
+						publication_type: item.attributes.publication_type,
+						slug: item.attributes.slug
 					};
 				});
 			})
@@ -77,7 +78,6 @@
 
 	let selectedPublicationTypes: string[] = [];
 	const applyPublicationType = async () => {
-		console.log('searching');
 		await fetch(
 			`${PUBLIC_STATIC_URL}/api/publications?populate=*${
 				selectedPublicationTypes.length > 0
@@ -95,7 +95,6 @@
 		)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
 				allPublications = data.data.map((item) => {
 					return {
 						id: item.id,
@@ -128,7 +127,6 @@
 		const startDate = dayjs(`${selectedYear?.value}-01-01`).format('YYYY-MM-DD');
 		const endDate = dayjs(`${selectedYear?.value}-12-31`).format('YYYY-MM-DD');
 
-		console.log('searching', startDate, endDate);
 		await fetch(
 			`${PUBLIC_STRAPI_URL}/api/publications?filters[publicationDate][$between][0]=${startDate}3&filters[publicationDate][$between][1]=${endDate}&populate=*`,
 			{
@@ -148,7 +146,8 @@
 						content: item.attributes.mainContent,
 						coverImage: item.attributes.coverImage,
 						publicationDate: item.attributes.publicationDate,
-						publication_type: item.attributes.publication_type
+						publication_type: item.attributes.publication_type,
+						slug: item.attributes.slug
 					};
 				});
 			})
@@ -198,8 +197,9 @@
 				title={publication.title}
 				description={publication.content}
 				imageUrl={`${PUBLIC_STATIC_URL}${publication.coverImage?.data.attributes.url}`}
-				link={`/publications/${publication.id}`}
+				link={`/publications/${publication.slug}`}
 				isRichtext={true}
+				date={publication.publicationDate}
 			/>
 		{/each}
 	</div>
@@ -342,14 +342,9 @@
 		<!-- list of cards with pagination -->
 		<div class="grid gap-5">
 			{#each allPublications || [] as publication}
-				<!-- cards -->
-				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<!-- svelte-ignore a11y-no-static-element-interactions -->
-				<div
+				<a
 					class="mx-auto flex w-full flex-col gap-4 place-self-start overflow-hidden rounded-lg bg-white p-4 shadow transition-all hover:cursor-pointer hover:shadow-md md:gap-5 md:p-6 lg:flex-row"
-					on:click={() => {
-						goto(`/publications/${publication.id}`);
-					}}
+					href={`/publications/${publication.slug}`}
 				>
 					<div class="h-[200px] w-full flex-none rounded-lg lg:h-[150px] lg:w-[245px]">
 						<img
@@ -380,7 +375,7 @@
 							{@html publication?.content}
 						</p>
 					</div>
-				</div>
+				</a>
 			{/each}
 		</div>
 	</div>

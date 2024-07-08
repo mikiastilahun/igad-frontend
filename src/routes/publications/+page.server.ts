@@ -9,6 +9,7 @@ type Publication = {
 			mainContent: string;
 			publicationDate: string;
 			featured: boolean;
+			slug: string;
 			publication_type: {
 				data: {
 					attributes: {
@@ -50,8 +51,6 @@ type ApiResponse = {
 export const load: Load = async ({ fetch }) => {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-	console.log('in the load function');
-	console.log({ PUBLIC_STRAPI_URL });
 
 	try {
 		const response = await fetch(`${PUBLIC_STRAPI_URL}/api/publications?populate=*`);
@@ -83,9 +82,6 @@ export const load: Load = async ({ fetch }) => {
 			)
 		};
 
-		console.log({
-			publications: JSON.stringify({ data })
-		});
 
 		return { data };
 	} catch (e: unknown) {

@@ -7,7 +7,7 @@
 	export let data;
 
 	console.log({ data });
-	const publication = data.data?.publication.data.attributes;
+	const publication = data.data?.publication.attributes;
 </script>
 
 <svelte:head>
@@ -20,12 +20,12 @@
 	title={publication?.title}
 />
 
-<section class="mx-auto grid max-w-5xl grid-cols-3 gap-16 p-4">
+<section class="mx-auto grid max-w-7xl grid-cols-3 gap-16 p-4">
 	<div class="col-span-2 grid max-w-full">
 		<h1 class="mb-2 text-3xl font-bold">{publication?.title}</h1>
 
 		<!-- date and publicationType -->
-		<div class="flex items-center gap-6">
+		<div class="mb-8 flex items-center gap-6">
 			<span class="text-sm text-zinc-500"
 				>{dayjs(publication?.publicationDate).format('DD MMMM YYYY')}</span
 			>
@@ -39,8 +39,8 @@
 		</div>
 
 		<!-- content -->
-		<p class="prose mx-auto max-w-full">
-			<SvelteMarkdown source={publication?.mainContent} />
+		<p class="ck-content prose mx-auto max-w-full">
+			{@html publication?.mainContent}
 		</p>
 	</div>
 
