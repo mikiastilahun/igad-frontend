@@ -17,6 +17,7 @@
 		location: string;
 		id: number;
 		description: string;
+		slug: string;
 	};
 
 	let events: eventType[] =
@@ -27,7 +28,8 @@
 				time: new Date(event.attributes.date).toISOString().split('T')[1].slice(0, 5).toString(),
 				location: event.attributes.location,
 				id: event.id,
-				title: event.attributes.title
+				title: event.attributes.title,
+				slug: event.attributes.slug
 			};
 		}) ?? [];
 
@@ -92,12 +94,7 @@
 					{#each groupedEvents[month] as event, index}
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<!-- svelte-ignore a11y-no-static-element-interactions -->
-						<div
-							class="group/evt flex gap-4 hover:cursor-pointer"
-							on:click={() => {
-								goto(`events/${event.id}`);
-							}}
-						>
+						<a class="group/evt flex gap-4 hover:cursor-pointer" href="events/{event.slug}">
 							<!-- indicator -->
 							<div class="relative flex h-full flex-col">
 								<div
@@ -129,7 +126,7 @@
 									<span class="text-secondary">{event.location}</span>
 								</div>
 							</div>
-						</div>
+						</a>
 					{/each}
 				</div>
 			</div>
@@ -163,7 +160,7 @@
 			<!-- events list -->
 			<div class="flex flex-col gap-5">
 				{#each events as event}
-					<a href="events/{event.id}" class="flex gap-5 rounded-lg px-6 py-3 shadow-md">
+					<a href="events/{event.slug}" class="flex gap-5 rounded-lg px-6 py-3 shadow-md">
 						<div class=" pt-2">
 							<img class="h-[70px] w-[80px] object-cover" src={IGADLogo} alt="Card " />
 						</div>

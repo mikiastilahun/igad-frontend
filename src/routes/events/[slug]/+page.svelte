@@ -19,9 +19,7 @@
 
 	export let data;
 
-	const event = data.data?.eventData.data.attributes;
-
-	$: start = new Date(event?.date || '').toISOString().replace(/-|:|\.\d\d\d/g, '');
+	const event = data.data?.eventData.attributes;
 </script>
 
 <svelte:head>
@@ -115,7 +113,7 @@
 		<div class="flex flex-col gap-3 pt-12 sm:flex-row">
 			<a
 				target="_blank"
-				href={`https://www.google.com/calendar/render?action=TEMPLATE&text=${event?.title}&dates=${start}/${start}&location=${event?.location}&details=${event?.description}`}
+				href={`https://www.google.com/calendar/render?action=TEMPLATE&text=${event?.title}&dates=${event?.date}/${event?.date}&location=${event?.location}&details=${event?.description}`}
 				class="flex items-center justify-center gap-2 rounded-full border-2 border-transparent bg-white px-6 py-3 text-sm font-semibold text-black shadow-[0px_3px_10px_0px_rgba(0,_0,_0,_0.25)] transition-all hover:border-green-500 md:text-base"
 			>
 				<span class="rounded-full bg-white">

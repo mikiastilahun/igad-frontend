@@ -9,6 +9,7 @@ type EventsData = {
 			description: string;
 			location: string;
 			date: string;
+			slug: string;
 			createdAt: string;
 			updatedAt: string;
 			thumbnail: {
@@ -34,8 +35,7 @@ type ApiResponse = {
 export const load: Load = async ({ fetch }) => {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-	console.log('in the load function');
-	console.log({ PUBLIC_STRAPI_URL });
+
 
 	try {
 		const eventResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/events?populate=*`);
