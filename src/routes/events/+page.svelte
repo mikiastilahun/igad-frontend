@@ -48,7 +48,8 @@
 
 	const theme = {
 		calendar: {
-			width: '427px',
+			width: '100vw',
+			maxWidth: '427px',
 			shadow: '0px 0px 5px rgba(0, 0, 0, 0.25)',
 			colors: {
 				background: {
@@ -136,9 +137,9 @@
 
 <div class="mx-auto flex max-w-[1136px] flex-col gap-10 px-4 py-10 sm:px-8 md:px-4">
 	<h2 class="text-2xl font-bold leading-normal">All Events Calendar</h2>
-	<div class="flex flex-col gap-5 p-5 lg:flex-row">
+	<div class="flex flex-col-reverse gap-5 md:p-5 lg:flex-row">
 		<!-- calendar component -->
-		<div class="lg:w-[427px]">
+		<div class="-ml-4 md:ml-0 lg:w-[427px]">
 			<InlineCalendar bind:selected={currentDate} {theme} />
 		</div>
 		<div class="flex flex-1 flex-col gap-5">
