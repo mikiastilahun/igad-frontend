@@ -175,6 +175,7 @@
 				<a
 					class="mx-auto flex w-full flex-col gap-4 place-self-start overflow-hidden rounded-lg bg-white p-4 shadow transition-all hover:cursor-pointer hover:shadow-md md:gap-5 md:p-6 lg:flex-row"
 					href={material.attributes.URL}
+					target="_blank"
 				>
 					<div class="h-[200px] w-full flex-none rounded-lg lg:h-[150px] lg:w-[245px]">
 						<img
