@@ -7,34 +7,36 @@
 	export let priorityAreas:
 		| Exclude<PageData['data'], undefined>['priorityAreas']['data']
 		| undefined;
+	let scrollContainer: HTMLDivElement;
 </script>
 
-<div class="relative bottom-0 w-full">
-	<div
-		class="mx-auto grid max-w-[1136px] grid-cols-2 items-start justify-between justify-items-center gap-8 rounded-lg px-8 text-white sm:grid-cols-3 md:flex md:px-4"
-	>
-		{#if priorityAreas?.length !== 0}
-			{#each priorityAreas ?? [] as area, i}
-				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<!-- svelte-ignore a11y-no-static-element-interactions -->
-				<div
-					class="group relative flex w-36 flex-col items-center justify-center gap-1 text-center text-white transition-all hover:scale-125
-						hover:cursor-pointer"
-					on:click={() => {
-						// redirect to the priority area page
-						goto(`/priority-area/${area.attributes.Title}`);
-					}}
-				>
-					<img
-						class=""
-						src={`${PUBLIC_STATIC_URL}${area.attributes.icon.data.attributes.url}`}
-						alt="alt text"
-						width="50"
-						height="50"
-					/>
-					<span class="text-center text-xs md:text-sm">{area.attributes.Title} </span>
-				</div>
-			{/each}
-		{/if}
-	</div>
+<div
+	bind:this={scrollContainer}
+	class="hide-scroll flex h-full w-full max-w-[1136px] snap-x snap-mandatory gap-4 overflow-x-scroll pt-4"
+>
+	{#if priorityAreas?.length !== 0}
+		{#each priorityAreas ?? [] as area, i}
+			<a
+				class="group flex min-w-24 snap-start flex-col items-center justify-center gap-1
+			text-center text-white hover:cursor-pointer"
+				href="/priority-area/{area.attributes.slug}"
+			>
+				<img
+					class="transition-transform duration-300 ease-in-out group-hover:scale-125"
+					src={`${PUBLIC_STATIC_URL}${area.attributes.icon.data.attributes.url}`}
+					alt="alt text"
+					width="30"
+					height="30"
+				/>
+				<span class="text-center text-xs md:text-sm">{area.attributes.title} </span>
+			</a>
+		{/each}
+	{/if}
 </div>
+
+<style>
+	.hide-scroll {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+</style>

@@ -3,10 +3,11 @@ import { PUBLIC_STRAPI_URL } from '$env/static/public';
 
 type PriorityArea = {
 	attributes: {
-		Title: string;
+		title: string;
 		header: string;
-		ShortDescription: string;
+		shortDescription: string;
 		mainContent: string;
+		slug: string;
 		IgadActions: {
 			id: number;
 			ActionTitle: string;
@@ -50,10 +51,11 @@ type PriorityAreas = {
 	data: {
 		id: number;
 		attributes: {
-			Title: string;
+			title: string;
 			header: string;
-			ShortDescription: string;
+			shortDescription: string;
 			mainContent: string;
+			slug: string;
 			IgadActions: {
 				id: number;
 				ActionTitle: string;
@@ -102,8 +104,6 @@ export type ApiResponse = {
 export const load: Load = async ({ fetch, params }) => {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-	console.log('in the load function');
-	console.log({ PUBLIC_STRAPI_URL });
 
 	try {
 		const priorityAreasResponse = await fetch(
@@ -116,10 +116,10 @@ export const load: Load = async ({ fetch, params }) => {
 
 		const priorityAreas = await priorityAreasResponse.json();
 		const priorityArea = priorityAreas.data.find(
-			(area: any) => area.attributes.Title === params.title
+			(area: any) => area.attributes.slug === params.slug
 		);
 
-		console.log({ priorityArea });
+
 
 		const data: ApiResponse = {
 			priorityArea: priorityArea,
