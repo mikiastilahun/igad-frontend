@@ -1,18 +1,14 @@
 <script lang="ts">
 	import Hero from '$lib/assets/publications/hero.jpg';
-	import Card from '$lib/components/_shared/card/card.svelte';
-	import Search from '$lib/assets/icons/search.svg.svelte';
-	import Select from 'svelte-select';
-	import ChevronDown from '$lib/assets/icons/chevron-down.svg.svelte';
 
 	import IGADLogo from '$lib/assets/igad-logo.svg';
-	import { PUBLIC_STATIC_URL, PUBLIC_STRAPI_URL } from '$env/static/public';
+	import { PUBLIC_STATIC_URL } from '$env/static/public';
 	import dayjs from 'dayjs';
 	import { goto } from '$app/navigation';
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
 	import CaretDown from '$lib/assets/icons/caret-down.svg.svelte';
 	import { slide } from 'svelte/transition';
-	import { quintIn, linear, quadInOut } from 'svelte/easing';
+	import { quadInOut } from 'svelte/easing';
 	import { flip } from 'svelte/animate';
 
 	import { crossfade } from 'svelte/transition';
@@ -176,14 +172,9 @@
 		<!-- list of cards with pagination -->
 		<div class="grid gap-5">
 			{#each learningMaterials || [] as material}
-				<!-- cards -->
-				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<!-- svelte-ignore a11y-no-static-element-interactions -->
-				<div
+				<a
 					class="mx-auto flex w-full flex-col gap-4 place-self-start overflow-hidden rounded-lg bg-white p-4 shadow transition-all hover:cursor-pointer hover:shadow-md md:gap-5 md:p-6 lg:flex-row"
-					on:click={() => {
-						goto(`/publications/${material.id}`);
-					}}
+					href={material.attributes.URL}
 				>
 					<div class="h-[200px] w-full flex-none rounded-lg lg:h-[150px] lg:w-[245px]">
 						<img
@@ -214,7 +205,7 @@
 							{@html material.attributes.description}
 						</p>
 					</div>
-				</div>
+				</a>
 			{/each}
 		</div>
 	</div>
