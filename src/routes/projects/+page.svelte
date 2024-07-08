@@ -233,7 +233,7 @@
 			</a>
 		{/each}
 	</div>
-	<div class="text-center">
+	<!-- <div class="text-center">
 		<button class="mt-8 font-semibold text-primary">Load More</button>
-	</div>
+	</div> -->
 </section>
