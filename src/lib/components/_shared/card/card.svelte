@@ -14,14 +14,9 @@
 <!-- cards -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div
+<a
 	class="mx-auto flex w-full flex-col overflow-hidden rounded-lg bg-white shadow transition-all hover:cursor-pointer hover:shadow-md"
-	on:click={() => {
-		if (link) {
-			window.open(link, '_blank');
-			return;
-		}
-	}}
+	href={link}
 >
 	<img class="h-48 w-full object-cover" src={imageUrl ? imageUrl : IGADLogo} alt="Card " />
 
@@ -47,4 +42,4 @@
 			{/if}
 		</p>
 	</div>
-</div>
+</a>
