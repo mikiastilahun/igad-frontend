@@ -9,6 +9,7 @@ export type ProjectType = {
         region: string;
         funding_organization: string;
         budget: number;
+        slug: string;
         duration: {
             component: 'time-span.duration';
         };
@@ -83,10 +84,6 @@ export const load: Load = async ({ fetch }) => {
 
         const
             projects = await response.json()
-
-
-
-
 
         return {
             projects

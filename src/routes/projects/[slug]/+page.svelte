@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Hero from '$lib/assets/publications/hero.jpg';
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
 	import IGADLogo from '$lib/assets/igad-logo.png';
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
@@ -9,12 +8,11 @@
 
 	export let data;
 
-	const project = data.projects.data;
+	const project = data.projects.attributes;
 
-	// let activeProjectId = selectedProject.id;
-	let activeSubmenuId: null | string = null;
+	let activeSubmenuId: undefined | string = undefined;
 
-	$: coverImage = project?.attributes?.cover_image.data?.attributes.url;
+	$: coverImage = project?.cover_image?.data?.attributes.url;
 
 	// mobile
 	let isOpen = false;
@@ -29,12 +27,9 @@
 </svelte:head>
 
 <PageHeader
-	imgSrc={Hero}
-	imgAlt={'IGAD projects'}
-	title={'Projects'}
-	description={`Lorem ipsum dolor sit amet consectetur. Egestas nulla ullamcorper pretium sit nibh sapien
-	vel phasellus eu. Aliquet facilisis enim dui ridiculus. Sit ipsum sollicitudin sapien
-	aliquam. Sodales pulvinar facilisi donec facilisis`}
+	imgSrc={coverImage ? `${PUBLIC_STATIC_URL}${coverImage}` : undefined}
+	imgAlt={`${project.name ?? ''} Cover Image`}
+	title={project.name}
 />
 
 <div
@@ -44,18 +39,18 @@
 	<div class="w-full md:w-3/4 md:pl-4 lg:pl-8">
 		<div id={`Background`} class="mb-8 scroll-mt-[136px]">
 			<h2 class="mb-4 text-2xl font-bold text-primary-500">
-				{project.attributes.name}
+				{project.name}
 			</h2>
 			<div class="my-8">
 				<h3 class="text-lg font-semibold">Background</h3>
 				<p class="ck-content prose max-w-full text-gray-700">
-					{@html project.attributes.project_background}
+					{@html project.project_background}
 				</p>
 			</div>
 			<div class="relative mb-8 rounded-lg shadow">
 				<img
 					src={`${coverImage ? `${PUBLIC_STATIC_URL}${coverImage}` : IGADLogo}`}
-					alt={project.attributes.name}
+					alt={project.name}
 					class="{coverImage
 						? 'object-cover'
 						: 'object-contain'} h-full max-h-[400px] w-full rounded-lg bg-primary-500"
@@ -83,7 +78,7 @@
 								>
 								Implemented by:
 							</span>
-							<span>{project.attributes.implementing_organization}</span>
+							<span>{project.implementing_organization}</span>
 						</p>
 						<p class="flex items-start gap-2">
 							<span class="flex items-center gap-2 text-secondary"
@@ -105,7 +100,7 @@
 								>
 								Region:
 							</span>
-							<span>{project.attributes.region}</span>
+							<span>{project.region}</span>
 						</p>
 						<p class="flex items-start gap-2">
 							<span class="flex items-center gap-2 text-secondary"
@@ -123,7 +118,7 @@
 								</svg>
 								Funded by:
 							</span>
-							<span>{project.attributes.funding_organization}</span>
+							<span>{project.funding_organization}</span>
 						</p>
 						<p class="flex items-start gap-2">
 							<span class="flex items-center gap-2 text-secondary"
@@ -142,7 +137,7 @@
 								</svg>
 								Budget:
 							</span>
-							<span>{project.attributes.budget.toLocaleString()}</span>
+							<span>{project.budget.toLocaleString()}</span>
 						</p>
 						<p class="flex items-start gap-2">
 							<span class="flex items-center gap-2 text-secondary"
@@ -164,15 +159,13 @@
 								Duration:
 							</span>
 							<span
-								>{project.attributes.duration.from.split('-')[0]} to {project.attributes.duration.to.split(
-									'-'
-								)[0]}</span
+								>{project.duration.from.split('-')[0]} to {project.duration.to.split('-')[0]}</span
 							>
 						</p>
 					</div>
-					{#if project.attributes?.files.data?.attributes.url}
+					{#if project?.files.data?.attributes.url}
 						<a
-							href={`${PUBLIC_STATIC_URL}${project.attributes?.files.data?.attributes.url}`}
+							href={`${PUBLIC_STATIC_URL}${project?.files.data?.attributes.url}`}
 							target="_blank"
 							class=" inline-block w-fit rounded bg-primary px-4 py-2 text-white hover:bg-primary-600"
 							>Download PDF</a
@@ -184,19 +177,19 @@
 			<div id={`Objectives`} class="mt-4 scroll-mt-[136px]">
 				<h3 class="text-lg font-semibold">Objectives</h3>
 				<p class="ck-content prose max-w-full text-gray-700">
-					{@html project.attributes.objectives}
+					{@html project.objectives}
 				</p>
 			</div>
 			<div id={`Key_Outcomes`} class="mt-4 scroll-mt-[136px]">
 				<h3 class="text-lg font-semibold">Key Outcomes</h3>
 				<p class="ck-content prose max-w-full text-gray-700">
-					{@html project.attributes.key_outcomes}
+					{@html project.key_outcomes}
 				</p>
 			</div>
 			<div id={`Major_Activities_and_Achievements`} class="mt-4 scroll-mt-[136px]">
 				<h3 class="text-lg font-semibold">Major Activities and Achievements</h3>
 				<p class="ck-content prose max-w-full text-gray-700">
-					{@html project.attributes.major_activities_and_achievement}
+					{@html project.major_activities_and_achievement}
 				</p>
 			</div>
 		</div>
@@ -211,7 +204,7 @@
 					<p
 						class="  px-3 pb-2 text-left text-sm font-semibold text-green-700 underline group-hover:text-green-800"
 					>
-						{project.attributes.name}
+						{project.name}
 					</p>
 				</button>
 				<div
@@ -252,7 +245,7 @@
 		>
 			<p class="flex w-full items-center justify-between gap-4 text-primary-500">
 				<span class="line-clamp-1 text-left text-sm font-medium leading-5 tracking-[0.4px]"
-					>{project.attributes.name}</span
+					>{project.name}</span
 				>
 				<ChevronDown
 					class="h-5 w-5 transition-transform {isOpen ? 'rotate-90' : '-rotate-90'} fill-black"
@@ -277,7 +270,7 @@
 						class="text-primary' w-full border-l-2
 							 border-l-primary-500 px-4 text-left text-sm font-medium leading-normal tracking-[0.4px] transition-all hover:cursor-pointer hover:border-l-primary-500 hover:text-primary"
 					>
-						<span class="">{project.attributes.name}</span>
+						<span class=""> {project.name}</span>
 					</button>
 
 					<div class=" mb-2 flex flex-col gap-2 border-l-2">
@@ -294,7 +287,6 @@
 								}}
 							>
 								<span
-									href="#{subTitles}"
 									class="text-left text-sm transition-colors duration-300 ease-in-out hover:text-primary {activeSubmenuId ===
 									subTitles
 										? 'text-primary'

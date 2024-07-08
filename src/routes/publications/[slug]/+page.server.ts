@@ -52,7 +52,7 @@ export const load: Load = async ({ fetch, params }) => {
 
 	try {
 		const publicationResponse = await fetch(
-			`${PUBLIC_STRAPI_URL}/api/publications?slug=${params.slug}&populate=*`
+			`${PUBLIC_STRAPI_URL}/api/publications?filters[slug][$eq]=${params.slug}&populate=*`
 		);
 
 		console.log({ publicationResponse });

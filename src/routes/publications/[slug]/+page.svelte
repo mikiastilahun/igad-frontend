@@ -2,7 +2,6 @@
 	import { PUBLIC_STATIC_URL } from '$env/static/public';
 	import PageHeader from '$lib/components/_shared/page-header/page-header.svelte';
 	import dayjs from 'dayjs';
-	import SvelteMarkdown from 'svelte-markdown';
 
 	export let data;
 

@@ -36,7 +36,7 @@ export const load: Load = async ({ fetch, params }) => {
 	console.log({ PUBLIC_STRAPI_URL });
 
 	try {
-		const newsResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/articles?slug=${params.slug}&populate=*`);
+		const newsResponse = await fetch(`${PUBLIC_STRAPI_URL}/api/articles?filters[slug][$eq]=${params.slug}&populate=*`);
 
 		if (!newsResponse.ok) {
 			throw new Error(`HTTP error! status: ${newsResponse.status}`);

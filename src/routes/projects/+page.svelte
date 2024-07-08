@@ -5,7 +5,6 @@
 	import { slide } from 'svelte/transition';
 	import { quadOut, quartIn } from 'svelte/easing';
 	import CaretDown from '$lib/assets/icons/caret-down.svg.svelte';
-	import { goto } from '$app/navigation';
 
 	export let data;
 
@@ -33,12 +32,8 @@
 	<div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
 		{#each projects as project, index}
 			{@const coverImage = project?.attributes?.cover_image.data?.attributes.url}
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<!-- svelte-ignore a11y-no-static-element-interactions -->
-			<div
-				on:click|stopPropagation={() => {
-					goto(`/projects/${project.id}`);
-				}}
+			<a
+				href="/projects/{project.attributes.slug}"
 				class="relative mx-auto flex h-96 w-full flex-col gap-4 place-self-start overflow-hidden rounded-lg bg-white shadow transition-all hover:cursor-pointer hover:shadow-md md:gap-5 lg:flex-row"
 			>
 				<img
@@ -58,7 +53,8 @@
 							</h2>
 							<button
 								class="duration group self-start rounded-full transition-all hover:cursor-pointer hover:bg-secondary-100 hover:bg-opacity-90 hover:shadow-md"
-								on:click|stopPropagation={() => {
+								on:click|stopPropagation={(e) => {
+									e.preventDefault();
 									activeIndex = index;
 									isOpen = !isOpen;
 								}}
@@ -234,7 +230,7 @@
 						>
 					{/if}
 				</div>
-			</div>
+			</a>
 		{/each}
 	</div>
 	<div class="text-center">

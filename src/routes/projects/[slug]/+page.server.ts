@@ -6,7 +6,7 @@ export const load: Load = async ({ fetch, params }) => {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
     try {
-        const response = await fetch(`${PUBLIC_STRAPI_URL}/api/projects/${params.id}?populate=*`);
+        const response = await fetch(`${PUBLIC_STRAPI_URL}/api/projects?filters[slug][$eq]=${params.slug}&populate=*`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -14,15 +14,12 @@ export const load: Load = async ({ fetch, params }) => {
 
 
 
-        const
-            projects = await response.json()
+        const projects = await response.json();
 
-
-
-
+        console.log({ 'projects====': projects.data[0] });
 
         return {
-            projects
+            projects: projects.data[0]
         };
     } catch (e: unknown) {
         console.log({ e });
