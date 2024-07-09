@@ -65,7 +65,7 @@
 		},
 		{
 			title: 'Support Areas',
-			href: `/priority-area/${priorityAreasLinks[0]?.slug}}`
+			href: `/priority-area/${priorityAreasLinks[0]?.slug}`
 		},
 		{
 			title: 'Support Platforms',
